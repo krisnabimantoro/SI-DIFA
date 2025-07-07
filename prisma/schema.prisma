@@ -8,14 +8,15 @@ datasource db {
 }
 
 model users_posyandu {
-  id      String  @id @db.Uuid
+  id      String  @id @default(uuid()) @db.Uuid
   lokasi  String? @db.VarChar
   user_id String  @db.Uuid
+  nama_posyandu String? @db.VarChar
   users   users   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model users_psikolog {
-  id        String  @id @db.Uuid
+  id        String  @id @default(uuid()) @db.Uuid
   lokasi    String? @db.VarChar
   spesialis String? @db.VarChar
   user_id   String  @db.Uuid
@@ -23,7 +24,7 @@ model users_psikolog {
 }
 
 model users {
-  id             String           @id @db.Uuid
+  id             String           @id @default(uuid()) @db.Uuid
   name           String           @db.VarChar
   email          String           @db.VarChar
   password       String           @db.VarChar
