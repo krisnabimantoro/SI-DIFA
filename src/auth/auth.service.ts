@@ -48,4 +48,29 @@ export class AuthService {
       },
     });
   }
+
+  async registerPsikolog(
+    name: string,
+    email: string,
+    password: string,
+    lokasi?: string,
+    no_telp?: string,
+    spesialis?: string,
+  ): Promise<UserModel> {
+    return this.usersService.createUser({
+      name,
+      email,
+      password,
+      no_telp,
+      role: 'psikolog',
+      verification: 'unverified',
+      created_at: new Date(),
+      users_psikolog: {
+        create: {
+          lokasi,
+          spesialis,
+        },
+      },
+    });
+  }
 }

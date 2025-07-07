@@ -17,4 +17,18 @@ export class AuthController {
       signUpPosyanduDto.nama_posyandu,
     );
   }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('signup/psikolog')
+  signUpPsikolog(@Body() signUpPsikologDto: Record<string, any>) {
+    return this.authService.registerPsikolog(
+      signUpPsikologDto.name,
+      signUpPsikologDto.email,
+      signUpPsikologDto.password,
+      signUpPsikologDto.lokasi,
+      signUpPsikologDto.no_telp,
+      signUpPsikologDto.spesialis,
+    );
+  }
+
 }
