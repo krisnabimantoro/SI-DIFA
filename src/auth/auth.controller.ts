@@ -6,6 +6,7 @@ import {
   HttpStatus,
   UseGuards,
   Request,
+  Get,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterPosyanduDto } from './dto/register-posyandu.dto';
@@ -35,5 +36,12 @@ export class AuthController {
   @Post('login')
   async login(@Request() req) {
     return this.authService.login(req.user);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  getProfile(@Request() req) {
+    return req.user;
   }
 }
