@@ -1,5 +1,7 @@
 import { Body, Controller, Post, HttpCode, HttpStatus } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { RegisterPosyanduDto } from './dto/register-posyandu.dto';
+import { RegisterPsikologDto } from './dto/register-psikolog.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -7,28 +9,13 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('signup/posyandu')
-  signUp(@Body() signUpPosyanduDto: Record<string, any>) {
-    return this.authService.registerPosyandu(
-      signUpPosyanduDto.name,
-      signUpPosyanduDto.email,
-      signUpPosyanduDto.password,
-      signUpPosyanduDto.lokasi,
-      signUpPosyanduDto.no_telp,
-      signUpPosyanduDto.nama_posyandu,
-    );
+  async signUp(@Body() signUpPosyanduDto: RegisterPosyanduDto) {
+    return this.authService.registerPosyandu(signUpPosyanduDto);
   }
 
   @HttpCode(HttpStatus.OK)
   @Post('signup/psikolog')
-  signUpPsikolog(@Body() signUpPsikologDto: Record<string, any>) {
-    return this.authService.registerPsikolog(
-      signUpPsikologDto.name,
-      signUpPsikologDto.email,
-      signUpPsikologDto.password,
-      signUpPsikologDto.lokasi,
-      signUpPsikologDto.no_telp,
-      signUpPsikologDto.spesialis,
-    );
+  signUpPsikolog(@Body() signUpPsikologDto: RegisterPsikologDto) {
+    return this.authService.registerPsikolog(signUpPsikologDto);
   }
-
 }
