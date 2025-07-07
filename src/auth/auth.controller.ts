@@ -6,8 +6,15 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @HttpCode(HttpStatus.OK)
-  @Post('login')
-  signIn(@Body() signInDto: Record<string, any>) {
-    return this.authService.signIn(signInDto.username, signInDto.password);
+  @Post('signup/posyandu')
+  signUp(@Body() signUpPosyanduDto: Record<string, any>) {
+    return this.authService.registerPosyandu(
+      signUpPosyanduDto.name,
+      signUpPosyanduDto.email,
+      signUpPosyanduDto.password,
+      signUpPosyanduDto.lokasi,
+      signUpPosyanduDto.no_telp,
+      signUpPosyanduDto.nama_posyandu,
+    );
   }
 }
