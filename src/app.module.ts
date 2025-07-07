@@ -10,7 +10,7 @@ import { AuthController } from './auth/auth.controller';
 
 @Module({
   controllers: [AppController, AuthController],
-  providers: [AppService],
+  providers: [AppService, UsersService, PrismaService, AuthService],
   imports: [AuthModule, UsersModule, AuthModule],
 })
 export class AppModule {}
