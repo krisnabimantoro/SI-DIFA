@@ -11,8 +11,8 @@ import { AuthService } from './auth.service';
 import { RegisterPosyanduDto } from './dto/register-posyandu.dto';
 import { RegisterPsikologDto } from './dto/register-psikolog.dto';
 import { LoginDto } from './dto/login.dto';
-import { JwtAuthGuard } from './jwt-auth-guard';
-import { LocalAuthGuard } from './local-auth-guard';
+import { JwtAuthGuard } from './guard/jwt-auth-guard';
+import { LocalAuthGuard } from './guard/local-auth-guard';
 
 @Controller('auth')
 export class AuthController {
