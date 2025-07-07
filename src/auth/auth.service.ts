@@ -8,7 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { users as UserModel } from '@prisma/client';
 import { RegisterPosyanduDto } from './dto/register-posyandu.dto';
 import { RegisterPsikologDto } from './dto/register-psikolog.dto';
-import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -21,13 +21,16 @@ export class AuthService {
     const existingUser = await this.usersService.user({
       email: data.email,
     });
+    const saltOrRounds = 10;
+    const password = data.password;
+    const hash = await bcrypt.hash(password, saltOrRounds);
     if (existingUser) {
       throw new InternalServerErrorException('Email sudah terdaftar');
     }
     return this.usersService.createUser({
       name: data.name,
       email: data.email,
-      password: data.password,
+      password: hash,
       no_telp: data.no_telp,
       role: 'posyandu',
       verification: 'unverified',
@@ -45,14 +48,16 @@ export class AuthService {
     const existingUser = await this.usersService.user({
       email: data.email,
     });
-
+    const saltOrRounds = 10;
+    const password = data.password;
+    const hash = await bcrypt.hash(password, saltOrRounds);
     if (existingUser) {
       throw new InternalServerErrorException('Email sudah terdaftar');
     }
     return this.usersService.createUser({
       name: data.name,
       email: data.email,
-      password: data.password,
+      password: hash,
       no_telp: data.no_telp,
       role: 'psikolog',
       verification: 'unverified',
@@ -64,5 +69,25 @@ export class AuthService {
         },
       },
     });
+  }
+
+  async validateUser(email: string, password: string): Promise<any> {
+    const user = await this.usersService.user({ email });
+
+    const isMatch = await bcrypt.compare(password, user?.password || '');
+
+    if (user && isMatch) {
+      // Bandingkan hash jika kamu pakai bcrypt
+      const { password, ...result } = user;
+      return result;
+    }
+    return null;
+  }
+
+  async login(user: any) {
+    const payload = { email: user.email, sub: user.id, role: user.role };
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
   }
 }
