@@ -14,6 +14,7 @@ import { RegisterPsikologDto } from './dto/register-psikolog.dto';
 import { LoginDto } from './dto/login.dto';
 import { JwtAuthGuard } from './guard/jwt-auth-guard';
 import { LocalAuthGuard } from './guard/local-auth-guard';
+import { Throttle } from '@nestjs/throttler';
 
 @Controller('auth')
 export class AuthController {

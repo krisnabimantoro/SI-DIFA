@@ -7,10 +7,29 @@ import { PrismaService } from './prisma.service';
 import { UsersService } from './users/users.service';
 import { AuthService } from './auth/auth.service';
 import { AuthController } from './auth/auth.controller';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   controllers: [AppController, AuthController],
-  providers: [AppService, UsersService, PrismaService, AuthService],
-  imports: [AuthModule, UsersModule],
+  providers: [
+    AppService,
+    UsersService,
+    PrismaService,
+    AuthService,
+    
+  ],
+  imports: [
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          ttl: 5000,
+          limit: 10,
+        },
+      ],
+    }),
+    AuthModule,
+    UsersModule,
+  ],
 })
 export class AppModule {}
