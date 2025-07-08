@@ -20,7 +20,7 @@ RUN npx prisma generate
 RUN yarn run build
 
 # Expose the application port
-EXPOSE 3000
+EXPOSE 3006
 
 # Command to run the application
 CMD ["node", "dist/src/main"]
