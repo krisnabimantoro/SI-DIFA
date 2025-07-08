@@ -11,6 +11,7 @@ import { RegisterPosyanduDto } from './dto/register-posyandu.dto';
 import { RegisterPsikologDto } from './dto/register-psikolog.dto';
 import * as bcrypt from 'bcrypt';
 import { MailService } from 'src/mail/mail.service';
+import { UserDto } from './dto/user.dto';
 
 @Injectable()
 export class AuthService {
@@ -20,55 +21,61 @@ export class AuthService {
     private emailService: MailService, // Assuming you have a MailService for sending emails
   ) {}
 
-  async registerPosyandu(data: RegisterPosyanduDto): Promise<UserModel> {
+  async registerPosyandu(
+    dataPosyandu: RegisterPosyanduDto,
+    dataUser: UserDto,
+  ): Promise<UserModel> {
     const existingUser = await this.usersService.user({
-      email: data.email,
+      email: dataUser.email,
     });
     const saltOrRounds = 10;
-    const password = data.password;
+    const password = dataUser.password;
     const hash = await bcrypt.hash(password, saltOrRounds);
     if (existingUser) {
       throw new InternalServerErrorException('Email sudah terdaftar');
     }
     return this.usersService.createUser({
-      name: data.name,
-      email: data.email,
+      name: dataUser.name,
+      email: dataUser.email,
       password: hash,
-      no_telp: data.no_telp,
+      no_telp: dataUser.no_telp,
       role: 'posyandu',
       verification: 'unverified',
       created_at: new Date(),
       users_posyandu: {
         create: {
-          lokasi: data.lokasi,
-          nama_posyandu: data.nama_posyandu,
+          lokasi: dataPosyandu.lokasi,
+          nama_posyandu: dataPosyandu.nama_posyandu,
         },
       },
     });
   }
 
-  async registerPsikolog(data: RegisterPsikologDto): Promise<UserModel> {
+  async registerPsikolog(
+    dataPsikolog: RegisterPsikologDto,
+    dataUser: UserDto,
+  ): Promise<UserModel> {
     const existingUser = await this.usersService.user({
-      email: data.email,
+      email: dataUser.email,
     });
     const saltOrRounds = 10;
-    const password = data.password;
+    const password = dataUser.password;
     const hash = await bcrypt.hash(password, saltOrRounds);
     if (existingUser) {
       throw new InternalServerErrorException('Email sudah terdaftar');
     }
     return this.usersService.createUser({
-      name: data.name,
-      email: data.email,
+      name: dataUser.name,
+      email: dataUser.email,
       password: hash,
-      no_telp: data.no_telp,
+      no_telp: dataUser.no_telp,
       role: 'psikolog',
       verification: 'unverified',
       created_at: new Date(),
       users_psikolog: {
         create: {
-          lokasi: data.lokasi,
-          spesialis: data.spesialis,
+          lokasi: dataPsikolog.lokasi,
+          spesialis: dataPsikolog.spesialis,
         },
       },
     });
@@ -82,6 +89,28 @@ export class AuthService {
       throw new NotFoundException(`No user found for email: ${email}`);
     }
     await this.emailService.sendResetPasswordLink(email);
+  }
+
+  async resetPassword(token: string, password: string): Promise<void> {
+    const email = await this.emailService.decodeConfirmationToken(token);
+
+    const user = await this.usersService.user({
+      email,
+    });
+    if (!user) {
+      throw new NotFoundException(`No user found for email: ${email}`);
+    }
+
+    const saltOrRounds = 10;
+    const hash = await bcrypt.hash(password, saltOrRounds);
+
+    console.log('Resetting password for user:', user.password);
+    user.password = hash;
+    await this.usersService.updateUser({
+      where: { email: user.email },
+      data: { password: hash },
+    });
+    // remove the token after the password is updated
   }
 
   async validateUser(email: string, password: string): Promise<any> {

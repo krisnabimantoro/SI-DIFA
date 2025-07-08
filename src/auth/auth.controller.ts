@@ -15,6 +15,7 @@ import { LoginDto } from './dto/login.dto';
 import { JwtAuthGuard } from './guard/jwt-auth-guard';
 import { LocalAuthGuard } from './guard/local-auth-guard';
 import { Throttle } from '@nestjs/throttler';
+import { UserDto } from './dto/user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -22,14 +23,20 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('signup/posyandu')
-  async signUp(@Body() signUpPosyanduDto: RegisterPosyanduDto) {
-    return this.authService.registerPosyandu(signUpPosyanduDto);
+  async signUp(
+    @Body() userDto: UserDto,
+    @Body() signUpPosyanduDto: RegisterPosyanduDto,
+  ) {
+    return this.authService.registerPosyandu(signUpPosyanduDto, userDto);
   }
 
   @HttpCode(HttpStatus.OK)
   @Post('signup/psikolog')
-  signUpPsikolog(@Body() signUpPsikologDto: RegisterPsikologDto) {
-    return this.authService.registerPsikolog(signUpPsikologDto);
+  signUpPsikolog(
+    @Body() userDto: UserDto,
+    @Body() signUpPsikologDto: RegisterPsikologDto,
+  ) {
+    return this.authService.registerPsikolog(signUpPsikologDto, userDto);
   }
 
   @HttpCode(HttpStatus.OK)
@@ -50,5 +57,12 @@ export class AuthController {
   @Post('forgot-password')
   async forgotPassword(@Body() { email }: { email: string }): Promise<void> {
     return this.authService.forgotPassword(email);
+  }
+
+  @Post('reset-password')
+  async resetPassword(
+    @Body() { token, password }: { token: string; password: string },
+  ): Promise<void> {
+    return this.authService.resetPassword(token, password);
   }
 }
