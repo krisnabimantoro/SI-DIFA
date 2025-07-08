@@ -9,6 +9,9 @@ import { AuthService } from './auth/auth.service';
 import { AuthController } from './auth/auth.controller';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { MailModule } from './mail/mail.module';
+import { MailService } from './mail/mail.service';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   controllers: [AppController, AuthController],
@@ -17,7 +20,8 @@ import { APP_GUARD } from '@nestjs/core';
     UsersService,
     PrismaService,
     AuthService,
-    
+    MailService,
+    ConfigService,
   ],
   imports: [
     ThrottlerModule.forRoot({
@@ -30,6 +34,7 @@ import { APP_GUARD } from '@nestjs/core';
     }),
     AuthModule,
     UsersModule,
+    MailModule,
   ],
 })
 export class AppModule {}
