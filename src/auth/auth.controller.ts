@@ -45,4 +45,10 @@ export class AuthController {
   getProfile(@Request() req) {
     return req.user;
   }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('forgot-password')
+  async forgotPassword(@Body() { email }: { email: string }): Promise<void> {
+    return this.authService.forgotPassword(email);
+  }
 }

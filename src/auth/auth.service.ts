@@ -1,6 +1,7 @@
 import {
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
@@ -9,12 +10,14 @@ import { users as UserModel } from '@prisma/client';
 import { RegisterPosyanduDto } from './dto/register-posyandu.dto';
 import { RegisterPsikologDto } from './dto/register-psikolog.dto';
 import * as bcrypt from 'bcrypt';
+import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
+    private emailService: MailService, // Assuming you have a MailService for sending emails
   ) {}
 
   async registerPosyandu(data: RegisterPosyanduDto): Promise<UserModel> {
@@ -69,6 +72,16 @@ export class AuthService {
         },
       },
     });
+  }
+
+  async forgotPassword(email: string): Promise<void> {
+    const user = await this.usersService.user({
+      email,
+    });
+    if (!user) {
+      throw new NotFoundException(`No user found for email: ${email}`);
+    }
+    await this.emailService.sendResetPasswordLink(email);
   }
 
   async validateUser(email: string, password: string): Promise<any> {

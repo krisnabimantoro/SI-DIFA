@@ -9,6 +9,9 @@ import { JwtStrategy } from './strategy/jwt.strategy';
 import { LocalStrategy } from './strategy/local-strategy';
 import { ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { MailModule } from 'src/mail/mail.module';
+import { MailService } from 'src/mail/mail.service';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -19,9 +22,12 @@ import { APP_GUARD } from '@nestjs/core';
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '1800s' },
     }),
+    MailModule,
+    ConfigModule,
   ],
   providers: [
     AuthService,
+    MailService,
     JwtStrategy,
     LocalStrategy,
     {
