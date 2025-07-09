@@ -12,6 +12,7 @@ import { RegisterPsikologDto } from './dto/register-psikolog.dto';
 import * as bcrypt from 'bcrypt';
 import { MailService } from 'src/mail/mail.service';
 import { UserDto } from './dto/user.dto';
+import { ref } from 'process';
 
 @Injectable()
 export class AuthService {
@@ -128,8 +129,28 @@ export class AuthService {
 
   async login(user: any) {
     const payload = { email: user.email, sub: user.id, role: user.role };
+
     return {
       access_token: this.jwtService.sign(payload),
+      refresh_token: this.jwtService.sign(payload),
     };
+  }
+
+  async refresh(refreshToken: string): Promise<{ new_access_token: string }> {
+    try {
+      const payload = await this.jwtService.verifyAsync(refreshToken);
+      const newToken = this.jwtService.sign(
+        {
+          email: payload.email,
+          sub: payload.sub,
+          role: payload.role,
+        },
+        { expiresIn: '30m' },
+      );
+
+      return { new_access_token: newToken };
+    } catch (error) {
+      throw new UnauthorizedException('Invalid token');
+    }
   }
 }

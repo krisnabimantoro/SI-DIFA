@@ -14,17 +14,7 @@ import { MailService } from 'src/mail/mail.service';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [
-    UsersModule,
-    PassportModule,
-    JwtModule.register({
-      global: true,
-      secret: jwtConstants.secret,
-      signOptions: { expiresIn: '1800s' },
-    }),
-    MailModule,
-    ConfigModule,
-  ],
+  imports: [UsersModule, PassportModule, MailModule, ConfigModule],
   providers: [
     AuthService,
     MailService,
