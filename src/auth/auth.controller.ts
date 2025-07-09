@@ -54,7 +54,7 @@ export class AuthController {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production', // only over HTTPS in production
       sameSite: 'lax', // or 'strict'
-      maxAge: 1000,
+      maxAge: 30 * 60 * 1000, // 30 minutes
     });
 
     res.cookie('jwt_refresh', token.refresh_token, {
