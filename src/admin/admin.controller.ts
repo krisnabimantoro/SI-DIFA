@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
-import { JwtAuthGuard } from 'src/auth/guard/jwt-auth-guard';
+import { JwtAuthGuard } from 'src/guards/jwt-auth-guard';
 import { Roles } from 'src/lib/role-guard/roles.decorator';
 import { RolesGuard } from 'src/lib/role-guard/roles.guard';
 
