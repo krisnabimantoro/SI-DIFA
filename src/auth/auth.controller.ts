@@ -15,8 +15,8 @@ import { AuthService } from './auth.service';
 import { RegisterPosyanduDto } from './dto/register-posyandu.dto';
 import { RegisterPsikologDto } from './dto/register-psikolog.dto';
 import { LoginDto } from './dto/login.dto';
-import { JwtAuthGuard } from './guard/jwt-auth-guard';
-import { LocalAuthGuard } from './guard/local-auth-guard';
+import { JwtAuthGuard } from '../guards/jwt-auth-guard';
+import { LocalAuthGuard } from '../guards/local-auth-guard';
 import { Throttle } from '@nestjs/throttler';
 import { UserDto } from './dto/user.dto';
 import { Response, Request as ExpressRequest } from 'express';
@@ -55,14 +55,14 @@ export class AuthController {
     res.cookie('jwt', token.access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production', // only over HTTPS in production
-      sameSite: 'none', // or 'strict'
+      sameSite: 'lax', // or 'strict'
       maxAge: 30 * 60 * 1000, // 30 minutes
     });
 
     res.cookie('jwt_refresh', token.refresh_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production', // only over HTTPS in production
-      sameSite: 'none', // or 'strict'
+      sameSite: 'lax', // or 'strict'
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
@@ -75,7 +75,13 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     const refreshToken = req.cookies['jwt_refresh'];
-    const decryptedRefreshToken = decryptToken(refreshToken);
+    const decryptedRefreshToken = refreshToken
+      ? decryptToken(refreshToken)
+      : null;
+
+    if (!decryptedRefreshToken) {
+      throw new UnauthorizedException('No valid refresh token provided');
+    }
     try {
       const newToken = await this.authService.refresh(decryptedRefreshToken);
       const encryptAccessToken = encryptToken(newToken.new_access_token);
@@ -98,12 +104,12 @@ export class AuthController {
     res.clearCookie('jwt', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'none',
+      sameSite: 'lax',
     });
     res.clearCookie('jwt_refresh', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'none',
+      sameSite: 'lax',
     });
 
     return { message: 'Logout successful' };
