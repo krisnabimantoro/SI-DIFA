@@ -13,6 +13,7 @@ import * as bcrypt from 'bcrypt';
 import { MailService } from 'src/mail/mail.service';
 import { UserDto } from './dto/user.dto';
 import { ref } from 'process';
+import { encryptToken } from 'src/lib/encrypt';
 
 @Injectable()
 export class AuthService {
@@ -131,8 +132,8 @@ export class AuthService {
     const payload = { email: user.email, sub: user.id, role: user.role };
 
     return {
-      access_token: this.jwtService.sign(payload),
-      refresh_token: this.jwtService.sign(payload),
+      access_token: encryptToken(this.jwtService.sign(payload)),
+      refresh_token: encryptToken(this.jwtService.sign(payload)),
     };
   }
 

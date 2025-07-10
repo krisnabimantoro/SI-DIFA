@@ -21,6 +21,8 @@ import { Throttle } from '@nestjs/throttler';
 import { UserDto } from './dto/user.dto';
 import { Response, Request as ExpressRequest } from 'express';
 import { ref } from 'process';
+import { decryptToken } from 'src/lib/decrypt';
+import { encryptToken } from 'src/lib/encrypt';
 
 @Controller('auth')
 export class AuthController {
@@ -73,10 +75,12 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     const refreshToken = req.cookies['jwt_refresh'];
+    const decryptedRefreshToken = decryptToken(refreshToken);
     try {
-      const newToken = await this.authService.refresh(refreshToken);
+      const newToken = await this.authService.refresh(decryptedRefreshToken);
+      const encryptAccessToken = encryptToken(newToken.new_access_token);
 
-      res.cookie('jwt', newToken.new_access_token, {
+      res.cookie('jwt', encryptAccessToken, {
         httpOnly: true,
         maxAge: 30 * 60 * 1000,
       });
