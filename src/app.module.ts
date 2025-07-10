@@ -15,9 +15,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AdminController } from './admin/admin.controller';
 import { AdminModule } from './admin/admin.module';
 import { AdminService } from './admin/admin.service';
+import { CsrfController } from './csrf/csrf.controller';
 
 @Module({
-  controllers: [AppController, AuthController, AdminController],
+  controllers: [AppController, AuthController, AdminController, CsrfController],
   providers: [
     AppService,
     UsersService,
