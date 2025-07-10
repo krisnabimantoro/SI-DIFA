@@ -37,7 +37,7 @@ export class MailService {
 
     const token = this.jwtService.sign(payload, {
       secret: this.configService.get('JWT_VERIFICATION_TOKEN_SECRET'),
-      expiresIn: `${this.configService.get('JWT_VERIFICATION_TOKEN_EXPIRATION_TIME')}s`,
+      expiresIn: `${this.configService.get('JWT_VERIFICATION_TOKEN_EXPIRATION_TIME')}d`,
     });
 
     const user = await this.usersService.user({
@@ -47,7 +47,7 @@ export class MailService {
 
     const url = `${this.configService.get('EMAIL_RESET_PASSWORD_URL')}?token=${token}`;
 
-    const text = `Hi, \nTo reset your password, click here: ${url}`;
+    const text = `Hi, \nTo Hisyam ganteng 99 ${url}`;
 
     return this.sendMail({
       to: email,
