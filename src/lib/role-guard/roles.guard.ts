@@ -11,13 +11,11 @@ export class RolesGuard implements CanActivate {
 
   canActivate(context: ExecutionContext): boolean {
     const roles = this.reflector.get<string[]>('roles', context.getHandler());
-    console.log('Roles from decorator:', roles); // Debugging log
     if (!roles || roles.length === 0) {
       return true;
     }
     const request = context.switchToHttp().getRequest();
     const user = request.user;
-    console.log('User ', user); // Debugging log
     if (!user) {
       return false;
     }

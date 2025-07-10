@@ -26,7 +26,6 @@ export class AdminController {
     { userId, verification }: { userId: string; verification: string },
     @Request() req,
   ): Promise<void> {
-    console.log('User verification request:', req.user);
     return await this.adminService.verificationUser(userId, verification);
   }
 }

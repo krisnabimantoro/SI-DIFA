@@ -7,7 +7,6 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     const request = context.switchToHttp().getRequest();
     const jwt = request.cookies['jwt']; // 👈 Ambil dari cookie
 
-    console.log('JWT from cookie:', jwt); // Debugging log
     if (jwt) {
       request.headers.authorization = `Bearer ${jwt}`; // inject ke header agar passport bisa pakai
     }
