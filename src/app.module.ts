@@ -14,6 +14,7 @@ import { MailService } from './mail/mail.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AdminController } from './admin/admin.controller';
 import { AdminModule } from './admin/admin.module';
+import { AdminService } from './admin/admin.service';
 
 @Module({
   controllers: [AppController, AuthController, AdminController],
@@ -24,6 +25,7 @@ import { AdminModule } from './admin/admin.module';
     AuthService,
     MailService,
     ConfigService,
+    AdminService,
   ],
   imports: [
     ThrottlerModule.forRoot({
