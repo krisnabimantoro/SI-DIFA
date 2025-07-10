@@ -20,7 +20,7 @@ export class AdminController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch('verification')
-  @Roles('admin', 'posyandu')
+  @Roles('admin')
   async verificationUser(
     @Body()
     { userId, verification }: { userId: string; verification: string },
