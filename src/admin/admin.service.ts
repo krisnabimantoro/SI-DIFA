@@ -17,6 +17,12 @@ export class AdminService {
     try {
       const user = await this.usersService.user({ id: userId });
 
+      if (
+        user?.verification === 'verified' &&
+        user?.verification === newVerification
+      ) {
+        throw new BadRequestException('User sudah terverifikasi');
+      }
       const changeVerificationUser = await this.usersService.updateUser({
         where: { id: userId },
         data: { verification: newVerification },
@@ -26,9 +32,6 @@ export class AdminService {
         throw new NotFoundException(
           'User tidak ditemukan atau gagal diperbarui',
         );
-      }
-      if (user && user.verification === 'verified') {
-        throw new BadRequestException('User sudah terverifikasi');
       }
       return {
         message: 'User berhasil diverifikasi',
