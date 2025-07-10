@@ -14,8 +14,9 @@ export class AdminService {
     userId: string,
     newVerification: string,
   ): Promise<any> {
-    const user = await this.usersService.user({ id: userId });
     try {
+      const user = await this.usersService.user({ id: userId });
+
       const changeVerificationUser = await this.usersService.updateUser({
         where: { id: userId },
         data: { verification: newVerification },
