@@ -12,9 +12,11 @@ import { APP_GUARD } from '@nestjs/core';
 import { MailModule } from './mail/mail.module';
 import { MailService } from './mail/mail.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AdminController } from './admin/admin.controller';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
-  controllers: [AppController, AuthController],
+  controllers: [AppController, AuthController, AdminController],
   providers: [
     AppService,
     UsersService,
@@ -35,6 +37,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     AuthModule,
     UsersModule,
     MailModule,
+    AdminModule,
   ],
 })
 export class AppModule {}
