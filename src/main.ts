@@ -4,6 +4,11 @@ import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import { RolesGuard } from './lib/role-guard/roles.guard';
 import { Reflector } from '@nestjs/core';
+import * as csurf from 'csurf';
+import fastifyCsrf from '@fastify/csrf-protection';
+
+import { doubleCsrf } from 'csrf-csrf';
+import { doubleCsrfProtection } from './middleware/csrf';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,9 +18,11 @@ async function bootstrap() {
     origin: true,
     credentials: true,
   });
-  app.use(cookieParser());
 
+  app.use(cookieParser());
+  app.use(doubleCsrfProtection);
   app.setGlobalPrefix('api/v1');
+
   await app.listen(process.env.PORT ?? 3001);
 }
 bootstrap();
