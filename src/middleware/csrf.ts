@@ -9,11 +9,12 @@ const doubleCsrfOptions = {
   cookieName: '_csrf',
   cookieOptions: {
     httpOnly: true,
-    sameSite: 'lax' as const, // 'lax' atau 'strict' atau 'none'
+    sameSite: 'none' as const, // 'lax' atau 'strict' atau 'none'
     secure: false,
   },
   size: 64,
   getTokenFromRequest: (req) => req.headers['x-csrf-token'],
 };
 
-export const { doubleCsrfProtection, generateCsrfToken } = doubleCsrf(doubleCsrfOptions);
+export const { doubleCsrfProtection, generateCsrfToken } =
+  doubleCsrf(doubleCsrfOptions);
