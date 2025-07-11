@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
-import { RolesGuard } from './lib/role-guard/roles.guard';
+import { RolesGuard } from './guards/roles.guard';
 import { Reflector } from '@nestjs/core';
 import * as csurf from 'csurf';
 import fastifyCsrf from '@fastify/csrf-protection';

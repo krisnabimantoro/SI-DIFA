@@ -10,8 +10,8 @@ import {
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { JwtAuthGuard } from 'src/guards/jwt-auth-guard';
-import { Roles } from 'src/lib/role-guard/roles.decorator';
-import { RolesGuard } from 'src/lib/role-guard/roles.guard';
+import { Roles } from 'src/decorator/roles.decorator';
+import { RolesGuard } from 'src/guards/roles.guard';
 
 @Controller('admin')
 export class AdminController {
