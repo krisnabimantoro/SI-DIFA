@@ -16,6 +16,9 @@ export class UsersService {
       where: userWhereUniqueInput,
     });
   }
+  async allUsers(): Promise<users[]> {
+    return this.prisma.users.findMany();
+  }
 
   async users(params: {
     skip?: number;
