@@ -25,17 +25,17 @@ model users_psikolog {
 }
 
 model users {
-  id             String           @id @default(uuid()) @db.Uuid
-  name           String           @db.VarChar
-  email          String           @unique @db.VarChar
-  password       String           @db.VarChar
-  no_telp        String?          @db.VarChar
-  role           String?          @db.VarChar
-  verification   String?          @db.VarChar
-  created_at     DateTime?        @db.Timestamp(6)
-  users_posyandu users_posyandu[]
-  users_psikolog users_psikolog[]
-  lowongan       lowongan[]
+  id                String              @id @default(uuid()) @db.Uuid
+  name              String              @db.VarChar
+  email             String              @unique @db.VarChar
+  password          String              @db.VarChar
+  no_telp           String?             @db.VarChar
+  role              String?             @db.VarChar
+  verification      String?             @db.VarChar
+  created_at        DateTime?           @db.Timestamp(6)
+  users_posyandu    users_posyandu[]
+  users_psikolog    users_psikolog[]
+  lowongan          lowongan[]
   informasi_edukasi informasi_edukasi[]
 }
 
@@ -74,9 +74,7 @@ model pasien {
   nama              String?        @db.VarChar
   jenis_kelamin     String?        @db.VarChar
   umur              Int?
-  jenis_difasilitas String?        @db.VarChar
-  file_foto         String?        @db.VarChar
-  odgj              Boolean?
+  jenis_difasilitas String         @db.VarChar
   tanggal_lahir     DateTime?      @db.Timestamp(6)
   alamat            String?        @db.VarChar
   no_telp           String?        @db.VarChar
@@ -91,6 +89,8 @@ model pasien {
 model detail_pasien {
   id              String    @id @default(uuid()) @db.Uuid
   pasien_id       String    @db.Uuid
+  odgj            Boolean
+  file_foto       String?   @db.VarChar
   titik_koordinat String?   @db.VarChar
   keterangan      String?   @db.Text
   potensi         String?   @db.Text
