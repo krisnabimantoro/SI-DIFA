@@ -18,14 +18,17 @@ export class AdminService {
     const skip = (page - 1) * limit;
 
     // Modify filter to include partial matching for string fields
-    const modifiedFilter = Object.entries(filter).reduce((acc, [key, value]) => {
-      if (typeof value === 'string') {
-        acc[key] = { contains: value, mode: 'insensitive' }; // Partial match, case insensitive
-      } else {
-        acc[key] = value;
-      }
-      return acc;
-    }, {});
+    const modifiedFilter = Object.entries(filter).reduce(
+      (acc, [key, value]) => {
+        if (typeof value === 'string') {
+          acc[key] = { contains: value, mode: 'insensitive' };
+        } else {
+          acc[key] = value;
+        }
+        return acc;
+      },
+      {},
+    );
 
     const users = await this.usersService.users({
       where: modifiedFilter,

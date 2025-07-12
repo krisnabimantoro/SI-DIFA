@@ -35,15 +35,15 @@ export class AdminController {
   @Get('list-user')
   @Roles('admin')
   async listUser(
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
+    @Query('page') page: string = '1',
+    @Query('limit') limit: string = '10',
     @Query() query: Record<string, any>,
   ): Promise<any> {
-    const { page: p, limit: l, ...filter } = query;
-    return await this.adminService.listUser(
-      Number(page),
-      Number(limit),
-      filter,
-    );
+    const pageNumber = parseInt(page, 10) || 1;
+    const limitNumber = parseInt(limit, 10) || 10;
+
+    const { page: _p, limit: _l, ...filter } = query;
+
+    return await this.adminService.listUser(pageNumber, limitNumber, filter);
   }
 }
