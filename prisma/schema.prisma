@@ -8,11 +8,11 @@ datasource db {
 }
 
 model users_posyandu {
-  id      String  @id @default(uuid()) @db.Uuid
-  lokasi  String? @db.VarChar
-  user_id String  @db.Uuid
+  id            String  @id @default(uuid()) @db.Uuid
+  lokasi        String? @db.VarChar
+  user_id       String  @db.Uuid
   nama_posyandu String? @db.VarChar
-  users   users   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users         users   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model users_psikolog {
@@ -34,4 +34,37 @@ model users {
   created_at     DateTime?        @db.Timestamp(6)
   users_posyandu users_posyandu[]
   users_psikolog users_psikolog[]
+  lowongan       lowongan[]
+
+  informasi informasi[]
+}
+
+model lowongan {
+  id                String    @id @default(uuid()) @db.Uuid
+  nama_lowongan     String?   @db.VarChar
+  nama_perusahaan   String?   @db.VarChar
+  jenis_difasilitas String?   @db.VarChar
+  jenis_pekerjaan   String?   @db.VarChar
+  lokasi            String?   @db.VarChar
+  deskripsi         String?   @db.Text
+  file_name         String?   @db.VarChar
+  status            String?   @db.VarChar
+  tanggal_mulai     DateTime? @db.Timestamp(6)
+  tanggal_selesai   DateTime? @db.Timestamp(6)
+  created_at        DateTime? @db.Timestamp(6)
+  updated_at        DateTime? @db.Timestamp(6)
+  user_id           String    @db.Uuid
+  users             users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model informasi {
+  id         String    @id @default(uuid()) @db.Uuid
+  judul      String?   @db.VarChar
+  tipe       String?   @db.VarChar
+  deskripsi  String?   @db.Text
+  file_name  String?   @db.VarChar
+  created_at DateTime? @db.Timestamp(6)
+  updated_at DateTime? @db.Timestamp(6)
+  user_id    String    @db.Uuid
+  users      users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
