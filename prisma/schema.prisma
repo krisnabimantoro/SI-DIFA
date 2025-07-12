@@ -8,11 +8,12 @@ datasource db {
 }
 
 model users_posyandu {
-  id            String  @id @default(uuid()) @db.Uuid
-  lokasi        String? @db.VarChar
-  user_id       String  @db.Uuid
-  nama_posyandu String? @db.VarChar
-  users         users   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id            String   @id @default(uuid()) @db.Uuid
+  lokasi        String?  @db.VarChar
+  user_id       String   @db.Uuid
+  nama_posyandu String?  @db.VarChar
+  users         users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  pasien        pasien[]
 }
 
 model users_psikolog {
@@ -35,17 +36,16 @@ model users {
   users_posyandu users_posyandu[]
   users_psikolog users_psikolog[]
   lowongan       lowongan[]
-
-  informasi informasi[]
+  informasi_edukasi informasi_edukasi[]
 }
 
 model lowongan {
   id                String    @id @default(uuid()) @db.Uuid
-  nama_lowongan     String?   @db.VarChar
-  nama_perusahaan   String?   @db.VarChar
+  nama_lowongan     String    @db.VarChar
+  nama_perusahaan   String    @db.VarChar
+  jenis_pekerjaan   String    @db.VarChar
+  lokasi            String    @db.VarChar
   jenis_difasilitas String?   @db.VarChar
-  jenis_pekerjaan   String?   @db.VarChar
-  lokasi            String?   @db.VarChar
   deskripsi         String?   @db.Text
   file_name         String?   @db.VarChar
   status            String?   @db.VarChar
@@ -57,14 +57,48 @@ model lowongan {
   users             users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model informasi {
+model informasi_edukasi {
   id         String    @id @default(uuid()) @db.Uuid
-  judul      String?   @db.VarChar
-  tipe       String?   @db.VarChar
-  deskripsi  String?   @db.Text
+  judul      String    @db.VarChar
+  tipe       String    @db.VarChar
+  deskripsi  String    @db.Text
   file_name  String?   @db.VarChar
   created_at DateTime? @db.Timestamp(6)
   updated_at DateTime? @db.Timestamp(6)
   user_id    String    @db.Uuid
   users      users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model pasien {
+  id                String         @id @default(uuid()) @db.Uuid
+  nama              String?        @db.VarChar
+  jenis_kelamin     String?        @db.VarChar
+  umur              Int?
+  jenis_difasilitas String?        @db.VarChar
+  file_foto         String?        @db.VarChar
+  odgj              Boolean?
+  tanggal_lahir     DateTime?      @db.Timestamp(6)
+  alamat            String?        @db.VarChar
+  no_telp           String?        @db.VarChar
+  created_at        DateTime?      @db.Timestamp(6)
+  updated_at        DateTime?      @db.Timestamp(6)
+  user_posyandu     String         @db.Uuid
+  users_posyandu    users_posyandu @relation(fields: [user_posyandu], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  detail_pasien detail_pasien[]
+}
+
+model detail_pasien {
+  id              String    @id @default(uuid()) @db.Uuid
+  pasien_id       String    @db.Uuid
+  titik_koordinat String?   @db.VarChar
+  keterangan      String?   @db.Text
+  potensi         String?   @db.Text
+  minat           String?   @db.Text
+  status          String?   @db.VarChar
+  bakat           String?   @db.Text
+  keterampilan    String?   @db.Text
+  created_at      DateTime? @db.Timestamp(6)
+  updated_at      DateTime? @db.Timestamp(6)
+  pasien          pasien    @relation(fields: [pasien_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
