@@ -14,6 +14,7 @@ export class AdminService {
     page: number = 1,
     limit: number = 10,
     filter: { [key: string]: any } = {},
+    orderBy: { [key: string]: 'asc' | 'desc' } = {},
   ): Promise<any> {
     const skip = (page - 1) * limit;
 
@@ -34,6 +35,7 @@ export class AdminService {
       where: modifiedFilter,
       skip,
       take: limit,
+      orderBy,
     });
 
     const totalUsers = await this.usersService.users({ where: modifiedFilter });

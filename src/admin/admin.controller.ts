@@ -38,12 +38,19 @@ export class AdminController {
     @Query('page') page: string = '1',
     @Query('limit') limit: string = '10',
     @Query() query: Record<string, any>,
+    @Query('orderBy') orderBy: string = 'asc',
   ): Promise<any> {
     const pageNumber = parseInt(page, 10) || 1;
     const limitNumber = parseInt(limit, 10) || 10;
 
-    const { page: _p, limit: _l, ...filter } = query;
+    const { page: _p, limit: _l, orderBy: _o, sort: _s, ...filter } = query;
 
-    return await this.adminService.listUser(pageNumber, limitNumber, filter);
+    const orderByObject = { verification: orderBy as 'asc' | 'desc' };
+    return await this.adminService.listUser(
+      pageNumber,
+      limitNumber,
+      filter,
+      orderByObject,
+    );
   }
 }
