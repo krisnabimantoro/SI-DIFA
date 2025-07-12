@@ -72,6 +72,7 @@ model informasi_edukasi {
 model pasien {
   id                String         @id @default(uuid()) @db.Uuid
   nama              String?        @db.VarChar
+  nika              BigInt
   jenis_kelamin     String?        @db.VarChar
   umur              Int?
   jenis_difasilitas String         @db.VarChar
