@@ -40,6 +40,10 @@ export class AdminController {
     @Query() query: Record<string, any>,
   ): Promise<any> {
     const { page: p, limit: l, ...filter } = query;
-    return await this.adminService.listUser(Number(p), Number(l), filter);
+    return await this.adminService.listUser(
+      Number(page),
+      Number(limit),
+      filter,
+    );
   }
 }
