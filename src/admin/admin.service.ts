@@ -16,13 +16,24 @@ export class AdminService {
     filter: { [key: string]: any } = {},
   ): Promise<any> {
     const skip = (page - 1) * limit;
+
+    // Modify filter to include partial matching for string fields
+    const modifiedFilter = Object.entries(filter).reduce((acc, [key, value]) => {
+      if (typeof value === 'string') {
+        acc[key] = { contains: value, mode: 'insensitive' }; // Partial match, case insensitive
+      } else {
+        acc[key] = value;
+      }
+      return acc;
+    }, {});
+
     const users = await this.usersService.users({
-      where: filter,
+      where: modifiedFilter,
       skip,
       take: limit,
     });
 
-    const totalUsers = await this.usersService.users({ where: filter });
+    const totalUsers = await this.usersService.users({ where: modifiedFilter });
     const totalPages = Math.ceil(totalUsers.length / limit);
 
     return {
