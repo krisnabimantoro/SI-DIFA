@@ -10,6 +10,32 @@ import { UsersService } from 'src/users/users.service';
 export class AdminService {
   constructor(private readonly usersService: UsersService) {}
 
+  async listUser(
+    page: number = 1,
+    limit: number = 10,
+    filter: { [key: string]: any } = {},
+  ): Promise<any> {
+    const skip = (page - 1) * limit;
+    const users = await this.usersService.users({
+      where: filter,
+      skip,
+      take: limit,
+    });
+
+    const totalUsers = await this.usersService.users({ where: filter });
+    const totalPages = Math.ceil(totalUsers.length / limit);
+
+    return {
+      data: users,
+      meta: {
+        totalUsers: totalUsers.length,
+        totalPages,
+        currentPage: page,
+        limit,
+      },
+    };
+  }
+
   async verificationUser(
     userId: string,
     newVerification: string,

@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Patch,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { JwtAuthGuard } from 'src/guards/jwt-auth-guard';
@@ -27,5 +28,18 @@ export class AdminController {
     @Request() req,
   ): Promise<void> {
     return await this.adminService.verificationUser(userId, verification);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Get('list-user')
+  @Roles('admin')
+  async listUser(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+    @Query() query: Record<string, any>,
+  ): Promise<any> {
+    const { page: p, limit: l, ...filter } = query;
+    return await this.adminService.listUser(Number(p), Number(l), filter);
   }
 }
