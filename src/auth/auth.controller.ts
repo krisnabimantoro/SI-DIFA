@@ -75,10 +75,7 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     const refreshToken = req.cookies['jwt_refresh'];
-    const decryptedRefreshToken = refreshToken
-      ? decryptToken(refreshToken)
-      : null;
-
+    const decryptedRefreshToken = decryptToken(refreshToken);
     if (!decryptedRefreshToken) {
       throw new UnauthorizedException('No valid refresh token provided');
     }
