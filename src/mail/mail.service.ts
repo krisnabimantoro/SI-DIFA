@@ -50,7 +50,7 @@ export class MailService {
     const text = `Hi, \nTo Hisyam ganteng 99 ${url}`;
 
     return this.sendMail({
-      to: email,
+      to: user?.email,
       subject: 'Reset password',
       text,
     });
