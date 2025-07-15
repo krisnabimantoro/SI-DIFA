@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { Prisma, informasi_edukasi } from '@prisma/client';
+import { InformasiEdukasiDto } from 'src/dto/informasi-edukasi';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
@@ -8,10 +9,22 @@ export class InformasiEdukasiService {
   constructor(private prisma: PrismaService) {}
 
   async createInformasiEdukasi(
-    data: Prisma.informasi_edukasiCreateInput,
+    data: InformasiEdukasiDto,
+    userId: string,
   ): Promise<informasi_edukasi> {
     return this.prisma.informasi_edukasi.create({
-      data,
+      data: {
+        judul: data.judul,
+        tipe: data.tipe,
+        deskripsi: data.deskripsi,
+        file_name: data.file_name,
+        created_at: new Date(),
+        users: {
+          connect: {
+            id: userId,
+          },
+        },
+      },
     });
   }
 
