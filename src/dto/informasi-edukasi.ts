@@ -1,8 +1,8 @@
 export class InformasiEdukasiDto {
-  id?: string;
-  judul: string;
-  tipe: string;
-  deskripsi: string;
-  file_name?: string;
+  readonly id?: string;
+  readonly judul: string;
+  readonly tipe: string;
+  readonly deskripsi: string;
+  readonly file_name?: string;
 
 }

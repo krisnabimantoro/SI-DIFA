@@ -19,6 +19,8 @@ async function bootstrap() {
     credentials: true,
   });
 
+  app.useGlobalPipes(new ValidationPipe());
+  
   app.use(cookieParser());
   app.use(doubleCsrfProtection);
   app.setGlobalPrefix('api/v1');

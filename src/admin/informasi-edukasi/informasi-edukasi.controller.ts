@@ -5,17 +5,26 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  ParseFilePipeBuilder,
   Patch,
   Post,
   Query,
   Req,
+  UploadedFile,
+  UploadedFiles,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { InformasiEdukasiService } from './informasi-edukasi.service';
 import { JwtAuthGuard } from 'src/guards/jwt-auth-guard';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { Roles } from 'src/decorator/roles.decorator';
 import { InformasiEdukasiDto } from 'src/dto/informasi-edukasi';
+import {
+  AnyFilesInterceptor,
+  FileInterceptor,
+  NoFilesInterceptor,
+} from '@nestjs/platform-express';
 
 @Controller('/admin/informasi-edukasi')
 export class InformasiEdukasiController {
@@ -27,12 +36,31 @@ export class InformasiEdukasiController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   @Roles('admin')
+  @UseInterceptors(FileInterceptor('file'))
   async createInformasiEdukasi(
     @Body() data: InformasiEdukasiDto,
     @Req() req: any,
+    // @UploadedFile(
+    //   new ParseFilePipeBuilder()
+    //     .addFileTypeValidator({
+    //       fileType: 'png|jpg|jpeg|pdf',
+    //     })
+    //     .build({
+    //       fileIsRequired: true,
+    //     }),
+    // )
+    // file?: Express.Multer.File,
+
+    @UploadedFile() file: Express.Multer.File,
   ): Promise<any> {
     const userId = req.user.id;
-    return this.informasiEdukasiService.createInformasiEdukasi(data, userId);
+    const fileName = `${Date.now()}-${file?.originalname}`;
+
+    return this.informasiEdukasiService.createInformasiEdukasi(
+      data,
+      userId,
+      fileName,
+    );
   }
 
   @HttpCode(HttpStatus.OK)
@@ -65,6 +93,14 @@ export class InformasiEdukasiController {
       take: limitNumber,
       where: modifiedFilter,
     });
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Get('detail')
+  @Roles('admin')
+  async getInformasiEdulasi(@Body() data: InformasiEdukasiDto): Promise<any> {
+    return this.informasiEdukasiService.getInformasiEdukasi({ id: data.id });
   }
 
   @HttpCode(HttpStatus.OK)

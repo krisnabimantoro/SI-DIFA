@@ -16,6 +16,10 @@ import { AdminController } from './admin/admin.controller';
 import { AdminModule } from './admin/admin.module';
 import { AdminService } from './admin/admin.service';
 import { CsrfController } from './csrf/csrf.controller';
+import { MulterModule } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   controllers: [AppController, AuthController, AdminController, CsrfController],
@@ -29,6 +33,15 @@ import { CsrfController } from './csrf/csrf.controller';
     AdminService,
   ],
   imports: [
+    ServeStaticModule.forRoot({
+      // rootPath: join(__dirname, '..', 'uploads'), //  for build
+      rootPath: join(process.cwd(), 'uploads'),
+      exclude: ['/api/{*test}'],
+      serveStaticOptions: {
+        fallthrough: false,
+      },
+      serveRoot: '/uploads',
+    }),
     ThrottlerModule.forRoot({
       throttlers: [
         {

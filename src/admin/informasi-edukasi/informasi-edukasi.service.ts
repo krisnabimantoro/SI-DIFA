@@ -11,13 +11,14 @@ export class InformasiEdukasiService {
   async createInformasiEdukasi(
     data: InformasiEdukasiDto,
     userId: string,
+    fileName?: string,
   ): Promise<informasi_edukasi> {
     return this.prisma.informasi_edukasi.create({
       data: {
         judul: data.judul,
         tipe: data.tipe,
         deskripsi: data.deskripsi,
-        file_name: data.file_name,
+        file_name: fileName,
         created_at: new Date(),
         users: {
           connect: {
