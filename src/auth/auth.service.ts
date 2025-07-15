@@ -7,7 +7,7 @@ import {
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { users as UserModel } from '@prisma/client';
-import { RegisterPosyanduDto } from './dto/register-posyandu.dto';
+
 import { RegisterPsikologDto } from './dto/register-psikolog.dto';
 import * as bcrypt from 'bcrypt';
 import { MailService } from 'src/mail/mail.service';
@@ -24,7 +24,7 @@ export class AuthService {
     private emailService: MailService, // Assuming you have a MailService for sending emails
   ) {}
 
-  async registerPosyandu(
+  async registerKader(
     dataKader: KaderDto,
     dataUser: UserDto,
   ): Promise<UserModel> {
@@ -42,7 +42,7 @@ export class AuthService {
       email: dataUser.email,
       password: hash,
       no_telp: dataUser.no_telp,
-      role: 'posyandu',
+      role: 'kader',
       verification: 'unverified',
       created_at: new Date(),
       users_kader: {

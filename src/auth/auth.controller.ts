@@ -12,7 +12,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { RegisterPosyanduDto } from './dto/register-posyandu.dto';
+
 import { RegisterPsikologDto } from './dto/register-psikolog.dto';
 import { LoginDto } from './dto/login.dto';
 import { JwtAuthGuard } from '../guards/jwt-auth-guard';
@@ -23,18 +23,16 @@ import { Response, Request as ExpressRequest } from 'express';
 import { ref } from 'process';
 import { decryptToken } from 'src/lib/decrypt';
 import { encryptToken } from 'src/lib/encrypt';
+import { KaderDto } from './dto/kader.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @HttpCode(HttpStatus.OK)
-  @Post('signup/posyandu')
-  async signUp(
-    @Body() userDto: UserDto,
-    @Body() signUpPosyanduDto: RegisterPosyanduDto,
-  ) {
-    return this.authService.registerPosyandu(signUpPosyanduDto, userDto);
+  @Post('signup/kader')
+  async signUp(@Body() userDto: UserDto, @Body() signUpKaderDto: KaderDto) {
+    return this.authService.registerKader(signUpKaderDto, userDto);
   }
 
   @HttpCode(HttpStatus.OK)
