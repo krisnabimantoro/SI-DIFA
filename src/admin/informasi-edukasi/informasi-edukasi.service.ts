@@ -61,15 +61,32 @@ export class InformasiEdukasiService {
       cursor?: Prisma.informasi_edukasiWhereUniqueInput;
       where?: Prisma.informasi_edukasiWhereInput;
       orderBy?: Prisma.informasi_edukasiOrderByWithRelationInput;
-    } = {},
-  ): Promise<informasi_edukasi[]> {
+      // filter: { [key: string]: any };
+    } = {
+      // filter: {}
+    },
+  ): Promise<{
+    data: informasi_edukasi[];
+    meta: { totalInformasi: number; currentPage: number; limit: number };
+  }> {
+    // const { filter } = params;
+
     const { skip, take, cursor, where, orderBy } = params;
-    return this.prisma.informasi_edukasi.findMany({
+    const dataInformasi = await this.prisma.informasi_edukasi.findMany({
       skip,
       take,
       cursor,
       where,
       orderBy,
     });
+
+    return {
+      data: dataInformasi,
+      meta: {
+        totalInformasi: dataInformasi.length,
+        currentPage: skip || 1,
+        limit: take || 10,
+      },
+    };
   }
 }

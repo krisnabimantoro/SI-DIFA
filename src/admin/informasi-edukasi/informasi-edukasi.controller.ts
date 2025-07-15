@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -29,5 +31,37 @@ export class InformasiEdukasiController {
   ): Promise<any> {
     const userId = req.user.id;
     return this.informasiEdukasiService.createInformasiEdukasi(data, userId);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Get()
+  @Roles('admin')
+  async getAllInformasiEdukasi(
+    @Query('page') page: string = '1',
+    @Query('limit') limit: string = '10',
+    @Query() query: Record<string, any>,
+  ): Promise<any> {
+    const pageNumber = (parseInt(page) - 1) * parseInt(limit);
+    const limitNumber = parseInt(limit) || 10;
+    const { page: _p, limit: _l, orderBy: _o, sort: _s, ...filter } = query;
+
+    const modifiedFilter = Object.entries(filter).reduce(
+      (acc, [key, value]) => {
+        if (typeof value === 'string') {
+          acc[key] = { contains: value, mode: 'insensitive' };
+        } else {
+          acc[key] = value;
+        }
+        return acc;
+      },
+      {},
+    );
+
+    return this.informasiEdukasiService.getAllInformasiEdukasi({
+      skip: pageNumber,
+      take: limitNumber,
+      where: modifiedFilter,
+    });
   }
 }
