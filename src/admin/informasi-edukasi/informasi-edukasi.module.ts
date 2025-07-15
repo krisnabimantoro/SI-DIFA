@@ -13,7 +13,8 @@ import { diskStorage } from 'multer';
       storage: diskStorage({
         destination: './uploads',
         filename: (req, file, cb) => {
-          const filename = `${Date.now()}-${file.originalname}`;
+          const now = new Date();
+          const filename = `${now.getFullYear()}${now.getMonth() + 1}${now.getDate()}${now.getHours()}-${file?.originalname}`;
           cb(null, filename);
         },
       }),

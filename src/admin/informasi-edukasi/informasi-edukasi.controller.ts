@@ -54,7 +54,8 @@ export class InformasiEdukasiController {
     @UploadedFile() file: Express.Multer.File,
   ): Promise<any> {
     const userId = req.user.id;
-    const fileName = `${Date.now()}-${file?.originalname}`;
+    const now = new Date();
+    const fileName = `${now.getFullYear()}${now.getMonth() + 1}${now.getDate()}${now.getHours()}-${file?.originalname}`;
 
     return this.informasiEdukasiService.createInformasiEdukasi(
       data,
