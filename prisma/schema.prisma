@@ -7,21 +7,110 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model users_posyandu {
-  id            String   @id @default(uuid()) @db.Uuid
-  lokasi        String?  @db.VarChar
-  user_id       String   @db.Uuid
-  nama_posyandu String?  @db.VarChar
-  users         users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  pasien        pasien[]
+model users_kader {
+  id         String    @id @default(uuid()) @db.Uuid
+  jabatan    String?   @db.VarChar
+  user_id    String    @db.Uuid
+  created_at DateTime? @db.Timestamp(6)
+  updated_at DateTime? @db.Timestamp(6)
+  deleted_at DateTime? @db.Timestamp(6)
+
+  users          users            @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ibk            ibk[]
+  kader_posyandu kader_posyandu[]
+  presensi_kader presensi_kader[]
+
+  monitoring_ibk monitoring_ibk[]
+}
+
+model kader_posyandu {
+  id            String    @id @default(uuid()) @db.Uuid
+  user_kader_id String    @db.Uuid
+  posyandu_id   String    @db.Uuid
+  created_at    DateTime? @db.Timestamp(6)
+  updated_at    DateTime? @db.Timestamp(6)
+  deleted_at    DateTime? @db.Timestamp(6)
+
+  users_kader users_kader @relation(fields: [user_kader_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  posyandu    posyandu    @relation(fields: [posyandu_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model posyandu {
+  id            String    @id @default(uuid()) @db.Uuid
+  nama_posyandu String    @db.VarChar
+  alamat        String?   @db.VarChar
+  no_telp       String?   @db.VarChar
+  users_id      String?   @db.Uuid
+  created_at    DateTime? @db.Timestamp(6)
+  updated_at    DateTime? @db.Timestamp(6)
+  deleted_at    DateTime? @db.Timestamp(6)
+
+  kader_posyandu  kader_posyandu[]
+  jadwal_posyandu jadwal_posyandu[]
+  presensi_kader  presensi_kader[]
+  presensi_ibk    presensi_ibk[]
+
+  users users? @relation(fields: [users_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model jadwal_posyandu {
+  id             String           @id @default(uuid()) @db.Uuid
+  posyandu_id    String           @db.Uuid
+  nama_kegiatan  String?          @db.VarChar
+  jenis_kegiatan String?          @db.VarChar
+  deskripsi      String?          @db.Text
+  file_name      String?          @db.VarChar
+  lokasi         String?          @db.VarChar
+  tanggal        DateTime?        @db.Timestamp(6)
+  waktu_mulai    String?          @db.VarChar
+  waktu_selesai  String?          @db.VarChar
+  created_at     DateTime?        @db.Timestamp(6)
+  updated_at     DateTime?        @db.Timestamp(6)
+  deleted_at     DateTime?        @db.Timestamp(6)
+  posyandu       posyandu         @relation(fields: [posyandu_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  presensi_kader presensi_kader[]
+  presensi_ibk   presensi_ibk[]
+
+  monitoring_ibk monitoring_ibk[]
+}
+
+model presensi_kader {
+  id              String          @id @default(uuid()) @db.Uuid
+  user_kader_id   String          @db.Uuid
+  posyandu_id     String          @db.Uuid
+  jadwal_id       String          @db.Uuid
+  hadir           Boolean
+  created_at      DateTime?       @db.Timestamp(6)
+  updated_at      DateTime?       @db.Timestamp(6)
+  deleted_at      DateTime?       @db.Timestamp(6)
+  users_kader     users_kader     @relation(fields: [user_kader_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  posyandu        posyandu        @relation(fields: [posyandu_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  jadwal_posyandu jadwal_posyandu @relation(fields: [jadwal_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model presensi_ibk {
+  id              String          @id @default(uuid()) @db.Uuid
+  user_ibk_id     String          @db.Uuid
+  posyandu_id     String          @db.Uuid
+  jadwal_id       String          @db.Uuid
+  hadir           Boolean
+  created_at      DateTime?       @db.Timestamp(6)
+  updated_at      DateTime?       @db.Timestamp(6)
+  deleted_at      DateTime?       @db.Timestamp(6)
+  posyandu        posyandu        @relation(fields: [posyandu_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  jadwal_posyandu jadwal_posyandu @relation(fields: [jadwal_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ibk             ibk             @relation(fields: [user_ibk_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model users_psikolog {
-  id        String  @id @default(uuid()) @db.Uuid
-  lokasi    String? @db.VarChar
-  spesialis String? @db.VarChar
-  user_id   String  @db.Uuid
-  users     users   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id         String    @id @default(uuid()) @db.Uuid
+  lokasi     String?   @db.VarChar
+  spesialis  String?   @db.VarChar
+  user_id    String    @db.Uuid
+  created_at DateTime? @db.Timestamp(6)
+  updated_at DateTime? @db.Timestamp(6)
+  deleted_at DateTime? @db.Timestamp(6)
+  users      users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model users {
@@ -33,10 +122,14 @@ model users {
   role              String?             @db.VarChar
   verification      String?             @db.VarChar
   created_at        DateTime?           @db.Timestamp(6)
-  users_posyandu    users_posyandu[]
+  updated_at        DateTime?           @db.Timestamp(6)
+  deleted_at        DateTime?           @db.Timestamp(6)
+  users_kader       users_kader[]
   users_psikolog    users_psikolog[]
   lowongan          lowongan[]
   informasi_edukasi informasi_edukasi[]
+
+  posyandu posyandu[]
 }
 
 model lowongan {
@@ -53,6 +146,7 @@ model lowongan {
   tanggal_selesai   DateTime? @db.Timestamp(6)
   created_at        DateTime? @db.Timestamp(6)
   updated_at        DateTime? @db.Timestamp(6)
+  deleted_at        DateTime? @db.Timestamp(6)
   user_id           String    @db.Uuid
   users             users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
@@ -65,41 +159,95 @@ model informasi_edukasi {
   file_name  String?   @db.VarChar
   created_at DateTime? @db.Timestamp(6)
   updated_at DateTime? @db.Timestamp(6)
+  deleted_at DateTime? @db.Timestamp(6)
   user_id    String    @db.Uuid
   users      users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model pasien {
-  id                String         @id @default(uuid()) @db.Uuid
-  nama              String?        @db.VarChar
+model ibk {
+  id                String            @id @default(uuid()) @db.Uuid
+  nama              String?           @db.VarChar
   nik               BigInt
-  jenis_kelamin     String?        @db.VarChar
+  tanggal_lahir     DateTime?         @db.Timestamp(6)
+  jenis_kelamin     String?           @db.VarChar
   umur              Int?
-  jenis_difasilitas String         @db.VarChar
-  tanggal_lahir     DateTime?      @db.Timestamp(6)
-  alamat            String?        @db.VarChar
-  no_telp           String?        @db.VarChar
-  created_at        DateTime?      @db.Timestamp(6)
-  updated_at        DateTime?      @db.Timestamp(6)
-  user_posyandu     String         @db.Uuid
-  users_posyandu    users_posyandu @relation(fields: [user_posyandu], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  detail_pasien detail_pasien[]
+  jenis_difasilitas String            @db.VarChar
+  alamat            String?           @db.VarChar
+  no_telp           String?           @db.VarChar
+  nama_wali         String?           @db.VarChar
+  no_telp_wali      String?           @db.VarChar
+  created_at        DateTime?         @db.Timestamp(6)
+  updated_at        DateTime?         @db.Timestamp(6)
+  deleted_at        DateTime?         @db.Timestamp(6)
+  detail_ibk        detail_ibk[]
+  users_kaderId     String?           @db.Uuid
+  users_kader       users_kader?      @relation(fields: [users_kaderId], references: [id])
+  presensi_ibk      presensi_ibk[]
+  disabilitas_ibk   disabilitas_ibk[]
+  monitoring_ibk    monitoring_ibk[]
 }
 
-model detail_pasien {
-  id              String    @id @default(uuid()) @db.Uuid
-  pasien_id       String    @db.Uuid
-  odgj            Boolean
-  file_foto       String?   @db.VarChar
-  titik_koordinat String?   @db.VarChar
-  keterangan      String?   @db.Text
-  potensi         String?   @db.Text
-  minat           String?   @db.Text
-  status          String?   @db.VarChar
-  bakat           String?   @db.Text
-  keterampilan    String?   @db.Text
-  created_at      DateTime? @db.Timestamp(6)
-  updated_at      DateTime? @db.Timestamp(6)
-  pasien          pasien    @relation(fields: [pasien_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+model detail_ibk {
+  id                  String    @id @default(uuid()) @db.Uuid
+  ibk_id              String    @db.Uuid
+  odgj                Boolean
+  file_foto           String?   @db.VarChar
+  pekerjaan           String?   @db.VarChar
+  pendidikan          String?   @db.VarChar
+  status_perkawinan   String?   @db.VarChar
+  hasil_diagnosa      String?   @db.Text
+  jenis_bantuan       String?   @db.VarChar
+  titik_koordinat     String?   @db.VarChar
+  keterangan_tambahan String?   @db.Text
+  potensi             String?   @db.Text
+  minat               String?   @db.Text
+  status              String?   @db.VarChar
+  bakat               String?   @db.Text
+  keterampilan        String?   @db.Text
+  created_at          DateTime? @db.Timestamp(6)
+  updated_at          DateTime? @db.Timestamp(6)
+  deleted_at          DateTime? @db.Timestamp(6)
+  ibk                 ibk       @relation(fields: [ibk_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model disabilitas_ibk {
+  id                   String            @id @default(uuid()) @db.Uuid
+  ibk_id               String            @db.Uuid
+  jenis_difabilitas_id String            @db.Uuid
+  keterangan           String?           @db.Text
+  created_at           DateTime?         @db.Timestamp(6)
+  updated_at           DateTime?         @db.Timestamp(6)
+  deleted_at           DateTime?         @db.Timestamp(6)
+  ibk                  ibk               @relation(fields: [ibk_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  jenis_difasilitas    jenis_difasilitas @relation(fields: [jenis_difabilitas_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model jenis_difasilitas {
+  id              String            @id @default(uuid()) @db.Uuid
+  nama            String            @db.VarChar
+  deskripsi       String?           @db.Text
+  created_at      DateTime?         @db.Timestamp(6)
+  updated_at      DateTime?         @db.Timestamp(6)
+  deleted_at      DateTime?         @db.Timestamp(6)
+  disabilitas_ibk disabilitas_ibk[]
+}
+
+model monitoring_ibk {
+  id                   String           @id @default(uuid()) @db.Uuid
+  ibk_id               String           @db.Uuid
+  jadwal_posyandu_id   String?          @db.Uuid
+  keluhan              String?          @db.Text
+  perilaku_baru        String?          @db.Text
+  tindak_lanjut        String?          @db.Text
+  fungsional_checklist String?          @db.Text
+  tanggal_kunjungan    DateTime?        @db.Timestamp(6)
+  kecamatan            String?          @db.VarChar
+  users_kader_id       String?          @db.Uuid
+  keterangan           String?          @db.Text
+  created_at           DateTime?        @db.Timestamp(6)
+  updated_at           DateTime?        @db.Timestamp(6)
+  deleted_at           DateTime?        @db.Timestamp(6)
+  ibk                  ibk              @relation(fields: [ibk_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  jadwal_posyandu      jadwal_posyandu? @relation(fields: [jadwal_posyandu_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users_kader          users_kader?     @relation(fields: [users_kader_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
