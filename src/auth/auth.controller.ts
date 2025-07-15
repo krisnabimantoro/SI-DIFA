@@ -13,17 +13,17 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 
-import { RegisterPsikologDto } from './dto/register-psikolog.dto';
-import { LoginDto } from './dto/login.dto';
+import { RegisterPsikologDto } from '../dto/register-psikolog.dto';
+import { LoginDto } from '../dto/login.dto';
 import { JwtAuthGuard } from '../guards/jwt-auth-guard';
 import { LocalAuthGuard } from '../guards/local-auth-guard';
 import { Throttle } from '@nestjs/throttler';
-import { UserDto } from './dto/user.dto';
+import { UserDto } from '../dto/user.dto';
 import { Response, Request as ExpressRequest } from 'express';
 import { ref } from 'process';
 import { decryptToken } from 'src/lib/decrypt';
 import { encryptToken } from 'src/lib/encrypt';
-import { KaderDto } from './dto/kader.dto';
+import { KaderDto } from '../dto/kader.dto';
 
 @Controller('auth')
 export class AuthController {

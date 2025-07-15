@@ -8,13 +8,13 @@ import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { users as UserModel } from '@prisma/client';
 
-import { RegisterPsikologDto } from './dto/register-psikolog.dto';
+import { RegisterPsikologDto } from '../dto/register-psikolog.dto';
 import * as bcrypt from 'bcrypt';
 import { MailService } from 'src/mail/mail.service';
-import { UserDto } from './dto/user.dto';
+import { UserDto } from '../dto/user.dto';
 import { ref } from 'process';
 import { encryptToken } from 'src/lib/encrypt';
-import { KaderDto } from './dto/kader.dto';
+import { KaderDto } from '../dto/kader.dto';
 
 @Injectable()
 export class AuthService {

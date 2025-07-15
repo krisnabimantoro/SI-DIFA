@@ -3,7 +3,6 @@ import { Prisma, users } from '@prisma/client';
 
 import { PrismaService } from 'src/prisma.service';
 
-// This should be a real class/interface representing a user entity
 
 @Injectable()
 export class UsersService {
