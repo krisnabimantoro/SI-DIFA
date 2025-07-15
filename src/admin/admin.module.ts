@@ -9,8 +9,8 @@ import { InformasiEdukasiService } from './informasi-edukasi/informasi-edukasi.s
 import { InformasiEdukasiModule } from './informasi-edukasi/informasi-edukasi.module';
 
 @Module({
-  providers: [AdminService, UsersService, PrismaService, InformasiEdukasiService],
-  controllers: [LowonganController, InformasiEdukasiController],
+  providers: [AdminService, UsersService, PrismaService],
+  controllers: [LowonganController],
   imports: [LowonganModule, InformasiEdukasiModule],
 })
 export class AdminModule {}
