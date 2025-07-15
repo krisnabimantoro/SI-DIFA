@@ -14,6 +14,7 @@ import { MailService } from 'src/mail/mail.service';
 import { UserDto } from './dto/user.dto';
 import { ref } from 'process';
 import { encryptToken } from 'src/lib/encrypt';
+import { KaderDto } from './dto/kader.dto';
 
 @Injectable()
 export class AuthService {
@@ -24,7 +25,7 @@ export class AuthService {
   ) {}
 
   async registerPosyandu(
-    dataPosyandu: RegisterPosyanduDto,
+    dataKader: KaderDto,
     dataUser: UserDto,
   ): Promise<UserModel> {
     const existingUser = await this.usersService.user({
@@ -44,10 +45,10 @@ export class AuthService {
       role: 'posyandu',
       verification: 'unverified',
       created_at: new Date(),
-      users_posyandu: {
+      users_kader: {
         create: {
-          lokasi: dataPosyandu.lokasi,
-          nama_posyandu: dataPosyandu.nama_posyandu,
+          jabatan: dataKader.jabatan,
+          created_at: new Date(),
         },
       },
     });
