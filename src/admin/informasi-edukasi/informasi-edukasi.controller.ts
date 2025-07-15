@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
+  Patch,
   Post,
   Query,
   Req,
@@ -63,5 +65,47 @@ export class InformasiEdukasiController {
       take: limitNumber,
       where: modifiedFilter,
     });
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Patch()
+  @Roles('admin')
+  async updateInformasiEdukasi(
+    @Body() data: InformasiEdukasiDto,
+    @Req() req: any,
+  ): Promise<any> {
+    const userId = req.user.id;
+    return this.informasiEdukasiService.updateInformasiEdukasi(
+      { id: data.id },
+      {
+        judul: data.judul,
+        tipe: data.tipe,
+        deskripsi: data.deskripsi,
+        file_name: data.file_name,
+        updated_at: new Date(),
+        users: {
+          connect: {
+            id: userId,
+          },
+        },
+      },
+    );
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Delete()
+  @Roles('admin')
+  async deleteInformasiEdukasi(
+    @Body() data: InformasiEdukasiDto,
+  ): Promise<any> {
+    await this.informasiEdukasiService.deleteInformasiEdukasi({
+      id: data.id,
+    });
+
+    return {
+      message: 'Informasi edukasi deleted successfully',
+    };
   }
 }
