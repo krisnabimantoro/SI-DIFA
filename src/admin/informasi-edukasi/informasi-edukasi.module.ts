@@ -4,6 +4,8 @@ import { InformasiEdukasiService } from './informasi-edukasi.service';
 import { InformasiEdukasiController } from './informasi-edukasi.controller';
 import { MulterModule } from '@nestjs/platform-express/multer';
 import { diskStorage } from 'multer';
+import { encryptToken } from 'src/lib/encrypt';
+import * as crypto from 'crypto';
 
 @Module({
   providers: [PrismaService, InformasiEdukasiService],
@@ -14,8 +16,10 @@ import { diskStorage } from 'multer';
         destination: './uploads',
         filename: (req, file, cb) => {
           const now = new Date();
-          const filename = `${now.getFullYear()}${now.getMonth() + 1}${now.getDate()}${now.getHours()}-${file?.originalname}`;
-          cb(null, filename);
+          const fileExtension = file?.originalname.split('.').pop();
+          const fileName = `${now.getFullYear()}${now.getMonth() + 1}${now.getDate()}${now.getHours()}-${crypto.createHash('sha256').update(file?.originalname).digest('hex')}.${fileExtension}`;
+
+          cb(null, fileName);
         },
       }),
     }),

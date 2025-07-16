@@ -27,6 +27,8 @@ import {
 } from '@nestjs/platform-express';
 import deleteFile from 'src/lib/file-cleanup.intercaptor';
 import fastifyCsrf from '@fastify/csrf-protection';
+import { encryptToken } from 'src/lib/encrypt';
+import * as crypto from 'crypto';
 
 @Controller('/admin/informasi-edukasi')
 export class InformasiEdukasiController {
@@ -57,7 +59,9 @@ export class InformasiEdukasiController {
   ): Promise<any> {
     const userId = req.user.id;
     const now = new Date();
-    const fileName = `${now.getFullYear()}${now.getMonth() + 1}${now.getDate()}${now.getHours()}-${file?.originalname}`;
+    // const fileName = `${now.getFullYear()}${now.getMonth() + 1}${now.getDate()}${now.getHours()}-${file?.originalname}`;
+    const fileExtension = file?.originalname.split('.').pop();
+    const fileName = `${now.getFullYear()}${now.getMonth() + 1}${now.getDate()}${now.getHours()}-${crypto.createHash('sha256').update(file?.originalname).digest('hex')}.${fileExtension}`;
 
     return this.informasiEdukasiService.createInformasiEdukasi(
       data,
@@ -154,15 +158,13 @@ export class InformasiEdukasiController {
         console.error('File path is null, cannot delete file.');
         return { message: 'File path is null, cannot delete file.' };
       } else {
-        const filePath = `uploads/informasi-edukasi/${file}`;
+        const filePath = `uploads/${file}`;
         try {
           await deleteFile(filePath);
-        } catch (err) {
-          if (err.code === 'ENOENT') {
-            console.error('File already deleted or not found:', filePath);
-          } else {
-            throw err;
-          }
+        } catch (error) {
+          return {
+            message: `Failed to delete file: ${error.message}`,
+          };
         }
       }
     } catch (error) {
