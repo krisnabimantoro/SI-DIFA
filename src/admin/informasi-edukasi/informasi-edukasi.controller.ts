@@ -44,17 +44,7 @@ export class InformasiEdukasiController {
   async createInformasiEdukasi(
     @Body() data: InformasiEdukasiDto,
     @Req() req: any,
-    // @UploadedFile(
-    //   new ParseFilePipeBuilder()
-    //     .addFileTypeValidator({
-    //       fileType: 'png|jpg|jpeg|pdf',
-    //     })
-    //     .build({
-    //       fileIsRequired: true,
-    //     }),
-    // )
-    // file?: Express.Multer.File,
-
+  
     @UploadedFile() file: Express.Multer.File,
   ): Promise<any> {
     const userId = req.user.id;
