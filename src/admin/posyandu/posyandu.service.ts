@@ -68,7 +68,10 @@ export class PosyanduService {
     });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} posyandu`;
+  async remove(where: Prisma.posyanduWhereUniqueInput) {
+    await this.prisma.posyandu.delete({
+      where,
+    });
+    return { message: 'Posyandu deleted successfully' };
   }
 }

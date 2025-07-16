@@ -71,8 +71,8 @@ export class PosyanduController {
     return this.posyanduService.update(updatePosyanduDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.posyanduService.remove(+id);
+  @Delete()
+  remove(@Body('id') id: string) {
+    return this.posyanduService.remove({ id });
   }
 }
