@@ -29,6 +29,16 @@ export class InformasiEdukasiService {
     });
   }
 
+  async getFilePathInformasi(
+    where: Prisma.informasi_edukasiWhereUniqueInput,
+  ): Promise<string | null> {
+    const informasi = await this.prisma.informasi_edukasi.findUnique({
+      where,
+      select: { file_name: true },
+    });
+    return informasi?.file_name || null;
+  }
+
   async getInformasiEdukasi(
     where: Prisma.informasi_edukasiWhereUniqueInput,
   ): Promise<informasi_edukasi | null> {

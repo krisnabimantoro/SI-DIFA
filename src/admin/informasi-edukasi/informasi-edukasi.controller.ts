@@ -25,6 +25,8 @@ import {
   FileInterceptor,
   NoFilesInterceptor,
 } from '@nestjs/platform-express';
+import deleteFile from 'src/lib/file-cleanup.intercaptor';
+import fastifyCsrf from '@fastify/csrf-protection';
 
 @Controller('/admin/informasi-edukasi')
 export class InformasiEdukasiController {
@@ -108,11 +110,14 @@ export class InformasiEdukasiController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch()
   @Roles('admin')
+  @UseInterceptors(FileInterceptor('file'))
   async updateInformasiEdukasi(
     @Body() data: InformasiEdukasiDto,
     @Req() req: any,
+    @UploadedFile() file?: Express.Multer.File,
   ): Promise<any> {
     const userId = req.user.id;
+
     return this.informasiEdukasiService.updateInformasiEdukasi(
       { id: data.id },
       {
@@ -134,9 +139,36 @@ export class InformasiEdukasiController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete()
   @Roles('admin')
+  @UseInterceptors()
   async deleteInformasiEdukasi(
     @Body() data: InformasiEdukasiDto,
   ): Promise<any> {
+    try {
+      const file = await this.informasiEdukasiService.getFilePathInformasi({
+        id: data.id,
+      });
+      if (!file) {
+        console.error('File not found for deletion.');
+        return { message: 'File not found' };
+      } else if (file === null || file === undefined || file === '') {
+        console.error('File path is null, cannot delete file.');
+        return { message: 'File path is null, cannot delete file.' };
+      } else {
+        const filePath = `uploads/informasi-edukasi/${file}`;
+        try {
+          await deleteFile(filePath);
+        } catch (err) {
+          if (err.code === 'ENOENT') {
+            console.error('File already deleted or not found:', filePath);
+          } else {
+            throw err;
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error deleting file:', error);
+    }
+
     await this.informasiEdukasiService.deleteInformasiEdukasi({
       id: data.id,
     });
