@@ -166,47 +166,76 @@ model informasi_edukasi {
 }
 
 model ibk {
-  id                String            @id @default(uuid()) @db.Uuid
-  nama              String?           @db.VarChar
-  nik               BigInt
-  tanggal_lahir     DateTime?         @db.Timestamp(6)
-  jenis_kelamin     String?           @db.VarChar
-  umur              Int?
-  jenis_difasilitas String            @db.VarChar
-  alamat            String?           @db.VarChar
-  no_telp           String?           @db.VarChar
-  nama_wali         String?           @db.VarChar
-  no_telp_wali      String?           @db.VarChar
-  created_at        DateTime?         @db.Timestamp(6)
-  updated_at        DateTime?         @db.Timestamp(6)
-  deleted_at        DateTime?         @db.Timestamp(6)
-  posyanduId        String?           @db.Uuid
-  posyandu          posyandu?         @relation(fields: [posyanduId], references: [id])
-  users_kaderId     String?           @db.Uuid
-  users_kader       users_kader?      @relation(fields: [users_kaderId], references: [id])
-  detail_ibk        detail_ibk[]
-  presensi_ibk      presensi_ibk[]
-  disabilitas_ibk   disabilitas_ibk[]
-  monitoring_ibk    monitoring_ibk[]
+  id               String            @id @default(uuid()) @db.Uuid
+  nama             String?           @db.VarChar
+  nik              BigInt
+  tempat_lahir     String?           @db.VarChar
+  tanggal_lahir    DateTime?         @db.Timestamp(6)
+  file_foto        String?           @db.VarChar
+  jenis_kelamin    String?           @db.VarChar
+  agama            String?           @db.VarChar
+  umur             Int?
+  alamat           String?           @db.VarChar
+  no_telp          String?           @db.VarChar
+  nama_wali        String?           @db.VarChar
+  no_telp_wali     String?           @db.VarChar
+  created_at       DateTime?         @db.Timestamp(6)
+  updated_at       DateTime?         @db.Timestamp(6)
+  deleted_at       DateTime?         @db.Timestamp(6)
+  posyanduId       String?           @db.Uuid
+  users_kaderId    String?           @db.Uuid
+  assesmen_ibk_id  String?           @db.Uuid
+  kesehatan_ibk_id String?           @db.Uuid
+  assesmen_ibk     assesmen_ibk?     @relation(fields: [assesmen_ibk_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  kesehatan_ibk    kesehatan_ibk?    @relation(fields: [kesehatan_ibk_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  posyandu         posyandu?         @relation(fields: [posyanduId], references: [id])
+  users_kader      users_kader?      @relation(fields: [users_kaderId], references: [id])
+  detail_ibk       detail_ibk[]
+  presensi_ibk     presensi_ibk[]
+  disabilitas_ibk  disabilitas_ibk[]
+  monitoring_ibk   monitoring_ibk[]
+}
+
+model assesmen_ibk {
+  id                     String    @id @default(uuid()) @db.Uuid
+  total_iq               Int?
+  kategori_iq            String?   @db.VarChar
+  tipe_kepribadian       String?   @db.Text
+  deskripsi_kepribadian  String?   @db.Text
+  potensi                String?   @db.Text
+  minat                  String?   @db.Text
+  bakat                  String?   @db.Text
+  keterampilan           String?   @db.Text
+  catatan_psikolog       String?   @db.Text
+  rekomendasi_intervensi String?   @db.Text
+  created_at             DateTime? @db.Timestamp(6)
+  updated_at             DateTime? @db.Timestamp(6)
+  deleted_at             DateTime? @db.Timestamp(6)
+
+  ibk ibk[]
+}
+
+model kesehatan_ibk {
+  id             String    @id @default(uuid()) @db.Uuid
+  odgj           Boolean
+  hasil_diagnosa String?   @db.Text
+  jenis_bantuan  String?   @db.VarChar
+  riwayat_terapi String?   @db.Text
+  created_at     DateTime? @db.Timestamp(6)
+  updated_at     DateTime? @db.Timestamp(6)
+  deleted_at     DateTime? @db.Timestamp(6)
+
+  ibk ibk[]
 }
 
 model detail_ibk {
   id                  String    @id @default(uuid()) @db.Uuid
   ibk_id              String    @db.Uuid
-  odgj                Boolean
-  file_foto           String?   @db.VarChar
   pekerjaan           String?   @db.VarChar
   pendidikan          String?   @db.VarChar
   status_perkawinan   String?   @db.VarChar
-  hasil_diagnosa      String?   @db.Text
-  jenis_bantuan       String?   @db.VarChar
   titik_koordinat     String?   @db.VarChar
   keterangan_tambahan String?   @db.Text
-  potensi             String?   @db.Text
-  minat               String?   @db.Text
-  status              String?   @db.VarChar
-  bakat               String?   @db.Text
-  keterampilan        String?   @db.Text
   created_at          DateTime? @db.Timestamp(6)
   updated_at          DateTime? @db.Timestamp(6)
   deleted_at          DateTime? @db.Timestamp(6)
@@ -217,6 +246,8 @@ model disabilitas_ibk {
   id                   String            @id @default(uuid()) @db.Uuid
   ibk_id               String            @db.Uuid
   jenis_difabilitas_id String            @db.Uuid
+  tingkat_keparahan    String?           @db.VarChar
+  sejak_kapan          DateTime?         @db.Timestamp(6)
   keterangan           String?           @db.Text
   created_at           DateTime?         @db.Timestamp(6)
   updated_at           DateTime?         @db.Timestamp(6)
