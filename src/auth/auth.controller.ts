@@ -48,21 +48,24 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Request() req, @Res({ passthrough: true }) res: Response) {
-    const token = await this.authService.login(req.user);
+    try {
+    } catch (error) {
+      const token = await this.authService.login(req.user);
 
-    res.cookie('jwt', token.access_token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', // only over HTTPS in production
-      sameSite: 'lax', // or 'strict'
-      maxAge: 30 * 60 * 1000, // 30 minutes
-    });
+      res.cookie('jwt', token.access_token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production', // only over HTTPS in production
+        sameSite: 'lax', // or 'strict'
+        maxAge: 30 * 60 * 1000, // 30 minutes
+      });
 
-    res.cookie('jwt_refresh', token.refresh_token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', // only over HTTPS in production
-      sameSite: 'lax', // or 'strict'
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    });
+      res.cookie('jwt_refresh', token.refresh_token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production', // only over HTTPS in production
+        sameSite: 'lax', // or 'strict'
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      });
+    }
 
     return this.authService.login(req.user);
   }
@@ -73,13 +76,13 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     const refreshToken = req.cookies['jwt_refresh'];
-    const decryptedRefreshToken = decryptToken(refreshToken);
-    if (!decryptedRefreshToken) {
+    // const decryptedRefreshToken = decryptToken(refreshToken);
+    if (!refreshToken) {
       throw new UnauthorizedException('No valid refresh token provided');
     }
     try {
-      const newToken = await this.authService.refresh(decryptedRefreshToken);
-      const encryptAccessToken = encryptToken(newToken.new_access_token);
+      const newToken = await this.authService.refresh(refreshToken);
+      const encryptAccessToken = newToken.new_access_token;
 
       res.cookie('jwt', encryptAccessToken, {
         httpOnly: true,
