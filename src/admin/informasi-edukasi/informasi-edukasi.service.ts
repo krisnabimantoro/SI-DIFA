@@ -78,7 +78,7 @@ export class InformasiEdukasiService {
     },
   ): Promise<{
     data: informasi_edukasi[];
-    meta: { totalInformasi: number; currentPage: number; limit: number };
+    meta: { count: number; currentPage: number; limit: number };
   }> {
     // const { filter } = params;
 
@@ -94,7 +94,7 @@ export class InformasiEdukasiService {
     return {
       data: dataInformasi,
       meta: {
-        totalInformasi: dataInformasi.length,
+        count: dataInformasi.length,
         currentPage: skip || 1,
         limit: take || 10,
       },
