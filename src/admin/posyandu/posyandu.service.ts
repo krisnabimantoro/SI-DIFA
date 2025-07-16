@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreatePosyanduDto } from './dto/create-posyandu.dto';
 import { UpdatePosyanduDto } from './dto/update-posyandu.dto';
 import { PrismaService } from 'src/prisma.service';
+import { Prisma, posyandu } from '@prisma/client';
 
 @Injectable()
 export class PosyanduService {
@@ -23,8 +24,35 @@ export class PosyanduService {
     });
   }
 
-  findAll() {
-    return `This action returns all posyandu`;
+  async findAll(
+    params: {
+      skip?: number;
+      take?: number;
+      cursor?: Prisma.posyanduWhereUniqueInput;
+      where?: Prisma.posyanduWhereInput;
+      orderBy?: Prisma.posyanduOrderByWithRelationInput;
+    } = {},
+  ): Promise<{
+    data: posyandu[];
+    meta: { count: number; currentPage: number; limit: number };
+  }> {
+    const { skip, take, cursor, where, orderBy } = params;
+    const dataPosyandu = await this.prisma.posyandu.findMany({
+      skip,
+      take,
+      cursor,
+      where,
+      orderBy,
+    });
+
+    return {
+      data: dataPosyandu,
+      meta: {
+        count: dataPosyandu.length,
+        currentPage: skip || 1,
+        limit: take || 10,
+      },
+    };
   }
 
   findOne(id: number) {
