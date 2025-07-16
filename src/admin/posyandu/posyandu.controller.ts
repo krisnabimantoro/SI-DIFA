@@ -61,16 +61,22 @@ export class PosyanduController {
     });
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   @Get('detail')
   findOne(@Body('id') id: string) {
     return this.posyanduService.findOne({ id });
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   @Patch()
   update(@Body() updatePosyanduDto: UpdatePosyanduDto) {
     return this.posyanduService.update(updatePosyanduDto);
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   @Delete()
   remove(@Body('id') id: string) {
     return this.posyanduService.remove({ id });
