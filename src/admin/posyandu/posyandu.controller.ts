@@ -61,17 +61,14 @@ export class PosyanduController {
     });
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.posyanduService.findOne(+id);
+  @Get('detail')
+  findOne(@Body('id') id: string) {
+    return this.posyanduService.findOne({ id });
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updatePosyanduDto: UpdatePosyanduDto,
-  ) {
-    return this.posyanduService.update(+id, updatePosyanduDto);
+  @Patch()
+  update(@Body() updatePosyanduDto: UpdatePosyanduDto) {
+    return this.posyanduService.update(updatePosyanduDto);
   }
 
   @Delete(':id')

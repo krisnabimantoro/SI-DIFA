@@ -55,12 +55,17 @@ export class PosyanduService {
     };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} posyandu`;
+  findOne(where: Prisma.posyanduWhereUniqueInput): Promise<posyandu | null> {
+    return this.prisma.posyandu.findUnique({
+      where,
+    });
   }
 
-  update(id: number, updatePosyanduDto: UpdatePosyanduDto) {
-    return `This action updates a #${id} posyandu`;
+  update(updatePosyanduDto: UpdatePosyanduDto) {
+    return this.prisma.posyandu.update({
+      where: { id: updatePosyanduDto.id },
+      data: updatePosyanduDto,
+    });
   }
 
   remove(id: number) {
