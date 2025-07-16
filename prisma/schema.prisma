@@ -51,6 +51,7 @@ model posyandu {
   presensi_ibk    presensi_ibk[]
 
   users users? @relation(fields: [users_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ibk   ibk[]
 }
 
 model jadwal_posyandu {
@@ -179,9 +180,11 @@ model ibk {
   created_at        DateTime?         @db.Timestamp(6)
   updated_at        DateTime?         @db.Timestamp(6)
   deleted_at        DateTime?         @db.Timestamp(6)
-  detail_ibk        detail_ibk[]
+  posyanduId        String?           @db.Uuid
+  posyandu          posyandu?         @relation(fields: [posyanduId], references: [id])
   users_kaderId     String?           @db.Uuid
   users_kader       users_kader?      @relation(fields: [users_kaderId], references: [id])
+  detail_ibk        detail_ibk[]
   presensi_ibk      presensi_ibk[]
   disabilitas_ibk   disabilitas_ibk[]
   monitoring_ibk    monitoring_ibk[]
