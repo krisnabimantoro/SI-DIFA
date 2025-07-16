@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePosyanduDto } from './dto/create-posyandu.dto';
 import { UpdatePosyanduDto } from './dto/update-posyandu.dto';
 import { PrismaService } from 'src/prisma.service';
@@ -55,10 +55,14 @@ export class PosyanduService {
     };
   }
 
-  findOne(where: Prisma.posyanduWhereUniqueInput): Promise<posyandu | null> {
-    return this.prisma.posyandu.findUnique({
-      where,
-    });
+  async findOne(where: Prisma.posyanduWhereUniqueInput): Promise<posyandu> {
+    const posyandu = await this.prisma.posyandu.findUnique({ where });
+
+    if (!posyandu) {
+      throw new NotFoundException(`Posyandu not found`);
+    }
+
+    return posyandu;
   }
 
   update(updatePosyanduDto: UpdatePosyanduDto) {
