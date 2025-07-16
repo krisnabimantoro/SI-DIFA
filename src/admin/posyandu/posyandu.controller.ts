@@ -16,7 +16,7 @@ import { JwtAuthGuard } from 'src/guards/jwt-auth-guard';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { Roles } from 'src/decorator/roles.decorator';
 
-@Controller('posyandu')
+@Controller('admin/posyandu')
 export class PosyanduController {
   constructor(private readonly posyanduService: PosyanduService) {}
 
