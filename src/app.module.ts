@@ -36,7 +36,7 @@ import { join } from 'path';
     ServeStaticModule.forRoot({
       // rootPath: join(__dirname, '..', 'uploads'), //  for build
       rootPath: join(process.cwd(), 'uploads'),
-      exclude: ['/api/{*test}'],
+      // exclude: ['/api/{*test}'],
       serveStaticOptions: {
         fallthrough: false,
       },
