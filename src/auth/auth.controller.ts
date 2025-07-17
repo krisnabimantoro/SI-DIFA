@@ -48,24 +48,22 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Request() req, @Res({ passthrough: true }) res: Response) {
-    try {
-    } catch (error) {
-      const token = await this.authService.login(req.user);
+    const token = await this.authService.login(req.user);
 
-      res.cookie('jwt', token.access_token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', // only over HTTPS in production
-        sameSite: 'lax', // or 'strict'
-        maxAge: 30 * 60 * 1000, // 30 minutes
-      });
+    console.log('Generated token:', token);
+    res.cookie('jwt', token.access_token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // only over HTTPS in production
+      sameSite: 'lax', // or 'strict'
+      maxAge: 30 * 60 * 1000, // 30 minutes
+    });
 
-      res.cookie('jwt_refresh', token.refresh_token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', // only over HTTPS in production
-        sameSite: 'lax', // or 'strict'
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-      });
-    }
+    res.cookie('jwt_refresh', token.refresh_token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // only over HTTPS in production
+      sameSite: 'lax', // or 'strict'
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
 
     return this.authService.login(req.user);
   }
