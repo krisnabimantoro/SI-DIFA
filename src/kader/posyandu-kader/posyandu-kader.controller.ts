@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { Body, Param, Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { PosyanduService } from 'src/admin/posyandu/posyandu.service';
 import { Roles } from 'src/decorator/roles.decorator';
 import { JwtAuthGuard } from 'src/guards/jwt-auth-guard';
@@ -41,11 +41,9 @@ export class PosyanduKaderController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('kader','admin')
-  @Get('detail')
-  findOne(@Body('id') id: string) {
+  @Roles('kader', 'admin')
+  @Get('detail/:id')
+  findOne(@Param('id') id: string) {
     return this.posyanduService.findOne({ id });
   }
-
-  
 }
