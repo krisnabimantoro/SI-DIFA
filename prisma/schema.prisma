@@ -168,7 +168,7 @@ model informasi_edukasi {
 model ibk {
   id               String            @id @default(uuid()) @db.Uuid
   nama             String?           @db.VarChar
-  nik              BigInt
+  nik              BigInt?
   tempat_lahir     String?           @db.VarChar
   tanggal_lahir    DateTime?         @db.Timestamp(6)
   file_foto        String?           @db.VarChar
