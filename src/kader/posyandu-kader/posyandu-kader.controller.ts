@@ -5,7 +5,7 @@ import { JwtAuthGuard } from 'src/guards/jwt-auth-guard';
 import { RolesGuard } from 'src/guards/roles.guard';
 
 @Controller('kader/posyandu')
-export class PosyanduController {
+export class PosyanduKaderController {
   constructor(private readonly posyanduService: PosyanduService) {}
 
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -46,4 +46,6 @@ export class PosyanduController {
   findOne(@Body('id') id: string) {
     return this.posyanduService.findOne({ id });
   }
+
+  
 }

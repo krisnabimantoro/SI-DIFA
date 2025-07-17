@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { PosyanduService } from './posyandu.service';
+import { PosyanduKaderService } from './posyandu-kader.service';
 
-describe('PosyanduService', () => {
-  let service: PosyanduService;
+describe('PosyanduKaderService', () => {
+  let service: PosyanduKaderService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [PosyanduService],
+      providers: [PosyanduKaderService],
     }).compile();
 
-    service = module.get<PosyanduService>(PosyanduService);
+    service = module.get<PosyanduKaderService>(PosyanduKaderService);
   });
 
   it('should be defined', () => {
