@@ -23,7 +23,6 @@ export class PosyanduService {
       },
     });
   }
-
   async findAll(
     params: {
       skip?: number;
@@ -31,26 +30,42 @@ export class PosyanduService {
       cursor?: Prisma.posyanduWhereUniqueInput;
       where?: Prisma.posyanduWhereInput;
       orderBy?: Prisma.posyanduOrderByWithRelationInput;
+      page?: number;
     } = {},
   ): Promise<{
     data: posyandu[];
-    meta: { count: number; currentPage: number; limit: number };
+    meta: {
+      totalData: number;
+      totalPage: number;
+      currentPage: number;
+      limit: number;
+    };
   }> {
-    const { skip, take, cursor, where, orderBy } = params;
-    const dataPosyandu = await this.prisma.posyandu.findMany({
-      skip,
-      take,
-      cursor,
-      where,
-      orderBy,
-    });
+    const { skip, take = 10, where, orderBy, page = 1 } = params;
+
+    const offset = (page - 1) * take;
+
+    const [dataPosyandu, totalData] = await Promise.all([
+      this.prisma.posyandu.findMany({
+        skip: offset,
+        take,
+        where,
+        orderBy,
+      }),
+      this.prisma.posyandu.count({
+        where,
+      }),
+    ]);
+
+    const totalPage = Math.ceil(totalData / take);
 
     return {
       data: dataPosyandu,
       meta: {
-        count: dataPosyandu.length,
-        currentPage: skip || 1,
-        limit: take || 10,
+        totalData,
+        totalPage,
+        currentPage: page,
+        limit: take,
       },
     };
   }

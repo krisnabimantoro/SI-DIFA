@@ -9,7 +9,7 @@ export class PosyanduController {
   constructor(private readonly posyanduService: PosyanduService) {}
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('kader')
+  @Roles('kader', 'admin')
   @Get()
   findAll(
     @Query('page') page: string = '1',
@@ -41,7 +41,7 @@ export class PosyanduController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('kader')
+  @Roles('kader','admin')
   @Get('detail')
   findOne(@Body('id') id: string) {
     return this.posyanduService.findOne({ id });
