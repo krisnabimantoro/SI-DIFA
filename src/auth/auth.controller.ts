@@ -50,7 +50,6 @@ export class AuthController {
   async login(@Request() req, @Res({ passthrough: true }) res: Response) {
     const token = await this.authService.login(req.user);
 
-    console.log('Generated token:', token);
     res.cookie('jwt', token.access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production', // only over HTTPS in production
