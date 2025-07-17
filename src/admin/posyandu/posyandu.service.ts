@@ -43,11 +43,10 @@ export class PosyanduService {
   }> {
     const { skip, take = 10, where, orderBy, page = 1 } = params;
 
-    const offset = (page - 1) * take;
 
     const [dataPosyandu, totalData] = await Promise.all([
       this.prisma.posyandu.findMany({
-        skip: offset,
+        skip, 
         take,
         where,
         orderBy,
