@@ -8,7 +8,6 @@ import { InformasiEdukasiController } from './informasi-edukasi/informasi-edukas
 import { InformasiEdukasiService } from './informasi-edukasi/informasi-edukasi.service';
 import { InformasiEdukasiModule } from './informasi-edukasi/informasi-edukasi.module';
 import { PosyanduModule } from './posyandu/posyandu.module';
-import { Prisma } from 'generated/prisma';
 import { PosyanduService } from './posyandu/posyandu.service';
 
 @Module({
