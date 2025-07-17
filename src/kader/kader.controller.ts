@@ -12,15 +12,15 @@ export class KaderController {
     return this.kaderService.create(createKaderDto);
   }
 
-  @Get()
-  findAll() {
-    return this.kaderService.findAll();
-  }
+  // @Get()
+  // findAll() {
+  //   return this.kaderService.findAll();
+  // }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.kaderService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.kaderService.findOne(+id);
+  // }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateKaderDto: UpdateKaderDto) {

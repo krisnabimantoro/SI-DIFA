@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
-import { PosyanduService } from './posyandu.service';
 import { PosyanduController } from './posyandu.controller';
+import { PosyanduService } from 'src/admin/posyandu/posyandu.service';
 import { PrismaService } from 'src/prisma.service';
+import { AdminModule } from 'src/admin/admin.module';
 
 @Module({
+  imports: [AdminModule],
   controllers: [PosyanduController],
-  providers: [PosyanduService,PrismaService],
-  exports: [PosyanduService],
+  providers: []
 })
 export class PosyanduModule {}
