@@ -1,27 +1,29 @@
 # Use the official Node.js image as the base image
 FROM node:20
 
+# Install pnpm globally
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
 # Set the working directory inside the container
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
-COPY pnpm-lock.yaml ./
-COPY pnpm-workspace.yaml ./
+# Copy only the dependency-related files first
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
-# Install the application dependencies
+# Install dependencies
 RUN pnpm install
 
-# Copy the rest of the application files
+# Copy the rest of the application code
 COPY . .
 
+# Generate Prisma client
 RUN npx prisma generate
 
-# Build the NestJS application
-RUN pnpm run build
+# Build the application
+RUN pnpm build
 
-# Expose the application port
+# Expose the port the app runs on
 EXPOSE 3006
 
-# Command to run the application
-CMD ["node", "dist/src/main"]
+# Start the application
+CMD ["node", "dist/main"]
