@@ -6,10 +6,11 @@ WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
-COPY yarn*.lock ./
+COPY pnpm-lock.yaml ./
+COPY pnpm-workspace.yaml ./
 
 # Install the application dependencies
-RUN yarn install
+RUN pnpm install
 
 # Copy the rest of the application files
 COPY . .
@@ -17,7 +18,7 @@ COPY . .
 RUN npx prisma generate
 
 # Build the NestJS application
-RUN yarn run build
+RUN pnpm run build
 
 # Expose the application port
 EXPOSE 3006
