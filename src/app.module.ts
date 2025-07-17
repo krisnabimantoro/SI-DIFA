@@ -20,9 +20,10 @@ import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { KaderModule } from './kader/kader.module';
 
 @Module({
-  controllers: [AppController, AuthController, AdminController, CsrfController],
+  controllers: [AppController, AuthController, AdminController, CsrfController, ],
   providers: [
     AppService,
     UsersService,
@@ -54,6 +55,7 @@ import { join } from 'path';
     UsersModule,
     MailModule,
     AdminModule,
+    KaderModule,
   ],
 })
 export class AppModule {}
