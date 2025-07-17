@@ -41,12 +41,11 @@ export class PosyanduService {
       limit: number;
     };
   }> {
-    const { skip, take = 10, where, orderBy, page = 1 } = params;
-
+    const { skip, take = 10, where, orderBy } = params;
 
     const [dataPosyandu, totalData] = await Promise.all([
       this.prisma.posyandu.findMany({
-        skip, 
+        skip,
         take,
         where,
         orderBy,
@@ -63,7 +62,7 @@ export class PosyanduService {
       meta: {
         totalData,
         totalPage,
-        currentPage: page,
+        currentPage: skip ? Math.ceil(skip / take) + 1 : 1,
         limit: take,
       },
     };
