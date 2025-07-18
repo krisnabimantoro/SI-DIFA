@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   ParseFilePipeBuilder,
   Patch,
   Post,
@@ -44,7 +45,7 @@ export class InformasiEdukasiController {
   async createInformasiEdukasi(
     @Body() data: InformasiEdukasiDto,
     @Req() req: any,
-  
+
     @UploadedFile() file: Express.Multer.File,
   ): Promise<any> {
     const userId = req.user.id;
@@ -94,10 +95,10 @@ export class InformasiEdukasiController {
 
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Get('detail')
+  @Get('detail/:id')
   @Roles('admin')
-  async getInformasiEdulasi(@Body() data: InformasiEdukasiDto): Promise<any> {
-    return this.informasiEdukasiService.getInformasiEdukasi({ id: data.id });
+  async getInformasiEdulasi(@Param('id') id: string): Promise<any> {
+    return this.informasiEdukasiService.getInformasiEdukasi({ id });
   }
 
   @HttpCode(HttpStatus.OK)
