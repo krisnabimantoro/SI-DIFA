@@ -3,7 +3,6 @@ import { Prisma, users } from '@prisma/client';
 
 import { PrismaService } from 'src/prisma.service';
 
-
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
@@ -35,6 +34,12 @@ export class UsersService {
       orderBy,
     });
   }
+
+  async totalUsers(where?: Prisma.usersWhereInput): Promise<number> {
+    return this.prisma.users.count({
+      where,
+    });
+  } 
 
   async createUser(data: Prisma.usersCreateInput): Promise<users> {
     return this.prisma.users.create({
