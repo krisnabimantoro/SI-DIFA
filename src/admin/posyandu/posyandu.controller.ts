@@ -63,8 +63,8 @@ export class PosyanduController {
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin')
-  @Get('detail')
-  findOne(@Body('id') id: string) {
+  @Get('detail/:id')
+  findOne(@Param('id') id: string) {
     return this.posyanduService.findOne({ id });
   }
 
