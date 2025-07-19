@@ -78,11 +78,16 @@ export class InformasiEdukasiService {
     },
   ): Promise<{
     data: informasi_edukasi[];
-    meta: { count: number; currentPage: number; limit: number };
+    meta: {
+      totalData: number;
+      totalPage: number;
+      currentPage: number;
+      limit: number;
+    };
   }> {
     // const { filter } = params;
 
-    const { skip, take, cursor, where, orderBy } = params;
+    const { skip, take = 10, cursor, where, orderBy } = params;
     const dataInformasi = await this.prisma.informasi_edukasi.findMany({
       skip,
       take,
@@ -91,11 +96,17 @@ export class InformasiEdukasiService {
       orderBy,
     });
 
+    const totalData = await this.prisma.informasi_edukasi.count({
+      where,
+    });
+
+    const totalPage = Math.ceil(totalData / (take || 10));
     return {
       data: dataInformasi,
       meta: {
-        count: dataInformasi.length,
-        currentPage: skip || 1,
+        totalData: totalData,
+        totalPage: totalPage,
+        currentPage: skip ? Math.ceil(skip / take) + 1 : 1,
         limit: take || 10,
       },
     };
