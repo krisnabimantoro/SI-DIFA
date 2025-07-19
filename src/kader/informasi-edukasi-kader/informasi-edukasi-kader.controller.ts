@@ -21,7 +21,7 @@ export class InformasiEdukasiKaderController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
-  @Roles('admin')
+  @Roles('kader')
   async getAllInformasiEdukasi(
     @Query('page') page: string = '1',
     @Query('limit') limit: string = '10',
@@ -53,7 +53,7 @@ export class InformasiEdukasiKaderController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('detail/:id')
-  @Roles('admin')
+  @Roles('kader')
   async getInformasiEdulasi(@Param('id') id: string): Promise<any> {
     return this.informasiEdukasiService.getInformasiEdukasi({ id });
   }
