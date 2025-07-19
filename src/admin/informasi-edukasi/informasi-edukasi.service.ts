@@ -28,7 +28,29 @@ export class InformasiEdukasiService {
       },
     });
   }
-
+  
+  async updateInformasiEdukasi(
+    where: Prisma.informasi_edukasiWhereUniqueInput,
+    data: InformasiEdukasiDto,
+    userId: string,
+    fileName?: string,
+  ): Promise<informasi_edukasi> {
+    return this.prisma.informasi_edukasi.update({
+      where,
+      data: {
+        judul: data.judul,
+        tipe: data.tipe,
+        deskripsi: data.deskripsi,
+        file_name: fileName,
+        updated_at: new Date(),
+        users: {
+          connect: {
+            id: userId,
+          },
+        },
+      },
+    });
+  }
   async getFilePathInformasi(
     where: Prisma.informasi_edukasiWhereUniqueInput,
   ): Promise<string | null> {
@@ -47,15 +69,6 @@ export class InformasiEdukasiService {
     });
   }
 
-  async updateInformasiEdukasi(
-    where: Prisma.informasi_edukasiWhereUniqueInput,
-    data: Prisma.informasi_edukasiUpdateInput,
-  ): Promise<informasi_edukasi> {
-    return this.prisma.informasi_edukasi.update({
-      where,
-      data,
-    });
-  }
 
   async deleteInformasiEdukasi(
     where: Prisma.informasi_edukasiWhereUniqueInput,

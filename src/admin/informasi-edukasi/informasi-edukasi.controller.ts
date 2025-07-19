@@ -50,7 +50,6 @@ export class InformasiEdukasiController {
   ): Promise<any> {
     const userId = req.user.id;
     const now = new Date();
-    // const fileName = `${now.getFullYear()}${now.getMonth() + 1}${now.getDate()}${now.getHours()}-${file?.originalname}`;
     const fileExtension = file?.originalname.split('.').pop();
     const fileName = `${now.getFullYear()}${now.getMonth() + 1}${now.getDate()}${now.getHours()}-${crypto.createHash('sha256').update(file?.originalname).digest('hex')}.${fileExtension}`;
 
@@ -113,20 +112,36 @@ export class InformasiEdukasiController {
   ): Promise<any> {
     const userId = req.user.id;
 
+    let fileName: string | undefined;
+
+    if (file) {
+      // Delete old file if exists
+      try {
+        const oldFile = await this.informasiEdukasiService.getFilePathInformasi(
+          { id: data.id },
+        );
+        if (oldFile) {
+          const oldFilePath = `uploads/${oldFile}`;
+          try {
+            await deleteFile(oldFilePath);
+          } catch (error) {
+            console.error('Failed to delete old file:', error);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching old file for deletion:', error);
+      }
+      // Generate new file name
+      const now = new Date();
+      const fileExtension = file?.originalname.split('.').pop();
+      fileName = `${now.getFullYear()}${now.getMonth() + 1}${now.getDate()}${now.getHours()}-${crypto.createHash('sha256').update(file?.originalname).digest('hex')}.${fileExtension}`;
+    }
+
     return this.informasiEdukasiService.updateInformasiEdukasi(
       { id: data.id },
-      {
-        judul: data.judul,
-        tipe: data.tipe,
-        deskripsi: data.deskripsi,
-        file_name: data.file_name,
-        updated_at: new Date(),
-        users: {
-          connect: {
-            id: userId,
-          },
-        },
-      },
+      data,
+      userId,
+      fileName,
     );
   }
 
