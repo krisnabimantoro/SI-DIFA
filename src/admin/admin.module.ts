@@ -9,11 +9,18 @@ import { InformasiEdukasiService } from './informasi-edukasi/informasi-edukasi.s
 import { InformasiEdukasiModule } from './informasi-edukasi/informasi-edukasi.module';
 import { PosyanduModule } from './posyandu/posyandu.module';
 import { PosyanduService } from './posyandu/posyandu.service';
+import { lowongan } from '@prisma/client';
+import { AdminController } from './admin.controller';
 
 @Module({
   providers: [AdminService, UsersService, PrismaService],
-  controllers: [LowonganController],
+  controllers: [AdminController],
   imports: [LowonganModule, InformasiEdukasiModule, PosyanduModule],
-  exports: [PrismaService,PosyanduModule,InformasiEdukasiModule],
+  exports: [
+    PrismaService,
+    PosyanduModule,
+    InformasiEdukasiModule,
+    LowonganModule,
+  ],
 })
 export class AdminModule {}
