@@ -14,6 +14,6 @@ import { PosyanduService } from './posyandu/posyandu.service';
   providers: [AdminService, UsersService, PrismaService],
   controllers: [LowonganController],
   imports: [LowonganModule, InformasiEdukasiModule, PosyanduModule],
-  exports: [PrismaService,PosyanduModule],
+  exports: [PrismaService,PosyanduModule,InformasiEdukasiModule],
 })
 export class AdminModule {}

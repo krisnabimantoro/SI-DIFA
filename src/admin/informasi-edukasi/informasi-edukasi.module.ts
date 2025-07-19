@@ -24,5 +24,6 @@ import * as crypto from 'crypto';
       }),
     }),
   ],
+  exports: [InformasiEdukasiService],
 })
 export class InformasiEdukasiModule {}
