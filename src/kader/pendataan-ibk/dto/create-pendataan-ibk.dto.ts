@@ -1,1 +1,3 @@
-export class CreatePendataanIbkDto {}
+export class CreatePendataanIbkDto {
+    
+}
