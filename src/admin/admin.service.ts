@@ -40,13 +40,13 @@ export class AdminService {
 
     const totalUsersCount = await this.usersService.totalUsers(modifiedFilter);
 
-    const totalPages = Math.ceil(totalUsersCount / limit);
+    const totalPage = Math.ceil(totalUsersCount / limit);
 
     return {
       data: users,
       meta: {
-        totalUsers: totalUsersCount,
-        totalPages,
+        totalData: totalUsersCount,
+        totalPage,
         currentPage: page,
         limit,
       },
