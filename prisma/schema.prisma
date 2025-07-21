@@ -186,11 +186,12 @@ model ibk {
   users_kader_id   String?           @db.Uuid
   assesmen_ibk_id  String?           @db.Uuid
   kesehatan_ibk_id String?           @db.Uuid
+  detail_ibk_id    String?           @db.Uuid
   assesmen_ibk     assesmen_ibk?     @relation(fields: [assesmen_ibk_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   kesehatan_ibk    kesehatan_ibk?    @relation(fields: [kesehatan_ibk_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   posyandu         posyandu?         @relation(fields: [posyanduId], references: [id])
   users_kader      users_kader?      @relation(fields: [users_kader_id], references: [id])
-  detail_ibk       detail_ibk[]
+  detail_ibk       detail_ibk?       @relation(fields: [detail_ibk_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   presensi_ibk     presensi_ibk[]
   disabilitas_ibk  disabilitas_ibk[]
   monitoring_ibk   monitoring_ibk[]
@@ -230,7 +231,6 @@ model kesehatan_ibk {
 
 model detail_ibk {
   id                  String    @id @default(uuid()) @db.Uuid
-  ibk_id              String    @db.Uuid
   pekerjaan           String?   @db.VarChar
   pendidikan          String?   @db.VarChar
   status_perkawinan   String?   @db.VarChar
@@ -239,7 +239,8 @@ model detail_ibk {
   created_at          DateTime? @db.Timestamp(6)
   updated_at          DateTime? @db.Timestamp(6)
   deleted_at          DateTime? @db.Timestamp(6)
-  ibk                 ibk       @relation(fields: [ibk_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  ibk ibk[]
 }
 
 model disabilitas_ibk {
