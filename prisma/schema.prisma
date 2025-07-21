@@ -183,13 +183,13 @@ model ibk {
   updated_at       DateTime?         @db.Timestamp(6)
   deleted_at       DateTime?         @db.Timestamp(6)
   posyanduId       String?           @db.Uuid
-  users_kaderId    String?           @db.Uuid
+  users_kader_id   String?           @db.Uuid
   assesmen_ibk_id  String?           @db.Uuid
   kesehatan_ibk_id String?           @db.Uuid
   assesmen_ibk     assesmen_ibk?     @relation(fields: [assesmen_ibk_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   kesehatan_ibk    kesehatan_ibk?    @relation(fields: [kesehatan_ibk_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   posyandu         posyandu?         @relation(fields: [posyanduId], references: [id])
-  users_kader      users_kader?      @relation(fields: [users_kaderId], references: [id])
+  users_kader      users_kader?      @relation(fields: [users_kader_id], references: [id])
   detail_ibk       detail_ibk[]
   presensi_ibk     presensi_ibk[]
   disabilitas_ibk  disabilitas_ibk[]

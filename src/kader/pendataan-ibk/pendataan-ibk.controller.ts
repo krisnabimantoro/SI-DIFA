@@ -18,6 +18,7 @@ import { Roles } from 'src/decorator/roles.decorator';
 import { JwtAuthGuard } from 'src/guards/jwt-auth-guard';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { NoFilesInterceptor } from '@nestjs/platform-express/multer/interceptors';
+import { KesehatanIbkDto } from './dto/kesehatan-ibk.dto';
 
 @Controller('kader/pendataan-ibk')
 export class PendataanIbkController {
@@ -27,8 +28,16 @@ export class PendataanIbkController {
   @Roles('kader', 'admin')
   @UseInterceptors(NoFilesInterceptor())
   @Post()
-  create(@Body() dataIbk: IbkDto, @Req() req: any): Promise<any> {
+  create(
+    @Body() dataIbk: IbkDto,
+    @Body() dataKesehatan: KesehatanIbkDto,
+    @Req() req: any,
+  ): Promise<any> {
     const userId = req.user.id;
-    return this.pendataanIbkService.create({ user_id: userId }, dataIbk);
+    return this.pendataanIbkService.create(
+      { user_id: userId },
+      dataIbk,
+      dataKesehatan,
+    );
   }
 }
