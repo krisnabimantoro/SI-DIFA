@@ -4,7 +4,6 @@ import { UpdateKaderDto } from './dto/update-kader.dto';
 import { PrismaService } from 'src/prisma.service';
 import { Prisma, kader_posyandu } from '@prisma/client';
 import { KaderPosyanduDto } from './dto/kader-posyandu';
-import { users } from '../../generated/prisma/index';
 
 @Injectable()
 export class KaderService {
