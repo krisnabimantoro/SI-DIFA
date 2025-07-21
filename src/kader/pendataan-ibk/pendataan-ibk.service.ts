@@ -9,6 +9,7 @@ import { DisabilitasIbkDto } from './dto/disabilitas-ibk.dto';
 import { users } from '../../../generated/prisma/index';
 
 import { Prisma } from '@prisma/client';
+import { DetailIbkDto } from './dto/detail-ibk.dto';
 @Injectable()
 export class PendataanIbkService {
   constructor(private readonly prisma: PrismaService) {}
@@ -17,6 +18,7 @@ export class PendataanIbkService {
     usersWhereInput: Prisma.users_kaderWhereInput,
     dataIbk: IbkDto,
     dataKesehatan?: KesehatanIbkDto,
+    dataDetailIbk?: DetailIbkDto,
     dataAssesment?: AssesmenIbkDto,
     difabilitasIbk?: DisabilitasIbkDto,
   ): Promise<any> {
@@ -41,6 +43,18 @@ export class PendataanIbkService {
           created_at: new Date(),
         },
       });
+
+      const createDetailIbk = await this.prisma.detail_ibk.create({
+        data: {
+          pekerjaan: dataDetailIbk?.pekerjaan ?? '',
+          pendidikan: dataDetailIbk?.pendidikan ?? '',
+          status_perkawinan: dataDetailIbk?.status_perkawinan ?? '',
+          titik_koordinat: dataDetailIbk?.titik_koordinat ?? '',
+          keterangan_tambahan: dataDetailIbk?.keterangan_tambahan ?? '',
+          created_at: new Date(),
+        },
+      });
+
       const createdIbk = await this.prisma.ibk.create({
         data: {
           users_kader_id: userKaderId.id,
@@ -59,14 +73,17 @@ export class PendataanIbkService {
           posyanduId: dataIbk?.posyanduId ?? '',
           created_at: new Date(),
           kesehatan_ibk_id: createKesehatanIbk?.id ?? null,
+          detail_ibk_id: createDetailIbk?.id ?? null,
         },
       });
+      
       return {
         ...createdIbk,
         nik:
           createdIbk.nik !== null && createdIbk.nik !== undefined
             ? Number(createdIbk.nik)
             : null,
+        ...createDetailIbk,
         ...createKesehatanIbk,
       };
     } catch (error) {
