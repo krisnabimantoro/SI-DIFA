@@ -21,7 +21,7 @@ async function main() {
       },
       {
         id: crypto.randomUUID(),
-        nama: 'Menatal (Termasuk ODGJ)',
+        nama: 'Mental (Termasuk ODGJ)',
         deskripsi:
           'Gangguan mental atau psikososial termasuk orang dengan gangguan jiwa (ODGJ).',
         created_at: now,
@@ -34,7 +34,7 @@ async function main() {
       },
       {
         id: crypto.randomUUID(),
-        nama: 'Sensorik rungu',
+        nama: 'Sensorik Rungu',
         deskripsi: 'Gangguan atau kehilangan fungsi pendengaran.',
         created_at: now,
       },
