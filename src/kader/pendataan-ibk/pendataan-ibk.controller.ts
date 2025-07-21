@@ -20,6 +20,7 @@ import { RolesGuard } from 'src/guards/roles.guard';
 import { NoFilesInterceptor } from '@nestjs/platform-express/multer/interceptors';
 import { KesehatanIbkDto } from './dto/kesehatan-ibk.dto';
 import { DetailIbkDto } from './dto/detail-ibk.dto';
+import { AssesmenIbkDto } from './dto/assesmen-ibk.dto';
 
 @Controller('kader/pendataan-ibk')
 export class PendataanIbkController {
@@ -33,6 +34,7 @@ export class PendataanIbkController {
     @Body() dataIbk: IbkDto,
     @Body() dataKesehatan: KesehatanIbkDto,
     @Body() dataDetailIbk: DetailIbkDto,
+    @Body() dataAssesment: AssesmenIbkDto,
     @Req() req: any,
   ): Promise<any> {
     const userId = req.user.id;
@@ -41,6 +43,7 @@ export class PendataanIbkController {
       dataIbk,
       dataKesehatan,
       dataDetailIbk,
+      dataAssesment,
     );
   }
 }

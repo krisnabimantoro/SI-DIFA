@@ -55,6 +55,27 @@ export class PendataanIbkService {
         },
       });
 
+      const createAssesmenIbk = dataAssesment
+        ? await this.prisma.assesmen_ibk.create({
+            data: {
+              total_iq: dataAssesment.total_iq
+                ? parseInt(dataAssesment.total_iq.toString(), 10)
+                : null,
+              kategori_iq: dataAssesment.kategori_iq ?? '',
+              tipe_kepribadian: dataAssesment.tipe_kepribadian ?? '',
+              deskripsi_kepribadian: dataAssesment.deskripsi_kepribadian ?? '',
+              potensi: dataAssesment.potensi ?? '',
+              minat: dataAssesment.minat ?? '',
+              bakat: dataAssesment.bakat ?? '',
+              keterampilan: dataAssesment.keterampilan ?? '',
+              catatan_psikolog: dataAssesment.catatan_psikolog ?? '',
+              rekomendasi_intervensi:
+                dataAssesment.rekomendasi_intervensi ?? '',
+              created_at: new Date(),
+            },
+          })
+        : null;
+
       const createdIbk = await this.prisma.ibk.create({
         data: {
           users_kader_id: userKaderId.id,
@@ -74,21 +95,20 @@ export class PendataanIbkService {
           created_at: new Date(),
           kesehatan_ibk_id: createKesehatanIbk?.id ?? null,
           detail_ibk_id: createDetailIbk?.id ?? null,
+          assesmen_ibk_id: createAssesmenIbk?.id ?? null,
         },
       });
-      
+
       return {
         ...createdIbk,
-        nik:
-          createdIbk.nik !== null && createdIbk.nik !== undefined
-            ? Number(createdIbk.nik)
-            : null,
-        ...createDetailIbk,
-        ...createKesehatanIbk,
+        nik: createdIbk.nik != null ? Number(createdIbk.nik) : null,
+        ...(createDetailIbk ? { detail_ibk: createDetailIbk } : {}),
+        ...(createKesehatanIbk ? { kesehatan_ibk: createKesehatanIbk } : {}),
+        ...(createAssesmenIbk ? { assesmen_ibk: createAssesmenIbk } : {}),
       };
     } catch (error) {
-      console.error('Error creating kesehatan_ibk:', error);
-      throw new Error('Failed to create kesehatan_ibk');
+      console.error('Error creating data:', error);
+      throw new Error('Failed to create data');
     }
 
     // Convert BigInt fields to number for serialization
