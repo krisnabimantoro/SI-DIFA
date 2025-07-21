@@ -1,13 +1,13 @@
 export class IbkDto {
   readonly id?: string;
   readonly nama?: string;
-  readonly nik?: bigint;
+  readonly nik?: string;
   readonly tempat_lahir?: string;
   readonly tanggal_lahir?: Date;
   readonly file_foto?: string;
   readonly jenis_kelamin?: string;
   readonly agama?: string;
-  readonly umur?: number;
+  readonly umur?: string;
   readonly alamat?: string;
   readonly no_telp?: string;
   readonly nama_wali?: string;

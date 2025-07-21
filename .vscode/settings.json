@@ -1,0 +1,14 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "103.150.196.67",
+            "port": 32770,
+            "driver": "PostgreSQL",
+            "name": "si-difa-db",
+            "database": "si-difa-dev",
+            "username": "root",
+            "password": "sidifa123"
+        }
+    ]
+}
