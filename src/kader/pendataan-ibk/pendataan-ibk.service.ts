@@ -34,7 +34,7 @@ export class PendataanIbkService {
     try {
       const createKesehatanIbk = await this.prisma.kesehatan_ibk.create({
         data: {
-          odgj: dataKesehatan?.odgj === 'true',
+          odgj: dataKesehatan?.odgj === 'false',
           hasil_diagnosa: dataKesehatan?.hasil_diagnosa ?? '',
           jenis_bantuan: dataKesehatan?.jenis_bantuan ?? '',
           riwayat_terapi: dataKesehatan?.riwayat_terapi ?? '',
@@ -45,7 +45,6 @@ export class PendataanIbkService {
         data: {
           users_kader_id: userKaderId.id,
           nama: dataIbk?.nama ?? '',
-
           nik: dataIbk?.nik ? parseInt(dataIbk.nik, 10) : null,
           tempat_lahir: dataIbk?.tempat_lahir ?? '',
           tanggal_lahir: dataIbk?.tanggal_lahir ?? '',
@@ -57,7 +56,6 @@ export class PendataanIbkService {
           no_telp: dataIbk?.no_telp ?? '',
           nama_wali: dataIbk?.nama_wali ?? '',
           no_telp_wali: dataIbk?.no_telp_wali ?? '',
-
           posyanduId: dataIbk?.posyanduId ?? '',
           created_at: new Date(),
           kesehatan_ibk_id: createKesehatanIbk?.id ?? null,
