@@ -3,10 +3,12 @@ import { PosyanduKaderController } from './posyandu-kader.controller';
 import { PosyanduService } from 'src/admin/posyandu/posyandu.service';
 import { PrismaService } from 'src/prisma.service';
 import { AdminModule } from 'src/admin/admin.module';
+import { Prisma } from 'generated/prisma';
+import { PosyanduKaderService } from './posyandu-kader.service';
 
 @Module({
   imports: [AdminModule],
   controllers: [PosyanduKaderController],
-  providers: [],
+  providers: [PrismaService, PosyanduKaderService],
 })
 export class PosyanduKaderModule {}

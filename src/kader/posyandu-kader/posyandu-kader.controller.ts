@@ -1,21 +1,34 @@
-import { Body, Param, Controller, Get, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Param,
+  Controller,
+  Get,
+  Query,
+  UseGuards,
+  Req,
+} from '@nestjs/common';
 import { PosyanduService } from 'src/admin/posyandu/posyandu.service';
 import { Roles } from 'src/decorator/roles.decorator';
 import { JwtAuthGuard } from 'src/guards/jwt-auth-guard';
 import { RolesGuard } from 'src/guards/roles.guard';
+import { PosyanduKaderService } from './posyandu-kader.service';
 
 @Controller('kader/posyandu')
 export class PosyanduKaderController {
-  constructor(private readonly posyanduService: PosyanduService) {}
+  constructor(
+    private readonly posyanduService: PosyanduService,
+    private readonly posyanduKaderService: PosyanduKaderService,
+  ) {}
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('kader', 'admin')
   @Get()
-  findAll(
+  async findAll(
     @Query('page') page: string = '1',
     @Query('limit') limit: string = '10',
     @Query() query: Record<string, any>,
     @Query('orderBy') orderBy?: string,
+    @Req() req?: any,
   ) {
     const pageNumber = (parseInt(page) - 1) * parseInt(limit);
     const limitNumber = parseInt(limit);
@@ -32,12 +45,16 @@ export class PosyanduKaderController {
       {},
     );
 
-    return this.posyanduService.findAll({
-      skip: pageNumber,
-      take: limitNumber,
-      where: modifiedFilter,
-      orderBy: orderBy ? JSON.parse(orderBy) : undefined,
-    });
+    const userId = await req?.user?.id;
+    return this.posyanduKaderService.findAll(
+      { user_id: userId },
+      {
+        skip: pageNumber,
+        take: limitNumber,
+        where: modifiedFilter,
+        orderBy: orderBy ? JSON.parse(orderBy) : undefined,
+      },
+    );
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
