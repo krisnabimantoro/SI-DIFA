@@ -14,9 +14,24 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // fix cors sementara :v
+  // Allow all origins for development, but restrict in production!
   app.enableCors({
-    origin: true,
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, curl, etc.)
+      if (!origin) return callback(null, true);
+      // Allow all origins (for dev); restrict this in production!
+      callback(null, true);
+    },
     credentials: true,
+    allowedHeaders: [
+      'Origin',
+      'X-Requested-With',
+      'Content-Type',
+      'Accept',
+      'Authorization',
+      'x-csrf-token',
+    ],
+    exposedHeaders: ['set-cookie'],
   });
 
   app.useGlobalPipes(new ValidationPipe());

@@ -9,8 +9,8 @@ const doubleCsrfOptions = {
   cookieName: '_csrf',
   cookieOptions: {
     httpOnly: true,
-    sameSite: 'lax' as const, // 'lax' atau 'strict' atau 'none'
-    secure: false,
+    sameSite: 'none' as const, // allow cross-site cookie for dev
+    secure: true, // required for SameSite: 'none'
   },
   size: 64,
   getTokenFromRequest: (req) => req.headers['x-csrf-token'],
