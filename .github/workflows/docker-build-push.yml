@@ -54,3 +54,18 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/amd64,linux/arm64
+
+      - name: Deploy to Server via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }} # IP atau hostname server Anda
+          username: ${{ secrets.SERVER_USERNAME }} # User di server Anda
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            echo "Pulling latest Docker image..."
+            sudo docker pull krisnabmntr/si-difa:latest
+            # Optional: Stop, remove, and run new container
+            # docker stop your-container-name || true
+            # docker rm your-container-name || true
+            # docker run -d --name your-container-name -p 80:80 your-docker-username/your-image-name:latest
+            echo "Deployment complete."
