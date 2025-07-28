@@ -64,6 +64,8 @@ jobs:
           script: |
             echo "Pulling latest Docker image..."
             sudo docker pull krisnabmntr/si-difa:latest
+            echo "Restarting be-sidifa container..."
+            sudo docker restart be-sidifa
             # Optional: Stop, remove, and run new container
             # docker stop your-container-name || true
             # docker rm your-container-name || true
