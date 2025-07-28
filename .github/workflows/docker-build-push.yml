@@ -63,6 +63,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             echo "Pulling latest Docker image..."
+            echo "Logging in to Docker Hub..."
+            sudo docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password "${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}"
             sudo docker pull krisnabmntr/si-difa:latest
             echo "Restarting be-sidifa container..."
             sudo docker restart be-sidifa
