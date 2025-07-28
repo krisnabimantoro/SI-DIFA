@@ -6,8 +6,6 @@ import { IbkDto } from './dto/ibk.dto';
 import { AssesmenIbkDto } from './dto/assesmen-ibk.dto';
 import { KesehatanIbkDto } from './dto/kesehatan-ibk.dto';
 import { DisabilitasIbkDto } from './dto/disabilitas-ibk.dto';
-import { users } from '../../../generated/prisma/index';
-
 import { Prisma } from '@prisma/client';
 import { DetailIbkDto } from './dto/detail-ibk.dto';
 @Injectable()
