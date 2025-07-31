@@ -155,4 +155,14 @@ export class PendataanIbkService {
     };
   }
 
+  async findOne(where: Prisma.ibkWhereUniqueInput): Promise<any> {
+    return this.prisma.ibk.findUnique({
+      where,
+      include: {
+        kesehatan_ibk: true,
+        detail_ibk: true,
+        assesmen_ibk: true,
+      },
+    });
+  }
 }
