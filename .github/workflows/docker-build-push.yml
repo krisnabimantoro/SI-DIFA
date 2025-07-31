@@ -11,21 +11,7 @@ on:
     branches:
       - master
       - main
-  workflow_dispatch:
-    inputs:
-      deploy:
-        description: 'Deploy to server after build'
-        required: false
-        default: true
-        type: boolean
-      environment:
-        description: 'Environment to deploy to'
-        required: false
-        default: 'production'
-        type: choice
-        options:
-          - production
-          - staging
+ 
 
 jobs:
   build-and-push-docker-image:
@@ -74,7 +60,6 @@ jobs:
     name: Deploy to Server via SSH
     runs-on: ubuntu-latest
     needs: build-and-push-docker-image
-    if: ${{ github.event_name != 'workflow_dispatch' || inputs.deploy == true }}
     environment:
       name: production
 
