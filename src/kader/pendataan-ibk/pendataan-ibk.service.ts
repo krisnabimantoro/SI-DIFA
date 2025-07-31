@@ -111,4 +111,48 @@ export class PendataanIbkService {
 
     // Convert BigInt fields to number for serialization
   }
+  async findAll(
+    params: {
+      skip?: number;
+      take?: number;
+      cursor?: Prisma.ibkWhereUniqueInput;
+      where?: Prisma.ibkWhereInput;
+      orderBy?: Prisma.ibkOrderByWithRelationInput;
+    } = {},
+  ): Promise<any> {
+    const { skip, take = 10, where, orderBy } = params;
+
+    const [dataIbk, totalData] = await Promise.all([
+      this.prisma.ibk.findMany({
+        skip,
+        take,
+        where,
+        orderBy,
+        select: {
+          nik: true,
+          nama: true,
+          jenis_kelamin: true,
+          alamat: true,
+          created_at: true,
+        },
+      }),
+      this.prisma.ibk.count({ where }),
+    ]);
+
+    const totalPage = Math.ceil(totalData / take);
+
+    return {
+      data: dataIbk.map((ibk) => ({
+        ...ibk,
+        nik: ibk.nik != null ? Number(ibk.nik) : null,
+      })),
+      meta: {
+        totalData,
+        totalPage,
+        currentPage: skip ? Math.floor(skip / take) + 1 : 1,
+        limit: take,
+      },
+    };
+  }
+
 }
