@@ -56,6 +56,7 @@ export class PendataanIbkController {
     @Query('limit') limit: string = '10',
     @Query() query: Record<string, any>,
     @Query('orderBy') orderBy?: string,
+    @Query('posyanduId') posyanduId?: string,
   ): Promise<any> {
     const pageNumber = (parseInt(page) - 1) * parseInt(limit);
     const limitNumber = parseInt(limit);
@@ -75,6 +76,7 @@ export class PendataanIbkController {
       skip: pageNumber,
       take: limitNumber,
       where: modifiedFilter,
+      posyanduId: posyanduId,
       orderBy: orderBy ? { [orderBy]: 'asc' } : undefined,
     });
   }
