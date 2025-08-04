@@ -22,6 +22,7 @@ import { NoFilesInterceptor } from '@nestjs/platform-express/multer/interceptors
 import { KesehatanIbkDto } from './dto/kesehatan-ibk.dto';
 import { DetailIbkDto } from './dto/detail-ibk.dto';
 import { AssesmenIbkDto } from './dto/assesmen-ibk.dto';
+import { contains, equals } from 'class-validator';
 
 @Controller('kader/pendataan-ibk')
 export class PendataanIbkController {
@@ -61,17 +62,33 @@ export class PendataanIbkController {
     const pageNumber = (parseInt(page) - 1) * parseInt(limit);
     const limitNumber = parseInt(limit);
     const { page: _p, limit: _l, orderBy: _o, sort: _s, ...filter } = query;
+
+    // Only apply contains to text fields that support it
     const modifiedFilter = Object.entries(filter).reduce(
       (acc, [key, value]) => {
-        if (typeof value === 'string') {
+        if (
+          ['nama', 'alamat', 'jenis_kelamin'].includes(key) &&
+          typeof value === 'string'
+        ) {
           acc[key] = { contains: value, mode: 'insensitive' };
-        } else {
+        } else if (key === 'nik') {
+          // Only try converting to BigInt if value is non-empty
+          if (value !== undefined && value !== null && value !== '') {
+            try {
+              acc[key] = { equals: BigInt(value) };
+            } catch (err) {
+              // Optional: handle invalid BigInt parsing
+              console.warn(`Invalid NIK value: ${value}`);
+            }
+          }
+        } else if (value !== undefined && value !== null && value !== '') {
           acc[key] = value;
         }
         return acc;
       },
       {},
     );
+
     return this.pendataanIbkService.findAll({
       skip: pageNumber,
       take: limitNumber,
@@ -79,5 +96,39 @@ export class PendataanIbkController {
       posyanduId: posyanduId,
       orderBy: orderBy ? { [orderBy]: 'asc' } : undefined,
     });
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('kader', 'admin')
+  @Get('/detail/:ibkId')
+  findOne(@Param('ibkId') ibkId: string): Promise<any> {
+    return this.pendataanIbkService.findOne({ id: ibkId });
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('kader', 'admin')
+  @UseInterceptors(NoFilesInterceptor())
+  @Patch('/update/:ibkId')
+  update(
+    @Param('ibkId') ibkId: string,
+    @Body() dataIbk: IbkDto,
+    @Body() dataKesehatan: KesehatanIbkDto,
+    @Body() dataDetailIbk: DetailIbkDto,
+    @Body() dataAssesment: AssesmenIbkDto,
+  ): Promise<any> {
+    return this.pendataanIbkService.update(
+      { id: ibkId },
+      dataIbk,
+      dataKesehatan,
+      dataDetailIbk,
+      dataAssesment,
+    );
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('kader', 'admin')
+  @Delete('/delete/:ibkId')
+  delete(@Param('ibkId') ibkId: string): Promise<any> {
+    return this.pendataanIbkService.delete({ id: ibkId });
   }
 }
