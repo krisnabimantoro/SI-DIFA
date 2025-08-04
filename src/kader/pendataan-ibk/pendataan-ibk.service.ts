@@ -118,15 +118,22 @@ export class PendataanIbkService {
       cursor?: Prisma.ibkWhereUniqueInput;
       where?: Prisma.ibkWhereInput;
       orderBy?: Prisma.ibkOrderByWithRelationInput;
+      posyanduId?: string;
     } = {},
   ): Promise<any> {
-    const { skip, take = 10, where, orderBy } = params;
+    const { skip, take = 10, where, orderBy, posyanduId } = params;
+
+    // Build where condition with posyanduId filter
+    const whereCondition = {
+      ...where,
+      ...(posyanduId && { posyanduId }),
+    };
 
     const [dataIbk, totalData] = await Promise.all([
       this.prisma.ibk.findMany({
         skip,
         take,
-        where,
+        where: whereCondition,
         orderBy,
         select: {
           nik: true,
@@ -136,7 +143,7 @@ export class PendataanIbkService {
           created_at: true,
         },
       }),
-      this.prisma.ibk.count({ where }),
+      this.prisma.ibk.count({ where: whereCondition }),
     ]);
 
     const totalPage = Math.ceil(totalData / take);
