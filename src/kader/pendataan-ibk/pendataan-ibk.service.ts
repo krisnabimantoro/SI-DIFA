@@ -6,7 +6,6 @@ import { IbkDto } from './dto/ibk.dto';
 import { AssesmenIbkDto } from './dto/assesmen-ibk.dto';
 import { KesehatanIbkDto } from './dto/kesehatan-ibk.dto';
 import { DisabilitasIbkDto } from './dto/disabilitas-ibk.dto';
-
 import { Prisma } from '@prisma/client';
 import { DetailIbkDto } from './dto/detail-ibk.dto';
 @Injectable()
@@ -111,5 +110,67 @@ export class PendataanIbkService {
     }
 
     // Convert BigInt fields to number for serialization
+  }
+  async findAll(
+    params: {
+      skip?: number;
+      take?: number;
+      cursor?: Prisma.ibkWhereUniqueInput;
+      where?: Prisma.ibkWhereInput;
+      orderBy?: Prisma.ibkOrderByWithRelationInput;
+      posyanduId?: string;
+    } = {},
+  ): Promise<any> {
+    const { skip, take = 10, where, orderBy, posyanduId } = params;
+
+    // Build where condition with posyanduId filter
+    const whereCondition = {
+      ...where,
+      ...(posyanduId && { posyanduId }),
+    };
+
+    const [dataIbk, totalData] = await Promise.all([
+      this.prisma.ibk.findMany({
+        skip,
+        take,
+        where: whereCondition,
+        orderBy,
+        select: {
+          id: true,
+          nik: true,
+          nama: true,
+          jenis_kelamin: true,
+          alamat: true,
+          created_at: true,
+        },
+      }),
+      this.prisma.ibk.count({ where: whereCondition }),
+    ]);
+
+    const totalPage = Math.ceil(totalData / take);
+
+    return {
+      data: dataIbk.map((ibk) => ({
+        ...ibk,
+        nik: ibk.nik != null ? Number(ibk.nik) : null,
+      })),
+      meta: {
+        totalData,
+        totalPage,
+        currentPage: skip ? Math.floor(skip / take) + 1 : 1,
+        limit: take,
+      },
+    };
+  }
+
+  async findOne(where: Prisma.ibkWhereUniqueInput): Promise<any> {
+    return this.prisma.ibk.findUnique({
+      where,
+      include: {
+        kesehatan_ibk: true,
+        detail_ibk: true,
+        assesmen_ibk: true,
+      },
+    });
   }
 }

@@ -9,6 +9,7 @@ import {
   Req,
   UseGuards,
   UseInterceptors,
+  Query,
 } from '@nestjs/common';
 import { PendataanIbkService } from './pendataan-ibk.service';
 import { CreatePendataanIbkDto } from './dto/create-pendataan-ibk.dto';
@@ -45,5 +46,38 @@ export class PendataanIbkController {
       dataDetailIbk,
       dataAssesment,
     );
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('kader', 'admin')
+  @Get('/:posyanduId')
+  findAll(
+    @Query('page') page: string = '1',
+    @Query('limit') limit: string = '10',
+    @Query() query: Record<string, any>,
+    @Query('orderBy') orderBy?: string,
+    @Param('posyanduId') posyanduId?: string,
+  ): Promise<any> {
+    const pageNumber = (parseInt(page) - 1) * parseInt(limit);
+    const limitNumber = parseInt(limit);
+    const { page: _p, limit: _l, orderBy: _o, sort: _s, ...filter } = query;
+    const modifiedFilter = Object.entries(filter).reduce(
+      (acc, [key, value]) => {
+        if (typeof value === 'string') {
+          acc[key] = { contains: value, mode: 'insensitive' };
+        } else {
+          acc[key] = value;
+        }
+        return acc;
+      },
+      {},
+    );
+    return this.pendataanIbkService.findAll({
+      skip: pageNumber,
+      take: limitNumber,
+      where: modifiedFilter,
+      posyanduId: posyanduId,
+      orderBy: orderBy ? { [orderBy]: 'asc' } : undefined,
+    });
   }
 }
