@@ -80,4 +80,11 @@ export class PendataanIbkController {
       orderBy: orderBy ? { [orderBy]: 'asc' } : undefined,
     });
   }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('kader', 'admin')
+  @Get('/detail/:ibkId')
+  findOne(@Param('ibkId') ibkId: string): Promise<any> {
+    return this.pendataanIbkService.findOne({ id: ibkId });
+  }
 }

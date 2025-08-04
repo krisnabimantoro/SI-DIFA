@@ -164,7 +164,7 @@ export class PendataanIbkService {
   }
 
   async findOne(where: Prisma.ibkWhereUniqueInput): Promise<any> {
-    return this.prisma.ibk.findUnique({
+    const ibk = await this.prisma.ibk.findUnique({
       where,
       include: {
         kesehatan_ibk: true,
@@ -172,5 +172,10 @@ export class PendataanIbkService {
         assesmen_ibk: true,
       },
     });
+    if (!ibk) return null;
+    return {
+      ...ibk,
+      nik: ibk.nik != null ? Number(ibk.nik) : null,
+    };
   }
 }
