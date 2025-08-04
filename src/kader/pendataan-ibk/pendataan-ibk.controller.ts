@@ -50,13 +50,13 @@ export class PendataanIbkController {
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('kader', 'admin')
-  @Get()
+  @Get('/:posyanduId')
   findAll(
     @Query('page') page: string = '1',
     @Query('limit') limit: string = '10',
     @Query() query: Record<string, any>,
     @Query('orderBy') orderBy?: string,
-    @Query('posyanduId') posyanduId?: string,
+    @Param('posyanduId') posyanduId?: string,
   ): Promise<any> {
     const pageNumber = (parseInt(page) - 1) * parseInt(limit);
     const limitNumber = parseInt(limit);
