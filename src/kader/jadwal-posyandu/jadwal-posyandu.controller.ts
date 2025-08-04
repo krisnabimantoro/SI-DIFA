@@ -53,13 +53,13 @@ export class JadwalPosyanduController {
 
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Get()
+  @Get("/:posyanduId")
   @Roles('kader', 'admin')
   async getAllJadwalPosyandu(
     @Query() query: Record<string, any>,
     @Query('page') page: string = '1',
     @Query('limit') limit: string = '10',
-    @Query('posyanduId') posyanduId?: string,
+    @Param('posyanduId') posyanduId?: string,
   ): Promise<any> {
     const pageNumber = (parseInt(page) - 1) * parseInt(limit);
     const limitNumber = parseInt(limit) || 10;
