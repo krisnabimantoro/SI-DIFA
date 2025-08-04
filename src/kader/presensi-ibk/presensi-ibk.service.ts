@@ -15,7 +15,7 @@ export class PresensiIbkService {
       data: {
         user_ibk_id: createPresensiIbkDto.user_ibk_id,
         jadwal_id: createPresensiIbkDto.jadwal_id,
-        status_presensi: createPresensiIbkDto.status_presensi || 'BELUM_HADIR',
+        status_presensi: 'HADIR',
         created_at: new Date(),
       },
     });
