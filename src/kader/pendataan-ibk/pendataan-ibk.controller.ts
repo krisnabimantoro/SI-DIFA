@@ -87,4 +87,31 @@ export class PendataanIbkController {
   findOne(@Param('ibkId') ibkId: string): Promise<any> {
     return this.pendataanIbkService.findOne({ id: ibkId });
   }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('kader', 'admin')
+  @UseInterceptors(NoFilesInterceptor())
+  @Patch('/update/:ibkId')
+  update(
+    @Param('ibkId') ibkId: string,
+    @Body() dataIbk: IbkDto,
+    @Body() dataKesehatan: KesehatanIbkDto,
+    @Body() dataDetailIbk: DetailIbkDto,
+    @Body() dataAssesment: AssesmenIbkDto,
+  ): Promise<any> {
+    return this.pendataanIbkService.update(
+      { id: ibkId },
+      dataIbk,
+      dataKesehatan,
+      dataDetailIbk,
+      dataAssesment,
+    );
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('kader', 'admin')
+  @Delete('/delete/:ibkId')
+  delete(@Param('ibkId') ibkId: string): Promise<any> {
+    return this.pendataanIbkService.delete({ id: ibkId });
+  }
 }
