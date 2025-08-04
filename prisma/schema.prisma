@@ -47,9 +47,7 @@ model posyandu {
 
   kader_posyandu  kader_posyandu[]
   jadwal_posyandu jadwal_posyandu[]
-  presensi_kader  presensi_kader[]
-  presensi_ibk    presensi_ibk[]
-
+ 
   users users? @relation(fields: [users_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   ibk   ibk[]
 }
@@ -78,27 +76,23 @@ model jadwal_posyandu {
 model presensi_kader {
   id              String          @id @default(uuid()) @db.Uuid
   user_kader_id   String          @db.Uuid
-  posyandu_id     String          @db.Uuid
   jadwal_id       String          @db.Uuid
-  hadir           Boolean
+  status_presensi String          @db.VarChar
   created_at      DateTime?       @db.Timestamp(6)
   updated_at      DateTime?       @db.Timestamp(6)
   deleted_at      DateTime?       @db.Timestamp(6)
   users_kader     users_kader     @relation(fields: [user_kader_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  posyandu        posyandu        @relation(fields: [posyandu_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   jadwal_posyandu jadwal_posyandu @relation(fields: [jadwal_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model presensi_ibk {
   id              String          @id @default(uuid()) @db.Uuid
   user_ibk_id     String          @db.Uuid
-  posyandu_id     String          @db.Uuid
   jadwal_id       String          @db.Uuid
-  hadir           Boolean
+  status_presensi String          @db.VarChar
   created_at      DateTime?       @db.Timestamp(6)
   updated_at      DateTime?       @db.Timestamp(6)
   deleted_at      DateTime?       @db.Timestamp(6)
-  posyandu        posyandu        @relation(fields: [posyandu_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   jadwal_posyandu jadwal_posyandu @relation(fields: [jadwal_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   ibk             ibk             @relation(fields: [user_ibk_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
