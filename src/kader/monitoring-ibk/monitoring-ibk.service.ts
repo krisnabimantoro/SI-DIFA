@@ -67,25 +67,6 @@ export class MonitoringIbkService {
             jenis_kelamin: true;
           };
         };
-        jadwal_posyandu: {
-          select: {
-            id: true;
-            nama_kegiatan: true;
-            tanggal: true;
-          };
-        };
-        users_kader: {
-          select: {
-            id: true;
-            jabatan: true;
-            users: {
-              select: {
-                id: true;
-                name: true;
-              };
-            };
-          };
-        };
       };
     }>[];
     meta: {
@@ -112,11 +93,8 @@ export class MonitoringIbkService {
         select: {
           id: true,
           ibk_id: true,
-          users_kader_id: true,
-          jadwal_posyandu_id: true,
           keluhan: true,
           perilaku_baru: true,
-          tindak_lanjut: true,
           tanggal_kunjungan: true,
           kecamatan: true,
           created_at: true,
@@ -125,26 +103,6 @@ export class MonitoringIbkService {
               id: true,
               nama: true,
               nik: true,
-              jenis_kelamin: true,
-            },
-          },
-          jadwal_posyandu: {
-            select: {
-              id: true,
-              nama_kegiatan: true,
-              tanggal: true,
-            },
-          },
-          users_kader: {
-            select: {
-              id: true,
-              jabatan: true,
-              users: {
-                select: {
-                  id: true,
-                  name: true,
-                },
-              },
             },
           },
         },
@@ -284,7 +242,6 @@ export class MonitoringIbkService {
       where,
     });
   }
-
 
   async findByIbk(ibkId: string): Promise<monitoring_ibk[]> {
     return this.prismaService.monitoring_ibk.findMany({
