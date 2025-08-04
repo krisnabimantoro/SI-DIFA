@@ -134,7 +134,7 @@ export class AuthService {
 
     return {
       access_token: await this.jwtService.signAsync(payload, {
-        expiresIn: '30m',
+        expiresIn: '1000m',
       }),
 
       refresh_token: await this.jwtService.signAsync(payload, {
@@ -152,7 +152,7 @@ export class AuthService {
           sub: payload.sub,
           role: payload.role,
         },
-        { expiresIn: '30m' },
+        { expiresIn: '1000m' },
       );
 
       return { new_access_token: newToken };

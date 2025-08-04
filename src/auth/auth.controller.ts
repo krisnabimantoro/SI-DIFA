@@ -54,7 +54,7 @@ export class AuthController {
       httpOnly: true,
       sameSite: 'none' as const, // allow cross-site cookie for dev
       secure: true, // or 'strict'
-      maxAge: 30 * 60 * 1000, // 30 minutes
+      maxAge: 1000 * 60 * 1000, // 30 minutes
     });
 
     res.cookie('jwt_refresh', token.refresh_token, {
@@ -83,7 +83,7 @@ export class AuthController {
 
       res.cookie('jwt', encryptAccessToken, {
         httpOnly: true,
-        maxAge: 30 * 60 * 1000,
+        maxAge: 1000 * 60 * 1000,
       });
 
       return { message: 'Access token refreshed' };
