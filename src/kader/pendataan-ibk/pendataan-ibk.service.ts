@@ -136,6 +136,7 @@ export class PendataanIbkService {
         where: whereCondition,
         orderBy,
         select: {
+          id: true,
           nik: true,
           nama: true,
           jenis_kelamin: true,
