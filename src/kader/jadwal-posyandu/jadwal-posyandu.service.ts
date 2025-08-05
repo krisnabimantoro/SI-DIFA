@@ -15,7 +15,9 @@ export class JadwalPosyanduService {
   ): Promise<jadwal_posyandu> {
     // Remove posyandu_id from DTO to avoid conflict with relation
     const { posyandu_id, ...dataJadwalPosyandu } = createJadwalPosyanduDto;
-    return this.prismaService.jadwal_posyandu.create({
+
+    // Create the jadwal_posyandu first
+    const createdJadwal = await this.prismaService.jadwal_posyandu.create({
       data: {
         posyandu: {
           connect: { id: posyanduId },
@@ -24,6 +26,32 @@ export class JadwalPosyanduService {
         created_at: new Date(),
       },
     });
+
+    // Get all IBK users associated with this posyandu
+    const ibkUsers = await this.prismaService.ibk.findMany({
+      where: {
+        posyanduId: posyanduId,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    // Create bulk presensi_ibk records for all IBK users
+    if (ibkUsers.length > 0) {
+      const presensiIbkData = ibkUsers.map((ibk) => ({
+        user_ibk_id: ibk.id,
+        jadwal_id: createdJadwal.id,
+        status_presensi: 'BELUM_HADIR',
+        created_at: new Date(),
+      }));
+
+      await this.prismaService.presensi_ibk.createMany({
+        data: presensiIbkData,
+      });
+    }
+
+    return createdJadwal;
   }
 
   async findAll(

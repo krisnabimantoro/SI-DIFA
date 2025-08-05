@@ -10,43 +10,33 @@ import {
   HttpStatus,
   UseGuards,
   Query,
-  Req,
 } from '@nestjs/common';
-import { MonitoringIbkService } from './monitoring-ibk.service';
-import { CreateMonitoringIbkDto } from './dto/create-monitoring-ibk.dto';
-import { UpdateMonitoringIbkDto } from './dto/update-monitoring-ibk.dto';
+import { PresensiIbkService } from './presensi-ibk.service';
+import { CreatePresensiIbkDto } from './dto/create-presensi-ibk.dto';
+import { UpdatePresensiIbkDto } from './dto/update-presensi-ibk.dto';
 import { Roles } from 'src/decorator/roles.decorator';
 import { JwtAuthGuard } from 'src/guards/jwt-auth-guard';
 import { RolesGuard } from 'src/guards/roles.guard';
 
-@Controller('/kader/monitoring-ibk')
-export class MonitoringIbkController {
-  constructor(private readonly monitoringIbkService: MonitoringIbkService) {}
+@Controller('/kader/presensi-ibk')
+export class PresensiIbkController {
+  constructor(private readonly presensiIbkService: PresensiIbkService) {}
 
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   @Roles('kader', 'admin')
-  async createMonitoringIbk(
-    @Body() createMonitoringIbkDto: CreateMonitoringIbkDto,
-    @Req() req: any,
+  async createPresensiIbk(
+    @Body() createPresensiIbkDto: CreatePresensiIbkDto,
   ): Promise<any> {
-    // Get user kader ID from authenticated user if not provided
-    const userKaderId = req.user.id;
-
-    const monitoringData = {
-      ...createMonitoringIbkDto,
-      users_kader_id: userKaderId,
-    };
-
-    return this.monitoringIbkService.create(monitoringData);
+    return this.presensiIbkService.create(createPresensiIbkDto);
   }
 
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('/:jadwalId')
   @Roles('kader', 'admin')
-  async getAllMonitoringIbk(
+  async getAllPresensiIbk(
     @Query() query: Record<string, any>,
     @Query('page') page: string = '1',
     @Query('limit') limit: string = '10',
@@ -60,23 +50,12 @@ export class MonitoringIbkController {
       orderBy: _o,
       sort: _s,
       jadwalId: _jid,
-      ibkId: _iid,
-      kaderId: _kid,
       ...filter
     } = query;
 
     const modifiedFilter = Object.entries(filter).reduce(
       (acc, [key, value]) => {
-        if (
-          typeof value === 'string' &&
-          [
-            'keluhan',
-            'perilaku_baru',
-            'tindak_lanjut',
-            'kecamatan',
-            'keterangan',
-          ].includes(key)
-        ) {
+        if (typeof value === 'string' && ['status_presensi'].includes(key)) {
           acc[key] = { contains: value, mode: 'insensitive' };
         } else if (value !== undefined && value !== null && value !== '') {
           acc[key] = value;
@@ -86,7 +65,7 @@ export class MonitoringIbkController {
       {},
     );
 
-    return this.monitoringIbkService.findAll({
+    return this.presensiIbkService.findAll({
       skip: pageNumber,
       take: limitNumber,
       where: modifiedFilter,
@@ -95,42 +74,44 @@ export class MonitoringIbkController {
     });
   }
 
-
-  @HttpCode(HttpStatus.OK)
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Get('/ibk/:ibkId')
-  @Roles('kader', 'admin')
-  async getMonitoringByIbk(@Param('ibkId') ibkId: string): Promise<any> {
-    return this.monitoringIbkService.findByIbk(ibkId);
-  }
-
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('/detail/:id')
   @Roles('kader', 'admin')
-  async getMonitoringIbk(@Param('id') id: string): Promise<any> {
-    return this.monitoringIbkService.findOne({ id });
+  async getPresensiIbk(@Param('id') id: string): Promise<any> {
+    return this.presensiIbkService.findOne({ id });
   }
 
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch('/update/:id')
   @Roles('kader', 'admin')
-  async updateMonitoringIbk(
+  async updatePresensiIbk(
     @Param('id') id: string,
-    @Body() updateMonitoringIbkDto: UpdateMonitoringIbkDto,
+    @Body() updatePresensiIbkDto: UpdatePresensiIbkDto,
   ): Promise<any> {
-    return this.monitoringIbkService.update({ id }, updateMonitoringIbkDto);
+    return this.presensiIbkService.update({ id }, updatePresensiIbkDto);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Patch('/bulk-update/:jadwalId')
+  @Roles('kader', 'admin')
+  async bulkUpdatePresensiIbk(
+    @Param('jadwalId') jadwalId: string,
+    @Body() updates: { user_ibk_id: string; status_presensi: string }[],
+  ): Promise<any> {
+    return this.presensiIbkService.bulkUpdateStatus(jadwalId, updates);
   }
 
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete('/delete/:id')
   @Roles('kader', 'admin')
-  async deleteMonitoringIbk(@Param('id') id: string): Promise<any> {
-    await this.monitoringIbkService.remove({ id });
+  async deletePresensiIbk(@Param('id') id: string): Promise<any> {
+    await this.presensiIbkService.remove({ id });
     return {
-      message: 'Monitoring IBK deleted successfully',
+      message: 'Presensi IBK deleted successfully',
     };
   }
 }
