@@ -8,10 +8,11 @@ import { InformasiEdukasiKaderModule } from './informasi-edukasi-kader/informasi
 import { LowonganKaderModule } from './lowongan-kader/lowongan-kader.module';
 import { MonitoringIbkModule } from './monitoring-ibk/monitoring-ibk.module';
 import { JadwalPosyanduModule } from './jadwal-posyandu/jadwal-posyandu.module';
+import { PresensiIbkModule } from './presensi-ibk/presensi-ibk.module';
 
 @Module({
   controllers: [KaderController],
   providers: [KaderService],
-  imports: [PosyanduKaderModule, AdminModule, PendataanIbkModule, InformasiEdukasiKaderModule, LowonganKaderModule, MonitoringIbkModule, JadwalPosyanduModule],
+  imports: [PosyanduKaderModule, AdminModule, PendataanIbkModule, InformasiEdukasiKaderModule, LowonganKaderModule, MonitoringIbkModule, JadwalPosyanduModule, PresensiIbkModule],
 })
 export class KaderModule {}
