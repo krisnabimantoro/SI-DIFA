@@ -95,7 +95,6 @@ export class MonitoringIbkController {
     });
   }
 
-
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('/ibk/:ibkId')
@@ -121,6 +120,14 @@ export class MonitoringIbkController {
     @Body() updateMonitoringIbkDto: UpdateMonitoringIbkDto,
   ): Promise<any> {
     return this.monitoringIbkService.update({ id }, updateMonitoringIbkDto);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Get('/list-hadir/:jadwalId')
+  @Roles('kader', 'admin')
+  async getListHadirIbk(@Param('jadwalId') jadwalId: string): Promise<any> {
+    return this.monitoringIbkService.getListIbkPresensi({ jadwalId });
   }
 
   @HttpCode(HttpStatus.OK)
