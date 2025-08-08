@@ -84,6 +84,14 @@ export class PresensiIbkController {
 
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RolesGuard)
+  @Get('/ibk-not-registered/:jadwalId/posyandu/:posyanduId')
+  @Roles('kader', 'admin')
+  async getIbkNotRegistered(@Param('jadwalId') jadwalId: string, @Param('posyanduId') posyanduId: string): Promise<any> {
+    return this.presensiIbkService.findIbkNotRegistered({ jadwalId, posyanduId });
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch('/update/:id')
   @Roles('kader', 'admin')
   async updatePresensiIbk(

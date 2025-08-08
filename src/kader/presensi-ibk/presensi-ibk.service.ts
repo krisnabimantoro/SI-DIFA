@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreatePresensiIbkDto } from './dto/create-presensi-ibk.dto';
 import { UpdatePresensiIbkDto } from './dto/update-presensi-ibk.dto';
 import { PrismaService } from 'src/prisma.service';
-import { Prisma, presensi_ibk } from '@prisma/client';
+import { Prisma, presensi_ibk, jadwal_posyandu } from '@prisma/client';
 
 @Injectable()
 export class PresensiIbkService {
@@ -79,6 +79,7 @@ export class PresensiIbkService {
               id: true,
               nama: true,
               nik: true,
+              posyanduId: true,
             },
           },
         },
@@ -189,5 +190,40 @@ export class PresensiIbkService {
     const totalUpdated = results.reduce((sum, result) => sum + result.count, 0);
 
     return { count: totalUpdated };
+  }
+
+  async findIbkNotRegistered(
+    params: {
+      posyanduId?: string;
+      jadwalId?: string;
+    } = {},
+  ): Promise<any> {
+    const { jadwalId, posyanduId } = params;
+
+    const [dataIbk] = await Promise.all([
+      this.prismaService.ibk.findMany({
+        where: {
+          ...(posyanduId && { posyanduId }),
+          presensi_ibk: {
+            none: {
+              jadwal_id: jadwalId,
+            },
+          },
+        },
+        select: {
+          id: true,
+          nik: true,
+          nama: true,
+          posyanduId: true,
+        },
+      }),
+    ]);
+
+    return {
+      data: dataIbk.map((ibk) => ({
+        ...ibk,
+        nik: ibk.nik != null ? Number(ibk.nik) : null,
+      })),
+    };
   }
 }
