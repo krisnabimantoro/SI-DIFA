@@ -246,33 +246,87 @@ export class MonitoringIbkService {
   async getListIbkPresensi(
     params: {
       jadwalId?: string;
+      skip?: number;
+      take?: number;
+      where?: any;
+      nama?: string;
+      search?: string;
     } = {},
-  ): Promise<any> {
-    const { jadwalId } = params;
+  ): Promise<{
+    data: {
+      id: string;
+      nama: string | null;
+      nik: number | null;
+      posyanduId: string | null;
+    }[];
+    meta: {
+      totalData: number;
+      totalPage: number;
+      currentPage: number;
+      limit: number;
+    };
+  }> {
+    const { jadwalId, skip, take = 10, where, nama, search } = params;
 
-    const dataIbk = await this.prismaService.ibk.findMany({
-      where: {
-        presensi_ibk: {
-          some: {
-            jadwal_id: jadwalId,
-            status_presensi: { equals: 'HADIR' },
-          },
+    // Build where condition with filters
+    const whereCondition = {
+      ...where,
+      presensi_ibk: {
+        some: {
+          jadwal_id: jadwalId,
+          status_presensi: { equals: 'HADIR' },
         },
       },
-      select: {
-        id: true,
-        nama: true,
-        nik: true,
-        posyanduId: true,
-      },
-    });
+      ...(nama && {
+        nama: {
+          contains: nama,
+          mode: 'insensitive' as const,
+        },
+      }),
+      ...(search && {
+        nama: {
+          contains: search,
+          mode: 'insensitive' as const,
+        },
+      }),
+    };
 
-    return dataIbk.map((ibk) => ({
-      id: ibk.id,
-      nama: ibk.nama,
-      nik: ibk.nik != null ? Number(ibk.nik) : null,
-      posyanduId: ibk.posyanduId,
-    }));
+    const [dataIbk, totalData] = await Promise.all([
+      this.prismaService.ibk.findMany({
+        skip,
+        take,
+        where: whereCondition,
+        select: {
+          id: true,
+          nama: true,
+          nik: true,
+          posyanduId: true,
+        },
+        orderBy: {
+          nama: 'asc',
+        },
+      }),
+      this.prismaService.ibk.count({
+        where: whereCondition,
+      }),
+    ]);
+
+    const totalPage = Math.ceil(totalData / take);
+
+    return {
+      data: dataIbk.map((ibk) => ({
+        id: ibk.id,
+        nama: ibk.nama,
+        nik: ibk.nik != null ? Number(ibk.nik) : null,
+        posyanduId: ibk.posyanduId,
+      })),
+      meta: {
+        totalData,
+        totalPage,
+        currentPage: skip ? Math.floor(skip / take) + 1 : 1,
+        limit: take,
+      },
+    };
   }
 
   async findByIbk(ibkId: string): Promise<monitoring_ibk[]> {
