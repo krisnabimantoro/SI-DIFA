@@ -126,8 +126,32 @@ export class MonitoringIbkController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('/list-hadir/:jadwalId')
   @Roles('kader', 'admin')
-  async getListHadirIbk(@Param('jadwalId') jadwalId: string): Promise<any> {
-    return this.monitoringIbkService.getListIbkPresensi({ jadwalId });
+  async getListHadirIbk(
+    @Param('jadwalId') jadwalId: string,
+    @Query() query: Record<string, any>,
+    @Query('page') page: string = '1',
+    @Query('limit') limit: string = '10',
+  ): Promise<any> {
+    const pageNumber = (parseInt(page) - 1) * parseInt(limit);
+    const limitNumber = parseInt(limit) || 10;
+    const {
+      page: _p,
+      limit: _l,
+      orderBy: _o,
+      sort: _s,
+      nama,
+      search,
+      ...filter
+    } = query;
+
+    return this.monitoringIbkService.getListIbkPresensi({
+      jadwalId,
+      skip: pageNumber,
+      take: limitNumber,
+      where: filter,
+      nama: nama,
+      search: search,
+    });
   }
 
   @HttpCode(HttpStatus.OK)
