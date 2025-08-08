@@ -37,6 +37,15 @@ export class JadwalPosyanduService {
       },
     });
 
+    const kaderUsers = await this.prismaService.kader_posyandu.findMany({
+      where: {
+        posyandu_id: posyanduId,
+      },
+      select: {
+        user_kader_id: true,
+      },
+    });
+
     // Create bulk presensi_ibk records for all IBK users
     if (ibkUsers.length > 0) {
       const presensiIbkData = ibkUsers.map((ibk) => ({
@@ -48,6 +57,19 @@ export class JadwalPosyanduService {
 
       await this.prismaService.presensi_ibk.createMany({
         data: presensiIbkData,
+      });
+    }
+
+    if (kaderUsers.length > 0) {
+      const presensiKaderData = kaderUsers.map((kader) => ({
+        user_kader_id: kader.user_kader_id,
+        jadwal_id: createdJadwal.id,
+        status_presensi: 'BELUM_HADIR',
+        created_at: new Date(),
+      }));
+
+      await this.prismaService.presensi_kader.createMany({
+        data: presensiKaderData,
       });
     }
 

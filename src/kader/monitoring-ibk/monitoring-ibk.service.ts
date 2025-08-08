@@ -243,6 +243,38 @@ export class MonitoringIbkService {
     });
   }
 
+  async getListIbkPresensi(
+    params: {
+      jadwalId?: string;
+    } = {},
+  ): Promise<any> {
+    const { jadwalId } = params;
+
+    const dataIbk = await this.prismaService.ibk.findMany({
+      where: {
+        presensi_ibk: {
+          some: {
+            jadwal_id: jadwalId,
+            status_presensi: { equals: 'HADIR' },
+          },
+        },
+      },
+      select: {
+        id: true,
+        nama: true,
+        nik: true,
+        posyanduId: true,
+      },
+    });
+
+    return dataIbk.map((ibk) => ({
+      id: ibk.id,
+      nama: ibk.nama,
+      nik: ibk.nik != null ? Number(ibk.nik) : null,
+      posyanduId: ibk.posyanduId,
+    }));
+  }
+
   async findByIbk(ibkId: string): Promise<monitoring_ibk[]> {
     return this.prismaService.monitoring_ibk.findMany({
       where: {
