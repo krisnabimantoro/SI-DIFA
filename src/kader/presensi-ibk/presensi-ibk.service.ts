@@ -38,6 +38,7 @@ export class PresensiIbkService {
         jadwal_id: true;
         status_presensi: true;
         created_at: true;
+        updated_at: true;
         ibk: {
           select: {
             id: true;
@@ -62,18 +63,26 @@ export class PresensiIbkService {
       ...(jadwalId && { jadwal_id: jadwalId }),
     };
 
+    // Custom ordering: order by IBK name alphabetically
+    const defaultOrderBy = orderBy || {
+      ibk: {
+        nama: 'asc',
+      },
+    };
+
     const [dataPresensi, totalData] = await Promise.all([
       this.prismaService.presensi_ibk.findMany({
         skip,
         take,
         where: whereCondition,
-        orderBy,
+        orderBy: defaultOrderBy,
         select: {
           id: true,
           user_ibk_id: true,
           jadwal_id: true,
           status_presensi: true,
           created_at: true,
+          updated_at: true,
           ibk: {
             select: {
               id: true,
