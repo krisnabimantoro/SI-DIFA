@@ -13,7 +13,7 @@ import * as crypto from 'crypto';
   imports: [
     MulterModule.register({
       storage: diskStorage({
-        destination: './uploads',
+        destination: './uploads/informasi-edukasi',
         filename: (req, file, cb) => {
           const now = new Date();
           const fileExtension = file?.originalname.split('.').pop();
