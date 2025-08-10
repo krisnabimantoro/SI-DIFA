@@ -70,7 +70,6 @@ export class PresensiIbkController {
       take: limitNumber,
       where: modifiedFilter,
       jadwalId,
-      orderBy: { created_at: 'desc' },
     });
   }
 
@@ -86,8 +85,14 @@ export class PresensiIbkController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('/ibk-not-registered/:jadwalId/posyandu/:posyanduId')
   @Roles('kader', 'admin')
-  async getIbkNotRegistered(@Param('jadwalId') jadwalId: string, @Param('posyanduId') posyanduId: string): Promise<any> {
-    return this.presensiIbkService.findIbkNotRegistered({ jadwalId, posyanduId });
+  async getIbkNotRegistered(
+    @Param('jadwalId') jadwalId: string,
+    @Param('posyanduId') posyanduId: string,
+  ): Promise<any> {
+    return this.presensiIbkService.findIbkNotRegistered({
+      jadwalId,
+      posyanduId,
+    });
   }
 
   @HttpCode(HttpStatus.OK)
