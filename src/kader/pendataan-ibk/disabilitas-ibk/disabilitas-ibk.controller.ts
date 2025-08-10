@@ -10,9 +10,13 @@ import {
   HttpStatus,
   UseGuards,
   Query,
+  BadRequestException,
 } from '@nestjs/common';
 import { DisabilitasIbkService } from './disabilitas-ibk.service';
-import { CreateDisabilitasIbkDto } from './dto/create-disabilitas-ibk.dto';
+import {
+  CreateDisabilitasIbkDto,
+  BulkCreateDisabilitasIbkDto,
+} from './dto/create-disabilitas-ibk.dto';
 import { UpdateDisabilitasIbkDto } from './dto/update-disabilitas-ibk.dto';
 import { Roles } from 'src/decorator/roles.decorator';
 import { JwtAuthGuard } from 'src/guards/jwt-auth-guard';
@@ -22,14 +26,49 @@ import { RolesGuard } from 'src/guards/roles.guard';
 export class DisabilitasIbkController {
   constructor(private readonly disabilitasIbkService: DisabilitasIbkService) {}
 
-  @HttpCode(HttpStatus.OK)
+  @HttpCode(HttpStatus.CREATED)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   @Roles('kader', 'admin')
   async createDisabilitasIbk(
     @Body() createDisabilitasIbkDto: CreateDisabilitasIbkDto,
   ): Promise<any> {
-    return this.disabilitasIbkService.create(createDisabilitasIbkDto);
+    try {
+      const result = await this.disabilitasIbkService.create(
+        createDisabilitasIbkDto,
+      );
+      return {
+        message: 'Disabilitas IBK created successfully',
+        data: result,
+      };
+    } catch (error) {
+      throw new BadRequestException(
+        `Failed to create disabilitas IBK: ${error.message}`,
+      );
+    }
+  }
+
+  @HttpCode(HttpStatus.CREATED)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Post('/bulk')
+  @Roles('kader', 'admin')
+  async bulkCreateDisabilitasIbk(
+    @Body() bulkCreateDisabilitasIbkDto: BulkCreateDisabilitasIbkDto,
+  ): Promise<any> {
+    try {
+      const result = await this.disabilitasIbkService.bulkCreate(
+        bulkCreateDisabilitasIbkDto,
+      );
+      return {
+        message: `Successfully created ${result.count} disabilitas IBK records`,
+        count: result.count,
+        data: result.data,
+      };
+    } catch (error) {
+      throw new BadRequestException(
+        `Failed to bulk create disabilitas IBK: ${error.message}`,
+      );
+    }
   }
 
   @HttpCode(HttpStatus.OK)

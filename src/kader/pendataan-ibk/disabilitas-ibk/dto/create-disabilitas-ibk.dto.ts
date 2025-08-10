@@ -3,7 +3,10 @@ import {
   IsNotEmpty,
   IsOptional,
   IsDateString,
+  IsArray,
+  ValidateNested,
 } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CreateDisabilitasIbkDto {
   @IsString()
@@ -26,3 +29,6 @@ export class CreateDisabilitasIbkDto {
   @IsOptional()
   keterangan?: string;
 }
+
+// For bulk creation, we accept an array directly
+export type BulkCreateDisabilitasIbkDto = CreateDisabilitasIbkDto[];
