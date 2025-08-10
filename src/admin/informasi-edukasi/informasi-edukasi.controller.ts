@@ -102,6 +102,16 @@ export class InformasiEdukasiController {
 
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RolesGuard)
+  @Get('statistik')
+  @Roles('admin')
+  async getCountTipeInformasiEdukasi(): Promise<any> {
+    const count =
+      await this.informasiEdukasiService.getCountTipeInformasiEdukasi();
+    return { count };
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch()
   @Roles('admin')
   @UseInterceptors(FileInterceptor('file'))
