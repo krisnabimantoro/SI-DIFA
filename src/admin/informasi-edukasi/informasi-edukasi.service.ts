@@ -28,7 +28,33 @@ export class InformasiEdukasiService {
       },
     });
   }
-  
+  async getCountTipeInformasiEdukasi(): Promise<any> {
+    const count = await this.prisma.informasi_edukasi.count();
+
+    const countPanduan = await this.prisma.informasi_edukasi.count({
+      where: {
+        tipe: 'PANDUAN',
+      },
+    });
+    const countArtikel = await this.prisma.informasi_edukasi.count({
+      where: {
+        tipe: 'ARTIKEL',
+      },
+    });
+    const countRegulasi = await this.prisma.informasi_edukasi.count({
+      where: {
+        tipe: 'REGULASI',
+      },
+    });
+
+    return {
+      total: count,
+      panduan: countPanduan,
+      artikel: countArtikel,
+      regulasi: countRegulasi,
+    };
+  }
+
   async updateInformasiEdukasi(
     where: Prisma.informasi_edukasiWhereUniqueInput,
     data: InformasiEdukasiDto,
@@ -68,7 +94,6 @@ export class InformasiEdukasiService {
       where,
     });
   }
-
 
   async deleteInformasiEdukasi(
     where: Prisma.informasi_edukasiWhereUniqueInput,
