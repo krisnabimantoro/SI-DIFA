@@ -73,6 +73,7 @@ export class LowonganController {
       take: limitNumber,
       where: modifiedFilter,
       page: parseInt(page) || 1,
+      orderBy: { created_at: 'desc' },
     });
   }
 
