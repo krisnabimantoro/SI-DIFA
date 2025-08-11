@@ -172,10 +172,26 @@ export class PendataanIbkService {
         assesmen_ibk: true,
       },
     });
+
+    console.log(ibk?.id);
+    const disabilitasIbk = await this.prisma.disabilitas_ibk.findMany({
+      where: { ibk_id: ibk?.id },
+      include: {
+        jenis_difasilitas: {
+          select: {
+            id: true,
+            nama: true,
+            deskripsi: true,
+          },
+        },
+      },
+    });
+
     if (!ibk) return { message: 'IBK not found' };
     return {
       ...ibk,
       nik: ibk.nik != null ? Number(ibk.nik) : null,
+      disabilitasIbk,
     };
   }
 
