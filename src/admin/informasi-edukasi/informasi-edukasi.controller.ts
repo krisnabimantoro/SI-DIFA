@@ -89,6 +89,7 @@ export class InformasiEdukasiController {
       skip: pageNumber,
       take: limitNumber,
       where: modifiedFilter,
+      orderBy: { created_at: 'desc' },
     });
   }
 

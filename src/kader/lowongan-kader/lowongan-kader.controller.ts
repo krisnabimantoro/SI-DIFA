@@ -44,6 +44,7 @@ export class LowonganKaderController {
       take: limitNumber,
       where: modifiedFilter,
       page: parseInt(page) || 1,
+      orderBy: { created_at: 'desc' },
     });
   }
 
