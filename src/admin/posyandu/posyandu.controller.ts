@@ -57,7 +57,7 @@ export class PosyanduController {
       skip: pageNumber,
       take: limitNumber,
       where: modifiedFilter,
-      orderBy: orderBy ? JSON.parse(orderBy) : undefined,
+      orderBy: { nama_posyandu: 'asc' },
     });
   }
 
