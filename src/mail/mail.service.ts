@@ -67,6 +67,60 @@ export class MailService {
     });
   }
 
+  public async sendVerificationApproved(
+    email: string,
+    name: string,
+  ): Promise<void> {
+    const text = `Halo ${name},
+
+Selamat! Akun Anda telah berhasil diverifikasi oleh admin.
+
+Anda sekarang dapat menggunakan semua fitur yang tersedia dalam sistem SI-DIFA.
+Silakan login menggunakan email dan password yang sudah Anda daftarkan.
+
+Terima kasih telah bergabung dengan SI-DIFA.
+
+Salam,
+Tim Admin SI-DIFA
+Email: admin-sidifa@gmail.com`;
+
+    return this.sendMail({
+      to: email,
+      subject: 'Akun Anda Telah Diverifikasi - SI-DIFA',
+      text,
+    });
+  }
+
+  public async sendVerificationDeclined(
+    email: string,
+    name: string,
+  ): Promise<void> {
+    const text = `Halo ${name},
+
+Mohon maaf, akun Anda tidak dapat diverifikasi saat ini.
+
+Hal ini mungkin disebabkan oleh:
+- Data yang tidak lengkap atau tidak valid
+- Dokumen yang diperlukan belum sesuai ketentuan
+- Informasi yang diberikan tidak dapat diverifikasi
+
+Jika Anda merasa ini adalah kesalahan atau ingin mengetahui alasan lebih lanjut, silakan hubungi admin kami.
+
+Anda dapat mendaftar ulang dengan data yang lebih lengkap dan sesuai ketentuan.
+
+Terima kasih atas pengertiannya.
+
+Salam,
+Tim Admin SI-DIFA
+Email: admin-sidifa@gmail.com`;
+
+    return this.sendMail({
+      to: email,
+      subject: 'Status Verifikasi Akun - SI-DIFA',
+      text,
+    });
+  }
+
   public async decodeConfirmationToken(token: string) {
     try {
       const payload = await this.jwtService.verify(token, {
