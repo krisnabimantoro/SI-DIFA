@@ -47,11 +47,22 @@ export class MailService {
 
     const url = `${this.configService.get('EMAIL_RESET_PASSWORD_URL')}?token=${token}`;
 
-    const text = `Hi, \nTo Hisyam ganteng 99 ${url}`;
+    const text = `Halo, \n${user?.name} reset password Anda, silakan klik link berikut: ${url}`;
 
     return this.sendMail({
       to: user?.email,
       subject: 'Reset password',
+      text,
+    });
+  }
+
+  public async sendRegisterAccount(email: string): Promise<void> {
+    const text =
+      'Akun anda akan segera diverifikasi oleh admin, silahkan cek email anda secara berkala \nKontak email admin: admin-sidifa@gmail.com';
+
+    return this.sendMail({
+      to: email,
+      subject: 'Pendaftaran Akun',
       text,
     });
   }

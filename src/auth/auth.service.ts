@@ -24,10 +24,7 @@ export class AuthService {
     private emailService: MailService, // Assuming you have a MailService for sending emails
   ) {}
 
-  async registerKader(
-    dataKader: KaderDto,
-    dataUser: UserDto,
-  ): Promise<UserModel> {
+  async registerKader(dataKader: KaderDto, dataUser: UserDto): Promise<any> {
     const existingUser = await this.usersService.user({
       email: dataUser.email,
     });
@@ -37,7 +34,8 @@ export class AuthService {
     if (existingUser) {
       throw new InternalServerErrorException('Email sudah terdaftar');
     }
-    return this.usersService.createUser({
+
+    const user = await this.usersService.createUser({
       name: dataUser.name,
       email: dataUser.email,
       password: hash,
@@ -52,6 +50,13 @@ export class AuthService {
         },
       },
     });
+
+    this.emailService.sendRegisterAccount(user.email);
+
+    return {
+      message:
+        'Akun berhasil didaftarkan, silahkan cek email anda lebih lanjut',
+    };
   }
 
   async registerPsikolog(
@@ -122,14 +127,13 @@ export class AuthService {
     const isMatch = await bcrypt.compare(password, user?.password || '');
 
     if (user && isMatch) {
-
       if (
         user.role === 'kader' &&
         (user.verification === 'unverified' || user.verification === 'declined')
       ) {
         throw new UnauthorizedException(user.verification);
       }
-      
+
       const { password, ...result } = user;
       return result;
     }
