@@ -122,12 +122,14 @@ export class AuthService {
     const isMatch = await bcrypt.compare(password, user?.password || '');
 
     if (user && isMatch) {
-      // Check if kader user is verified
-      if (user.role === 'kader' && user.verification === 'unverified') {
-        throw new UnauthorizedException('Kader account is unverified');
-      }
 
-      // Bandingkan hash jika kamu pakai bcrypt
+      if (
+        user.role === 'kader' &&
+        (user.verification === 'unverified' || user.verification === 'declined')
+      ) {
+        throw new UnauthorizedException(user.verification);
+      }
+      
       const { password, ...result } = user;
       return result;
     }
