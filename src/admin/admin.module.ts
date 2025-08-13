@@ -11,9 +11,19 @@ import { PosyanduModule } from './posyandu/posyandu.module';
 import { PosyanduService } from './posyandu/posyandu.service';
 import { lowongan } from '@prisma/client';
 import { AdminController } from './admin.controller';
+import { MailService } from 'src/mail/mail.service';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
-  providers: [AdminService, UsersService, PrismaService],
+  providers: [
+    AdminService,
+    UsersService,
+    PrismaService,
+    MailService,
+    JwtService,
+    ConfigService,
+  ],
   controllers: [AdminController],
   imports: [LowonganModule, InformasiEdukasiModule, PosyanduModule],
   exports: [
