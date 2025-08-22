@@ -5,4 +5,5 @@ export class CreateProfileDto {
     no_telp:string
     created_at: Date;
     jabatan: string;
+    id_users_kader: string;
 }
