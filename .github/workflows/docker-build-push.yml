@@ -70,11 +70,11 @@ jobs:
             echo "Pulling latest Docker image..."
             sudo docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password "${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}"
             sudo docker pull krisnabmntr/si-difa:latest
-            echo "Stopping and removing existing be-sidifa container if it exists..."
-            sudo docker stop be-sidifa || true
-            sudo docker rm be-sidifa || true
-            echo "Starting new be-sidifa container with env file..."
-            sudo docker run -d --name be-sidifa \
+            echo "Stopping and removing existing sidifa-be container if it exists..."
+            sudo docker stop sidifa-be || true
+            sudo docker rm sidifa-be || true
+            echo "Starting new sidifa-be container with env file..."
+            sudo docker run -d --name sidifa-be \
               --env-file /home/krisnaroot/SI-DIFA/.env \
               -p 3006:3006 \
               krisnabmntr/si-difa:latest
