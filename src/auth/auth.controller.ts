@@ -65,7 +65,9 @@ export class AuthController {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
-    return this.authService.login(req.user);
+    const login = await this.authService.login(req.user);
+
+    return { message: 'Login successful' };
   }
 
   @Post('refresh')
