@@ -55,20 +55,34 @@ export class ProfileService {
     };
   }
 
-  update(
+  async update(
     where: Prisma.usersWhereUniqueInput,
     updateProfileDto: UpdateProfileDto,
   ) {
-    const { id_users_kader } = updateProfileDto;
-    return this.prismaService.users.update({
+    const { id_users_kader, jabatan, ...userFields } = updateProfileDto;
+
+    // Update users table
+    const updatedUser = await this.prismaService.users.update({
       where,
       data: {
-        ...updateProfileDto,
-        ...(id_users_kader && {
-          users_kader: { connect: { id: id_users_kader } },
-        }),
+        ...userFields,
+        updated_at: new Date(),
       },
     });
+
+    // Update users_kader table if jabatan is provided
+    if (jabatan) {
+      // Find users_kader record using user_id from updatedUser
+      await this.prismaService.users_kader.updateMany({
+        where: { user_id: updatedUser.id },
+        data: {
+          jabatan,
+          updated_at: new Date(),
+        },
+      });
+    }
+
+    return { message: 'Profile updated successfully' };
   }
 
   remove(id: number) {
