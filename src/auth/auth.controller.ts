@@ -24,6 +24,7 @@ import { ref } from 'process';
 import { decryptToken } from 'src/lib/decrypt';
 import { encryptToken } from 'src/lib/encrypt';
 import { KaderDto } from '../dto/kader.dto';
+import { jwtConstants } from './constants';
 
 @Controller('auth')
 export class AuthController {
@@ -50,21 +51,23 @@ export class AuthController {
   async login(@Request() req, @Res({ passthrough: true }) res: Response) {
     const token = await this.authService.login(req.user);
 
-    res.cookie('jwt', token.access_token, {
+    res.cookie(jwtConstants.accessTokenCookieName, token.access_token, {
       httpOnly: true,
       sameSite: 'none' as const, // allow cross-site cookie for dev
       secure: true, // or 'strict'
       maxAge: 1000 * 60 * 1000, // 30 minutes
     });
 
-    res.cookie('jwt_refresh', token.refresh_token, {
+    res.cookie(jwtConstants.refreshTokenCookieName, token.refresh_token, {
       httpOnly: true,
       sameSite: 'none' as const, // allow cross-site cookie for dev
       secure: true, // or 'strict'
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
-    return this.authService.login(req.user);
+    const login = await this.authService.login(req.user);
+
+    return { message: 'Login successful' };
   }
 
   @Post('refresh')
@@ -72,7 +75,7 @@ export class AuthController {
     @Req() req: ExpressRequest,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const refreshToken = req.cookies['jwt_refresh'];
+    const refreshToken = req.cookies[jwtConstants.refreshTokenCookieName];
     // const decryptedRefreshToken = decryptToken(refreshToken);
     if (!refreshToken) {
       throw new UnauthorizedException('No valid refresh token provided');
@@ -81,7 +84,7 @@ export class AuthController {
       const newToken = await this.authService.refresh(refreshToken);
       const encryptAccessToken = newToken.new_access_token;
 
-      res.cookie('jwt', encryptAccessToken, {
+      res.cookie(jwtConstants.accessTokenCookieName, encryptAccessToken, {
         httpOnly: true,
         maxAge: 1000 * 60 * 1000,
       });
@@ -96,12 +99,12 @@ export class AuthController {
   @UseGuards(JwtAuthGuard) // opsional jika ingin hanya bisa logout saat sudah login
   @Post('logout')
   logout(@Res({ passthrough: true }) res: Response) {
-    res.clearCookie('jwt', {
+    res.clearCookie(jwtConstants.accessTokenCookieName, {
       httpOnly: true,
       sameSite: 'none' as const, // allow cross-site cookie for dev
       secure: true,
     });
-    res.clearCookie('jwt_refresh', {
+    res.clearCookie(jwtConstants.refreshTokenCookieName, {
       httpOnly: true,
       sameSite: 'none' as const, // allow cross-site cookie for dev
     secure: true,

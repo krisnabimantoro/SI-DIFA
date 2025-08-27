@@ -15,6 +15,7 @@ import { UserDto } from '../dto/user.dto';
 import { ref } from 'process';
 import { encryptToken } from 'src/lib/encrypt';
 import { KaderDto } from '../dto/kader.dto';
+import { jwtConstants } from './constants';
 
 @Injectable()
 export class AuthService {
@@ -145,10 +146,12 @@ export class AuthService {
 
     return {
       access_token: await this.jwtService.signAsync(payload, {
+        secret: jwtConstants.secret,
         expiresIn: '1000m',
       }),
 
       refresh_token: await this.jwtService.signAsync(payload, {
+        secret: jwtConstants.refreshSecret,
         expiresIn: '7d',
       }),
     };
@@ -156,19 +159,28 @@ export class AuthService {
 
   async refresh(refreshToken: string): Promise<{ new_access_token: string }> {
     try {
-      const payload = await this.jwtService.verifyAsync(refreshToken);
+      // Verify refresh token using refresh secret
+      const payload = await this.jwtService.verifyAsync(refreshToken, {
+        secret: jwtConstants.refreshSecret,
+      });
+
+      // Generate new access token using access secret
       const newToken = this.jwtService.sign(
         {
           email: payload.email,
           sub: payload.sub,
           role: payload.role,
         },
-        { expiresIn: '1000m' },
+
+        {
+          secret: jwtConstants.secret,
+          expiresIn: '1000m',
+        },
       );
 
       return { new_access_token: newToken };
     } catch (error) {
-      throw new UnauthorizedException('Invalid token');
+      throw new UnauthorizedException('Invalid refresh token');
     }
   }
 }

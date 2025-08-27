@@ -51,21 +51,32 @@ export class PosyanduKaderService {
       registeredPosyandu.map((kp) => kp.posyandu_id),
     );
 
-    // Ambil data posyandu seperti biasa (tanpa include relasi)
-    const [dataPosyandu, totalData] = await Promise.all([
+    // Ambil SEMUA data posyandu terlebih dahulu (tanpa pagination)
+    const [allPosyandu, totalData] = await Promise.all([
       this.prisma.posyandu.findMany({
-        skip,
-        take,
         where,
-        orderBy,
+        orderBy: { nama_posyandu: 'asc' }, // First order by name
       }),
       this.prisma.posyandu.count({ where }),
     ]);
 
-    const data = dataPosyandu.map((p) => ({
-      ...p,
-      is_registered: registeredPosyanduIds.has(p.id),
-    }));
+    // Map dengan is_registered dan sort dengan prioritas
+    const sortedData = allPosyandu
+      .map((p) => ({
+        ...p,
+        is_registered: registeredPosyanduIds.has(p.id),
+      }))
+      .sort((a, b) => {
+        // First priority: registered status (true first)
+        if (a.is_registered !== b.is_registered) {
+          return b.is_registered ? 1 : -1;
+        }
+        // Second priority: name (alphabetical)
+        return a.nama_posyandu.localeCompare(b.nama_posyandu);
+      });
+
+    // Apply pagination AFTER sorting
+    const data = sortedData.slice(skip || 0, (skip || 0) + take);
 
     return {
       data,
