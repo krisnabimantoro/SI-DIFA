@@ -4,15 +4,15 @@ import * as bcrypt from 'bcrypt';
 const prisma = new PrismaClient();
 async function main() {
   const admin = await prisma.users.upsert({
-    where: { email: 'difaadmin@gmail.com' },
+    where: { email: 'admin@gmail.com' },
     update: {},
     create: {
-      email: 'difaadmin@gmail.com',
+      email: 'admin@gmail.com',
       name: 'Difa Admin',
       role: 'admin',
       verification: 'verified',
       created_at: new Date(),
-      password: await bcrypt.hash('difaadmin123', 10),
+      password: await bcrypt.hash('admin1234', 10),
     },
   });
 
