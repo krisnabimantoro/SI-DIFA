@@ -75,7 +75,7 @@ jobs:
             sudo docker rm sidifa-be || true
             echo "Starting new sidifa-be container with env file..."
             sudo docker run -d --name sidifa-be \
-              --env-file /home/krisnaroot/SI-DIFA/.env \
+              --env-file /home/sidifa/sidifa-be/.env \
               -p 3006:3006 \
               krisnabmntr/si-difa:latest
             echo "Deployment complete."
