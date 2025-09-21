@@ -13,14 +13,13 @@ import { doubleCsrfProtection } from './middleware/csrf';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // fix cors sementara :v
   app.enableCors({
-    origin: true,
+    origin: 'https://sidifa.my.id',
     credentials: true,
   });
 
   app.useGlobalPipes(new ValidationPipe());
-  
+
   app.use(cookieParser());
   app.use(doubleCsrfProtection);
   app.setGlobalPrefix('api/v1');

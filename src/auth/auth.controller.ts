@@ -54,14 +54,14 @@ export class AuthController {
     res.cookie(jwtConstants.accessTokenCookieName, token.access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production', // only over HTTPS in production
-      sameSite: 'lax', // or 'strict'
+      sameSite: 'strict', // or 'strict'
       maxAge: 30 * 60 * 1000, // 30 minutes
     });
 
     res.cookie(jwtConstants.refreshTokenCookieName, token.refresh_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production', // only over HTTPS in production
-      sameSite: 'lax', // or 'strict'
+      sameSite: 'strict', // or 'strict'
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
@@ -102,12 +102,12 @@ export class AuthController {
     res.clearCookie(jwtConstants.accessTokenCookieName, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      sameSite: 'strict',
     });
     res.clearCookie(jwtConstants.refreshTokenCookieName, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      sameSite: 'strict',
     });
 
     return { message: 'Logout successful' };
