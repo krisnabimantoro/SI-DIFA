@@ -9,7 +9,7 @@ const doubleCsrfOptions = {
   cookieName: '_csrf',
   cookieOptions: {
     httpOnly: true,
-    sameSite: 'lax' as const, // 'lax' atau 'strict' atau 'none'
+    sameSite: 'strict' as const, // 'lax' atau 'strict' atau 'none'
     secure: false,
   },
   size: 64,
