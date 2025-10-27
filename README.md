@@ -1,6 +1,6 @@
-# SI-DIFA (Sistem Informasi Difabel dan Anak)
+# SI-DIFA (Sistem Informasi Difabel)
 
-Backend API untuk Sistem Informasi Difabel dan Anak, dibangun menggunakan NestJS, Prisma ORM, dan PostgreSQL.
+Backend API untuk Sistem Informasi Difabel, dibangun menggunakan NestJS, Prisma ORM, dan PostgreSQL.
 
 ## 📋 Deskripsi
 
