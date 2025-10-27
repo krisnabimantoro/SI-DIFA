@@ -1,61 +1,411 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# SI-DIFA (Sistem Informasi Difabel dan Anak)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Backend API untuk Sistem Informasi Difabel dan Anak, dibangun menggunakan NestJS, Prisma ORM, dan PostgreSQL.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 📋 Deskripsi
 
-## Description
+SI-DIFA adalah sistem informasi yang dirancang untuk mengelola data dan aktivitas terkait Ibu dan Anak (IBK), posyandu, kader, dan layanan psikolog. Sistem ini menyediakan fitur manajemen presensi, jadwal kegiatan, monitoring, dan informasi edukasi.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 🚀 Tech Stack
 
-## Project setup
+- **Framework**: NestJS v11
+- **Database**: PostgreSQL
+- **ORM**: Prisma v6.11
+- **Authentication**: JWT (Passport)
+- **Validation**: Class Validator
+- **Security**: CSRF Protection, Bcrypt
+- **Package Manager**: PNPM
+- **File Upload**: Multer
+- **Email**: Nodemailer
+
+## 📦 Prerequisites
+
+Pastikan Anda telah menginstall:
+
+- Node.js (v18 atau lebih tinggi)
+- PNPM (v8 atau lebih tinggi)
+- PostgreSQL (v14 atau lebih tinggi)
+
+## ⚙️ Installation
+
+1. **Clone repository**
 
 ```bash
-$ yarn install
+git clone <repository-url>
+cd SI-DIFA
 ```
 
-## Compile and run the project
+2. **Install dependencies**
 
 ```bash
-# development
-$ yarn run start
-
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
+pnpm install
 ```
 
-## Run tests
+3. **Setup environment variables**
+
+Buat file `.env` di root directory:
+
+```env
+# Database
+DATABASE_URL="postgresql://username:password@localhost:5432/si_difa?schema=public"
+
+# JWT Secret
+JWT_SECRET=your-secret-key-here
+JWT_REFRESH_SECRET=your-refresh-secret-key-here
+
+# Server
+PORT=3001
+NODE_ENV=development
+
+# CSRF
+CSRF_SECRET=your-csrf-secret-here
+
+# Email Configuration (Nodemailer)
+EMAIL_HOST=smtp.example.com
+EMAIL_PORT=587
+EMAIL_USER=your-email@example.com
+EMAIL_PASSWORD=your-email-password
+```
+
+4. **Setup database**
 
 ```bash
-# unit tests
-$ yarn run test
+# Generate Prisma Client
+pnpm prisma generate
+
+# Run migrations
+pnpm prisma migrate deploy
+
+# (Optional) Seed database
+pnpm prisma db seed
+```
+
+## 🏃 Running the Application
+
+```bash
+# Development mode
+pnpm start:dev
+
+# Production mode
+pnpm build
+pnpm start:prod
+
+# Debug mode
+pnpm start:debug
+```
+
+Server akan berjalan di `http://localhost:3001`
+
+API Base URL: `http://localhost:3001/api/v1`
+
+## 🧪 Testing
+
+```bash
+# Unit tests
+pnpm test
+
+# E2E tests
+pnpm test:e2e
+
+# Test coverage
+pnpm test:cov
+```
+
+## 📚 API Documentation
+
+### Base URL
+
+```
+Production: https://sidifa.my.id/api/v1
+Development: http://localhost:3001/api/v1
+```
+
+### Authentication Endpoints
+
+#### Register
+
+```http
+POST /api/v1/auth/signup/kader
+POST /api/v1/auth/signup/psikolog
+Content-Type: application/json
+
+{
+  "nama": "string",
+  "email": "string",
+  "password": "string",
+  "no_telp": "string"
+}
+```
+
+#### Login
+
+```http
+POST /api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "string",
+  "password": "string"
+}
+```
+
+#### Refresh Token
+
+```http
+POST /api/v1/auth/refresh
+```
+
+#### Logout
+
+```http
+POST /api/v1/auth/logout
+```
+
+### Admin Endpoints
+
+#### Verifikasi User
+
+```http
+PATCH /api/v1/admin/verification
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "userId": "uuid",
+  "verification": "approved|rejected"
+}
+```
+
+#### List Users
+
+```http
+GET /api/v1/admin/list-user?page=1&limit=10&orderBy=asc
+Authorization: Bearer <token>
+```
+
+### Kader Endpoints
+
+#### Register Kader Posyandu
+
+```http
+POST /api/v1/kader/register-kader-posyandu
+Authorization: Bearer <token>
+```
+
+#### Informasi Edukasi Kader
+
+```http
+GET /api/v1/kader/informasi-edukasi-kader?page=1&limit=10
+GET /api/v1/kader/informasi-edukasi-kader/detail/:id
+```
+
+#### Jadwal Posyandu
+
+```http
+POST /api/v1/kader/jadwal-posyandu
+GET /api/v1/kader/jadwal-posyandu/:posyanduId?page=1&limit=10
+GET /api/v1/kader/jadwal-posyandu/detail/:id
+PATCH /api/v1/kader/jadwal-posyandu/update/:id
+DELETE /api/v1/kader/jadwal-posyandu/delete/:id
+Authorization: Bearer <token>
+```
+
+#### Presensi IBK
+
+```http
+POST /api/v1/kader/presensi-ibk
+GET /api/v1/kader/presensi-ibk/:jadwalId?page=1&limit=10
+GET /api/v1/kader/presensi-ibk/detail/:id
+GET /api/v1/kader/presensi-ibk/ibk-not-registered/:jadwalId/posyandu/:posyanduId
+PATCH /api/v1/kader/presensi-ibk/update/:id
+PATCH /api/v1/kader/presensi-ibk/bulk-update/:jadwalId
+DELETE /api/v1/kader/presensi-ibk/delete/:id
+Authorization: Bearer <token>
+```
+
+#### Profile Kader
+
+```http
+GET /api/v1/kader/profile/detail
+Authorization: Bearer <token>
+```
+
+#### Presensi Kader
+
+```http
+POST /api/v1/kader/presensi-kader
+GET /api/v1/kader/presensi-kader/:jadwalId?page=1&limit=10
+GET /api/v1/kader/presensi-kader/detail/:id
+PATCH /api/v1/kader/presensi-kader/update/:id
+DELETE /api/v1/kader/presensi-kader/delete/:id
+Authorization: Bearer <token>
+```
+
+#### Monitoring IBK
+
+```http
+POST /api/v1/kader/monitoring-ibk
+GET /api/v1/kader/monitoring-ibk?page=1&limit=10
+GET /api/v1/kader/monitoring-ibk/detail/:id
+PATCH /api/v1/kader/monitoring-ibk/update/:id
+DELETE /api/v1/kader/monitoring-ibk/delete/:id
+Authorization: Bearer <token>
+```
+
+#### Pendataan IBK
+
+```http
+POST /api/v1/kader/pendataan-ibk
+GET /api/v1/kader/pendataan-ibk?page=1&limit=10
+GET /api/v1/kader/pendataan-ibk/detail/:id
+PATCH /api/v1/kader/pendataan-ibk/update/:id
+DELETE /api/v1/kader/pendataan-ibk/delete/:id
+Authorization: Bearer <token>
+```
+
+#### Lowongan Kader
+
+```http
+GET /api/v1/kader/lowongan-kader?page=1&limit=10
+GET /api/v1/kader/lowongan-kader/detail/:id
+Authorization: Bearer <token>
+```
+
+#### Posyandu Kader
+
+```http
+GET /api/v1/kader/posyandu-kader/:kaderId
+Authorization: Bearer <token>
+```
+
+### Query Parameters (Umum)
+
+- `page`: Nomor halaman (default: 1)
+- `limit`: Jumlah data per halaman (default: 10)
+- `orderBy`: Urutan sorting (asc/desc)
+- `search`: Pencarian data
+
+## 📁 Struktur Database
+
+### Main Tables
+
+- `users` - Data pengguna sistem
+- `users_kader` - Data kader posyandu
+- `users_psikolog` - Data psikolog
+- `posyandu` - Data posyandu
+- `jadwal_posyandu` - Jadwal kegiatan posyandu
+- `ibk` - Data Ibu dan Anak (IBK)
+- `presensi_kader` - Presensi kader
+- `presensi_ibk` - Presensi IBK
+- `monitoring_ibk` - Data monitoring IBK
+- `informasi_edukasi` - Informasi & edukasi
+- `lowongan` - Lowongan pekerjaan
+
+## 🔐 Security
+
+- JWT Authentication dengan Access & Refresh Token
+- CSRF Protection
+- Password Hashing dengan Bcrypt
+- Role-based Access Control (RBAC)
+- HTTP Only Cookies
+- CORS Configuration
+- Request Throttling
+
+## 📝 Database Commands
+
+```bash
+# Generate Prisma Client
+pnpm prisma generate
+
+# Create migration
+pnpm prisma migrate dev --name migration_name
+
+# Apply migrations
+pnpm prisma migrate deploy
+
+# Reset database
+pnpm prisma migrate reset
+
+# Open Prisma Studio
+pnpm prisma studio
+
+# Seed database
+pnpm prisma db seed
+```
+
+## 🛠️ Development Tools
+
+```bash
+# Format code
+pnpm format
+
+# Lint code
+pnpm lint
+
+# Build project
+pnpm build
+```
+
+## 📂 Project Structure
+
+```
+SI-DIFA/
+├── prisma/
+│   ├── migrations/        # Database migrations
+│   ├── schema.prisma     # Prisma schema
+│   └── seed.ts           # Database seeder
+├── src/
+│   ├── admin/            # Admin module
+│   ├── auth/             # Authentication module
+│   ├── kader/            # Kader module
+│   │   ├── informasi-edukasi-kader/
+│   │   ├── jadwal-posyandu/
+│   │   ├── presensi-ibk/
+│   │   ├── presensi-kader/
+│   │   ├── monitoring-ibk/
+│   │   ├── pendataan-ibk/
+│   │   ├── lowongan-kader/
+│   │   └── profile/
+│   ├── dto/              # Data Transfer Objects
+│   ├── guards/           # Auth guards
+│   ├── middleware/       # Custom middleware
+│   ├── strategys/        # Passport strategies
+│   └── main.ts          # Application entry point
+├── uploads/             # Uploaded files
+└── test/               # Test files
+```
+
+## 🌐 Deployment
+
+Aplikasi ini di-deploy di:
+
+- Production: https://sidifa.my.id
+- CORS: Configured untuk production domain
+
+## 📄 License
+
+UNLICENSED - Private Project
+
+## 👥 Roles & Permissions
+
+- **Admin**: Verifikasi user, manajemen sistem
+- **Kader**: Manajemen posyandu, presensi, monitoring IBK
+- **Psikolog**: Konsultasi dan layanan psikologi
+- **IBK**: Akses informasi dan jadwal
+
+## 📞 Support
+
+Untuk pertanyaan dan dukungan, silakan hubungi tim development
 
 # e2e tests
+
 $ yarn run test:e2e
 
 # test coverage
+
 $ yarn run test:cov
-```
+
+````
 
 ## Deployment
 
@@ -66,7 +416,7 @@ If you are looking for a cloud-based platform to deploy your NestJS application,
 ```bash
 $ yarn install -g @nestjs/mau
 $ mau deploy
-```
+````
 
 With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
 
