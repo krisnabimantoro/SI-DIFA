@@ -21,6 +21,7 @@ import { diskStorage } from 'multer';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { KaderModule } from './kader/kader.module';
+import { JadwalPosyanduModule } from './ibk/jadwal-posyandu/jadwal-posyandu.module';
 
 @Module({
   controllers: [AppController, AuthController, AdminController, CsrfController, ],
@@ -56,6 +57,7 @@ import { KaderModule } from './kader/kader.module';
     MailModule,
     AdminModule,
     KaderModule,
+    JadwalPosyanduModule,
   ],
 })
 export class AppModule {}
