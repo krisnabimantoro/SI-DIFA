@@ -100,16 +100,48 @@ API Base URL: `http://localhost:3001/api/v1`
 
 ## 🧪 Testing
 
+### Unit Tests (Jest)
+
 ```bash
-# Unit tests
+# Run all unit tests
 pnpm test
 
-# E2E tests
-pnpm test:e2e
+# Run tests in watch mode
+pnpm test:watch
 
-# Test coverage
+# Run with coverage
 pnpm test:cov
+
+# Run specific test file
+pnpm test auth.service.spec.ts
+pnpm test jadwal-posyandu.service.spec.ts
 ```
+
+### E2E Tests (Cypress)
+
+```bash
+# Open Cypress Test Runner (Interactive)
+pnpm cypress:open
+
+# Run all E2E tests (Headless)
+pnpm cypress:run
+
+# Run specific test suite
+pnpm cypress:auth          # Authentication tests
+pnpm cypress:jadwal        # Jadwal Posyandu tests
+
+# Run in specific browser
+pnpm cypress:run:chrome
+pnpm cypress:run:firefox
+```
+
+**Test Coverage:**
+
+- ✅ **Login**: 8 test cases (TC-LOGIN-001 to TC-LOGIN-008)
+- ✅ **Register Kader**: 10 test cases (TC-REGISTER-001 to TC-REGISTER-010)
+- ✅ **Jadwal Posyandu**: 8 test cases (TC-JADWAL-001 to TC-JADWAL-008)
+
+📚 Dokumentasi lengkap: [`cypress/E2E-TESTING.md`](cypress/E2E-TESTING.md)
 
 ## 📚 API Documentation
 

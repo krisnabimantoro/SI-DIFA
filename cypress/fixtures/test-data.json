@@ -1,0 +1,73 @@
+{
+  "users": {
+    "kader": {
+      "verified": {
+        "email": "kader.verified@test.com",
+        "password": "Password123",
+        "name": "Kader Verified",
+        "no_telp": "081234567890",
+        "jabatan": "Ketua Kader",
+        "role": "kader",
+        "verification": "approved"
+      },
+      "unverified": {
+        "email": "kader.unverified@test.com",
+        "password": "Password123",
+        "name": "Kader Unverified",
+        "no_telp": "081234567891",
+        "jabatan": "Anggota Kader",
+        "role": "kader",
+        "verification": "unverified"
+      },
+      "declined": {
+        "email": "kader.declined@test.com",
+        "password": "Password123",
+        "name": "Kader Declined",
+        "no_telp": "081234567892",
+        "jabatan": "Sekretaris Kader",
+        "role": "kader",
+        "verification": "declined"
+      }
+    },
+    "admin": {
+      "email": "admin@test.com",
+      "password": "Admin123",
+      "name": "Admin User",
+      "role": "admin"
+    }
+  },
+  "jadwal": {
+    "valid": {
+      "nama_kegiatan": "Posyandu Balita",
+      "jenis_kegiatan": "Pemeriksaan Kesehatan",
+      "deskripsi": "Pemeriksaan rutin kesehatan balita",
+      "lokasi": "Balai Desa RT 01/RW 02",
+      "waktu_mulai": "08:00",
+      "waktu_selesai": "12:00"
+    },
+    "longAddress": {
+      "lokasi": "Balai Desa RT 05/RW 03, Kelurahan Sukamaju, Kecamatan Cilandak, Jakarta Selatan, DKI Jakarta 12345"
+    }
+  },
+  "validation": {
+    "invalidEmails": [
+      "123456",
+      "tes.com",
+      "test@",
+      "@test.com",
+      "test"
+    ],
+    "weakPasswords": [
+      "user12345",
+      "password",
+      "12345678",
+      "Password"
+    ],
+    "invalidPhones": [
+      "12",
+      "123",
+      "abc123",
+      "08123"
+    ]
+  }
+}

@@ -1,0 +1,3326 @@
+{
+	"info": {
+		"_postman_id": "23a22b64-d9fe-411d-9530-1af8b02e2386",
+		"name": "SI-DIFA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12622474",
+		"_collection_link": "https://api-kyuu.postman.co/workspace/TIMSES-SIDIFA~316f807e-2b42-4946-84a9-ad6dd93feef8/collection/12622474-23a22b64-d9fe-411d-9530-1af8b02e2386?action=share&source=collection_link&creator=12622474"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Kader",
+					"item": [
+						{
+							"name": "Register",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"boy haksono\",\r\n  \"email\": \"krisnaaja450@gmail.com\",\r\n  \"password\": \"aDMIN1234\",\r\n  \"no_telp\": \"08123456789\",\r\n  \"jabatan\":\"MHK\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL_HOST}}/auth/signup/kader",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"auth",
+										"signup",
+										"kader"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Psikolog",
+					"item": [
+						{
+							"name": "Register",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Nama Lengkap\",\r\n  \"email\": \"ema12il231@example.com\",\r\n  \"password\": \"password123\",\r\n  \"no_telp\": \"08123456789\",\r\n   \"lokasi\": \"Nama Lokasi Posyandu\",\r\n   \"spesialis\":\"tes\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL_HOST}}/auth/signup/psikolog",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"auth",
+										"signup",
+										"psikolog"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Forgot-password",
+					"item": [
+						{
+							"name": "Forgot-password",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"krisnaaja450@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL_HOST}}/auth/forgot-password",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"auth",
+										"forgot-password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reset-password",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtyaXNuYWFqYTQ1MEBnbWFpbC5jb20iLCJpYXQiOjE3NTIwNjA0NTksImV4cCI6MTc1MjA2MjI1OX0.PRDPF_rClg_s6HHMbOyS49TfulZvdKwWqBCJ_UoVayY\",\r\n    \"password\":\"Password123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL_HOST}}/auth/reset-password",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"auth",
+										"reset-password"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-CSRF-Token",
+								"value": "{{CSRF_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"admin@gmail.com\",\r\n    \"password\":\"admin1234\"\r\n\r\n    // \"email\":\"kader@gmail.com\",\r\n    // \"password\":\"Kader1234\"\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL_HOST}}/auth/login",
+							"host": [
+								"{{LOCAL_HOST}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Me-Session",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "{{HEADER-CSRF}}",
+								"value": "{{CSRF_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{LOCAL_HOST}}/auth/me",
+							"host": [
+								"{{LOCAL_HOST}}"
+							],
+							"path": [
+								"auth",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL_HOST}}/auth/logout",
+							"host": [
+								"{{LOCAL_HOST}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh-Token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-CSRF-TOKEN",
+								"value": "{{CSRF_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{LOCAL_HOST}}/auth/refresh",
+							"host": [
+								"{{LOCAL_HOST}}"
+							],
+							"path": [
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CSRF-TOKEN",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set(\"CSRF_TOKEN\", jsonData.csrfToken);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"admin@gmail.com\",\r\n    \"password\":\"admin1234\"\r\n}"
+						},
+						"url": {
+							"raw": "{{LOCAL_HOST}}/csrf/token",
+							"host": [
+								"{{LOCAL_HOST}}"
+							],
+							"path": [
+								"csrf",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Verifikasi User",
+					"item": [
+						{
+							"name": "Update Status Verifikasi",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n \"userId\":\"a8c0eb3c-09b3-491c-b7b2-85adafb80a95\",\r\n \"verification\":\"verified\"   \r\n}   ",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DEV_HOST}}/admin/verification",
+									"host": [
+										"{{DEV_HOST}}"
+									],
+									"path": [
+										"admin",
+										"verification"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Users",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{DEV_HOST}}/admin/list-user?limit=5&page=1&orderBy=asc",
+									"host": [
+										"{{DEV_HOST}}"
+									],
+									"path": [
+										"admin",
+										"list-user"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "5"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "role",
+											"value": "admin",
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Nam",
+											"disabled": true
+										},
+										{
+											"key": "orderBy",
+											"value": "asc"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Informasi dan Edukasi",
+					"item": [
+						{
+							"name": "Create Informasi Edukasi",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "multipart/form-data",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "judul",
+											"value": "Panduan Hidup Sehat",
+											"type": "text"
+										},
+										{
+											"key": "tipe",
+											"value": "artikel",
+											"type": "text"
+										},
+										{
+											"key": "deskripsi",
+											"value": "Artikel ini membahas tips menjaga pola hidup sehat secara alami.",
+											"type": "text"
+										},
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/Users/User/OneDrive/Pictures/22624.png"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{LOCAL_HOST}}/admin/informasi-edukasi",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"admin",
+										"informasi-edukasi"
+									],
+									"query": [
+										{
+											"key": "role",
+											"value": "admin",
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Nam",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Informasi Edukasi",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "multipart/form-data",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "judul",
+											"value": "Panduan Hidup Sehatsd",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "tipe",
+											"value": "artikel",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "deskripsi",
+											"value": "Artikel ini membahas tips menjaga pola hidup sehat secara alami.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/Users/User/OneDrive/Pictures/5309014.jpg"
+										},
+										{
+											"key": "id",
+											"value": "c22449aa-4359-405e-aa23-2c387152fe3f",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{LOCAL_HOST}}/admin/informasi-edukasi",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"admin",
+										"informasi-edukasi"
+									],
+									"query": [
+										{
+											"key": "role",
+											"value": "admin",
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Nam",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Informasi Edukasi",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\":\"b5e96e3a-df2d-41ac-bf26-928e2c5c8722\"\r\n}   \r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL_HOST}}/admin/informasi-edukasi",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"admin",
+										"informasi-edukasi"
+									],
+									"query": [
+										{
+											"key": "role",
+											"value": "admin",
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Nam",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Informasi Edukasi",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{LOCAL_HOST}}/admin/informasi-edukasi?limit=5&page=1",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"admin",
+										"informasi-edukasi"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "5"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "deskripsi",
+											"value": "tes",
+											"disabled": true
+										},
+										{
+											"key": "judul",
+											"value": "pand",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Specific Informasi Edukasi Copy",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{LOCAL_HOST}}/admin/informasi-edukasi/detail/02446590-b64e-4e7e-a9a5-9be3dccad6d4",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"admin",
+										"informasi-edukasi",
+										"detail",
+										"02446590-b64e-4e7e-a9a5-9be3dccad6d4"
+									],
+									"query": [
+										{
+											"key": "deskripsi",
+											"value": "tes",
+											"disabled": true
+										},
+										{
+											"key": "judul",
+											"value": "pand",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Statistic Informasi",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL_HOST}}/admin/informasi-edukasi/statistik",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"admin",
+										"informasi-edukasi",
+										"statistik"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Posyandu",
+					"item": [
+						{
+							"name": "Create Posyandu",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nama_posyandu\":\"Ahyad \",\r\n    \"alamat\":\"Apartment 1 Lab\",\r\n    \"no_telp\":\"sad\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL_HOST}}/admin/posyandu",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"admin",
+										"posyandu"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Posyandu",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":\"247495e4-7a54-441e-a73f-9fd72aa3f4e0\",\r\n    \"nama_posyandu\":\"KBsdasdadasdasdd\"\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL_HOST}}/admin/posyandu",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"admin",
+										"posyandu"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Posyandu",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":\"36b3d0b9-b529-4977-aa77-57b5a2389024\"\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL_HOST}}/admin/posyandu",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"admin",
+										"posyandu"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Posyandu",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nama_posyandu\":\"MHK\",\r\n    \"alamat\":\"Apartment Lab\",\r\n    \"no_telp\":\"82848832\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL_HOST}}/admin/posyandu?limit=10&page=1&nama_posyandu=K",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"admin",
+										"posyandu"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "nama_posyandu",
+											"value": "K"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Detail Posyandu",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{LOCAL_HOST}}/admin/posyandu/detail/0006c9ad-b7fe-fe6c-53ba-e0fae7c1126a",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"admin",
+										"posyandu",
+										"detail",
+										"0006c9ad-b7fe-fe6c-53ba-e0fae7c1126a"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "10",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "nama_posyandu",
+											"value": "K",
+											"disabled": true
+										},
+										{
+											"key": "id",
+											"value": "247495e4-7a54-441e-a73f-9fd72aa3f4e0",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Lowongan",
+					"item": [
+						{
+							"name": "Create Lowongan",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "nama_lowongan",
+											"value": "Frontend Developer",
+											"type": "text"
+										},
+										{
+											"key": "nama_perusahaan",
+											"value": "PT Teknologi Inovatif",
+											"type": "text"
+										},
+										{
+											"key": "jenis_pekerjaan",
+											"value": "Full-time",
+											"type": "text"
+										},
+										{
+											"key": "lokasi",
+											"value": "Jakarta",
+											"type": "text"
+										},
+										{
+											"key": "jenis_difasilitas",
+											"value": "Tuna Daksa",
+											"type": "text"
+										},
+										{
+											"key": "deskripsi",
+											"value": "Membuat dan mengelola antarmuka pengguna aplikasi web.",
+											"type": "text"
+										},
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/Users/User/OneDrive/Pictures/5309014.jpg"
+										},
+										{
+											"key": "status",
+											"value": "aktif",
+											"type": "text"
+										},
+										{
+											"key": "tanggal_mulai",
+											"value": "2025-08-01T00:00:00.000Z",
+											"type": "text"
+										},
+										{
+											"key": "tanggal_selesai",
+											"value": "2025-12-31T00:00:00.000Z",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{LOCAL_HOST}}/admin/lowongan",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"admin",
+										"lowongan"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Lowongan Copy",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "nama_lowongan",
+											"value": "Frontend Developer",
+											"type": "text"
+										},
+										{
+											"key": "nama_perusahaan",
+											"value": "PT Teknologi Inovatif",
+											"type": "text"
+										},
+										{
+											"key": "jenis_pekerjaan",
+											"value": "Full-time",
+											"type": "text"
+										},
+										{
+											"key": "lokasi",
+											"value": "Jakarta",
+											"type": "text"
+										},
+										{
+											"key": "jenis_difasilitas",
+											"value": "Tuna Daksa",
+											"type": "text"
+										},
+										{
+											"key": "deskripsi",
+											"value": "Membuat dan mengelola antarmuka pengguna aplikasi web.",
+											"type": "text"
+										},
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/Users/User/OneDrive/Pictures/appJava.png"
+										},
+										{
+											"key": "status",
+											"value": "aktif",
+											"type": "text"
+										},
+										{
+											"key": "tanggal_mulai",
+											"value": "2025-08-01T00:00:00.000Z",
+											"type": "text"
+										},
+										{
+											"key": "tanggal_selesai",
+											"value": "2025-12-31T00:00:00.000Z",
+											"type": "text"
+										},
+										{
+											"key": "id",
+											"value": "574b2dd4-982d-49c3-8777-f40743d629ac",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{LOCAL_HOST}}/admin/lowongan",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"admin",
+										"lowongan"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Lowongan",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":\"2ca3beec-8d70-44d4-8d7a-e9a8607aa44f\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL_HOST}}/admin/lowongan",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"admin",
+										"lowongan"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Lowongan",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nama_posyandu\":\"MHK\",\r\n    \"alamat\":\"Apartment Lab\",\r\n    \"no_telp\":\"82848832\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL_HOST}}/admin/lowongan?limit=4&page=2",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"admin",
+										"lowongan"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "4"
+										},
+										{
+											"key": "page",
+											"value": "2"
+										},
+										{
+											"key": "nama_lowongan",
+											"value": "dev",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Specific Lowongan",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL_HOST}}/admin/lowongan/detail/574b2dd4-982d-49c3-8777-f40743d629ac",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"admin",
+										"lowongan",
+										"detail",
+										"574b2dd4-982d-49c3-8777-f40743d629ac"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "4",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "2",
+											"disabled": true
+										},
+										{
+											"key": "nama_lowongan",
+											"value": "dev",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Kader",
+			"item": [
+				{
+					"name": "Posyandu",
+					"item": [
+						{
+							"name": "Jadwal Posyandu",
+							"item": [
+								{
+									"name": "Create Jadwal Posyandu",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var template = `\r",
+													"<style type=\"text/css\">\r",
+													"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+													"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+													"    .tftable tr {background-color:#ffffff;}\r",
+													"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+													"    .tftable tr:hover {background-color:#e0ffff;}\r",
+													"</style>\r",
+													"\r",
+													"<table class=\"tftable\" border=\"1\">\r",
+													"    <tr>\r",
+													"        <th>ID</th>\r",
+													"        <th>Posyandu ID</th>\r",
+													"        <th>Nama Kegiatan</th>\r",
+													"        <th>Jenis Kegiatan</th>\r",
+													"        <th>Deskripsi</th>\r",
+													"        <th>File Name</th>\r",
+													"        <th>Lokasi</th>\r",
+													"        <th>Tanggal</th>\r",
+													"        <th>Waktu Mulai</th>\r",
+													"        <th>Waktu Selesai</th>\r",
+													"        <th>Created At</th>\r",
+													"        <th>Updated At</th>\r",
+													"        <th>Deleted At</th>\r",
+													"    </tr>\r",
+													"    <tr>\r",
+													"        <td>{{response.id}}</td>\r",
+													"        <td>{{response.posyandu_id}}</td>\r",
+													"        <td>{{response.nama_kegiatan}}</td>\r",
+													"        <td>{{response.jenis_kegiatan}}</td>\r",
+													"        <td>{{response.deskripsi}}</td>\r",
+													"        <td>{{response.file_name}}</td>\r",
+													"        <td>{{response.lokasi}}</td>\r",
+													"        <td>{{response.tanggal}}</td>\r",
+													"        <td>{{response.waktu_mulai}}</td>\r",
+													"        <td>{{response.waktu_selesai}}</td>\r",
+													"        <td>{{response.created_at}}</td>\r",
+													"        <td>{{response.updated_at}}</td>\r",
+													"        <td>{{response.deleted_at}}</td>\r",
+													"    </tr>\r",
+													"</table>\r",
+													"`;\r",
+													"\r",
+													"function constructVisualizerPayload() {\r",
+													"    return { response: pm.response.json() };\r",
+													"}\r",
+													"\r",
+													"pm.visualizer.set(template, constructVisualizerPayload());"
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "{{HEADER-CSRF}}",
+												"value": "{{CSRF_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "posyandu_id",
+													"value": "356682f4-6cfd-4148-84bd-4fc631db753a",
+													"type": "text"
+												},
+												{
+													"key": "nama_kegiatan",
+													"value": "Pemeriksaan Balita",
+													"type": "text"
+												},
+												{
+													"key": "jenis_kegiatan",
+													"value": "Kesehatan",
+													"type": "text"
+												},
+												{
+													"key": "deskripsi",
+													"value": "Pemeriksaan rutin tinggi dan berat badan balita.",
+													"type": "text"
+												},
+												{
+													"key": "file_name",
+													"type": "file",
+													"src": "/C:/Users/User/OneDrive/Pictures/07 Aplikasi Integral-stt.pdf"
+												},
+												{
+													"key": "lokasi",
+													"value": "Posyandu Melati, RT 05/RW 02",
+													"type": "text"
+												},
+												{
+													"key": "tanggal",
+													"value": "2025-08-10T00:00:00.000Z",
+													"type": "text"
+												},
+												{
+													"key": "waktu_mulai",
+													"value": "08:00",
+													"type": "text"
+												},
+												{
+													"key": "waktu_selesai",
+													"value": "11:00",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/jadwal-posyandu",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"jadwal-posyandu"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Jadwal Posyandu",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var template = `\r",
+													"<style type=\"text/css\">\r",
+													"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+													"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+													"    .tftable tr {background-color:#ffffff;}\r",
+													"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+													"    .tftable tr:hover {background-color:#e0ffff;}\r",
+													"</style>\r",
+													"\r",
+													"<table class=\"tftable\" border=\"1\">\r",
+													"    <tr>\r",
+													"        <th>ID</th>\r",
+													"        <th>Posyandu ID</th>\r",
+													"        <th>Nama Kegiatan</th>\r",
+													"        <th>Jenis Kegiatan</th>\r",
+													"        <th>Deskripsi</th>\r",
+													"        <th>File Name</th>\r",
+													"        <th>Lokasi</th>\r",
+													"        <th>Tanggal</th>\r",
+													"        <th>Waktu Mulai</th>\r",
+													"        <th>Waktu Selesai</th>\r",
+													"        <th>Created At</th>\r",
+													"        <th>Updated At</th>\r",
+													"        <th>Deleted At</th>\r",
+													"    </tr>\r",
+													"    <tr>\r",
+													"        <td>{{response.id}}</td>\r",
+													"        <td>{{response.posyandu_id}}</td>\r",
+													"        <td>{{response.nama_kegiatan}}</td>\r",
+													"        <td>{{response.jenis_kegiatan}}</td>\r",
+													"        <td>{{response.deskripsi}}</td>\r",
+													"        <td>{{response.file_name}}</td>\r",
+													"        <td>{{response.lokasi}}</td>\r",
+													"        <td>{{response.tanggal}}</td>\r",
+													"        <td>{{response.waktu_mulai}}</td>\r",
+													"        <td>{{response.waktu_selesai}}</td>\r",
+													"        <td>{{response.created_at}}</td>\r",
+													"        <td>{{response.updated_at}}</td>\r",
+													"        <td>{{response.deleted_at}}</td>\r",
+													"    </tr>\r",
+													"</table>\r",
+													"`;\r",
+													"\r",
+													"function constructVisualizerPayload() {\r",
+													"    return { response: pm.response.json() };\r",
+													"}\r",
+													"\r",
+													"pm.visualizer.set(template, constructVisualizerPayload());"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "{{HEADER-CSRF}}",
+												"value": "{{CSRF_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "posyandu_id",
+													"value": "356682f4-6cfd-4148-84bd-4fc631db753a",
+													"type": "text",
+													"disabled": true
+												},
+												{
+													"key": "nama_kegiatan",
+													"value": "Pemeriksaan IBK",
+													"type": "text",
+													"disabled": true
+												},
+												{
+													"key": "jenis_kegiatan",
+													"value": "Kesehatan",
+													"type": "text",
+													"disabled": true
+												},
+												{
+													"key": "deskripsi",
+													"value": "Pemeriksaan rutin tinggi dan berat badan balita.",
+													"type": "text",
+													"disabled": true
+												},
+												{
+													"key": "file_name",
+													"type": "file",
+													"src": "/C:/Users/User/OneDrive/Pictures/63307.png"
+												},
+												{
+													"key": "lokasi",
+													"value": "Posyandu Melati, RT 05/RW 02",
+													"type": "text",
+													"disabled": true
+												},
+												{
+													"key": "tanggal",
+													"value": "2025-08-10T00:00:00.000Z",
+													"type": "text",
+													"disabled": true
+												},
+												{
+													"key": "waktu_mulai",
+													"value": "08:00",
+													"type": "text",
+													"disabled": true
+												},
+												{
+													"key": "waktu_selesai",
+													"value": "11:00",
+													"type": "text",
+													"disabled": true
+												}
+											]
+										},
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/jadwal-posyandu/update/cb9d7d69-fc51-4272-bfc9-d52b40fa0785",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"jadwal-posyandu",
+												"update",
+												"cb9d7d69-fc51-4272-bfc9-d52b40fa0785"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete Jadwal Posyandu",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var template = `\r",
+													"<style type=\"text/css\">\r",
+													"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+													"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+													"    .tftable tr {background-color:#ffffff;}\r",
+													"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+													"    .tftable tr:hover {background-color:#e0ffff;}\r",
+													"</style>\r",
+													"\r",
+													"<table class=\"tftable\" border=\"1\">\r",
+													"    <tr>\r",
+													"        <th>ID</th>\r",
+													"        <th>Posyandu ID</th>\r",
+													"        <th>Nama Kegiatan</th>\r",
+													"        <th>Jenis Kegiatan</th>\r",
+													"        <th>Deskripsi</th>\r",
+													"        <th>File Name</th>\r",
+													"        <th>Lokasi</th>\r",
+													"        <th>Tanggal</th>\r",
+													"        <th>Waktu Mulai</th>\r",
+													"        <th>Waktu Selesai</th>\r",
+													"        <th>Created At</th>\r",
+													"        <th>Updated At</th>\r",
+													"        <th>Deleted At</th>\r",
+													"    </tr>\r",
+													"    <tr>\r",
+													"        <td>{{response.id}}</td>\r",
+													"        <td>{{response.posyandu_id}}</td>\r",
+													"        <td>{{response.nama_kegiatan}}</td>\r",
+													"        <td>{{response.jenis_kegiatan}}</td>\r",
+													"        <td>{{response.deskripsi}}</td>\r",
+													"        <td>{{response.file_name}}</td>\r",
+													"        <td>{{response.lokasi}}</td>\r",
+													"        <td>{{response.tanggal}}</td>\r",
+													"        <td>{{response.waktu_mulai}}</td>\r",
+													"        <td>{{response.waktu_selesai}}</td>\r",
+													"        <td>{{response.created_at}}</td>\r",
+													"        <td>{{response.updated_at}}</td>\r",
+													"        <td>{{response.deleted_at}}</td>\r",
+													"    </tr>\r",
+													"</table>\r",
+													"`;\r",
+													"\r",
+													"function constructVisualizerPayload() {\r",
+													"    return { response: pm.response.json() };\r",
+													"}\r",
+													"\r",
+													"pm.visualizer.set(template, constructVisualizerPayload());"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "{{HEADER-CSRF}}",
+												"value": "{{CSRF_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/jadwal-posyandu/delete/410f61f2-679b-497f-b0ca-286e0f1b9342",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"jadwal-posyandu",
+												"delete",
+												"410f61f2-679b-497f-b0ca-286e0f1b9342"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get List Jadwal Posyandu",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "{{HEADER-CSRF}}",
+												"value": "{{CSRF_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/jadwal-posyandu/356682f4-6cfd-4148-84bd-4fc631db753a?limit=2&page=1",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"jadwal-posyandu",
+												"356682f4-6cfd-4148-84bd-4fc631db753a"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": "2"
+												},
+												{
+													"key": "page",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Specific Jadwal Posyandu",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "{{HEADER-CSRF}}",
+												"value": "{{CSRF_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/jadwal-posyandu/detail/cb9d7d69-fc51-4272-bfc9-d52b40fa0785",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"jadwal-posyandu",
+												"detail",
+												"cb9d7d69-fc51-4272-bfc9-d52b40fa0785"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Presensi IBK",
+							"item": [
+								{
+									"name": "Get List Presensi IBK",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/presensi-ibk/f0bcb0d8-1ded-4ca7-951b-891042c9eb25?limit=5",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"presensi-ibk",
+												"f0bcb0d8-1ded-4ca7-951b-891042c9eb25"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": "5"
+												}
+											]
+										},
+										"description": "Use ID Jadwal Posyandu in param"
+									},
+									"response": []
+								},
+								{
+									"name": "Get Specific Presensi IBKPosyandu",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/presensi-ibk/detail/6a901b7b-4b71-4358-83a9-41221f5a4c63",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"presensi-ibk",
+												"detail",
+												"6a901b7b-4b71-4358-83a9-41221f5a4c63"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": "5",
+													"disabled": true
+												}
+											]
+										},
+										"description": "### Endpoint Overview\n\nThis endpoint retrieves the detailed presence information for a specific user based on the provided unique identifier.\n\n### Request\n\n- **Method:** GET\n    \n- **URL:** `{{LOCAL_HOST}}/kader/presensi-ibk/detail/{id}`\n    \n- **Path Parameter:**\n    \n    - `id` (string): The unique identifier for the presence record you wish to retrieve.\n        \n\n### Response\n\n- **Status Code:** 200 OK\n    \n- **Content-Type:** application/json\n    \n- {\"id\": \"\",\"user_ibk_id\": \"\",\"jadwal_id\": \"\",\"status_presensi\": \"\",\"created_at\": \"\",\"updated_at\": null,\"deleted_at\": null,\"ibk\": { \"id\": \"\", \"nama\": \"\", \"nik\": 0, \"jenis_kelamin\": \"\", \"alamat\": \"\"},\"jadwal_posyandu\": { \"id\": \"\", \"nama_kegiatan\": \"\", \"tanggal\": \"\", \"waktu_mulai\": \"\", \"waktu_selesai\": \"\", \"lokasi\": \"\"}}\n    \n\n### Response Fields\n\n- `id`: The unique identifier for the presence record.\n    \n- `user_ibk_id`: The identifier for the user associated with the presence.\n    \n- `jadwal_id`: The identifier for the schedule linked to the presence.\n    \n- `status_presensi`: The status of the presence (e.g., present, absent).\n    \n- `created_at`: Timestamp of when the presence record was created.\n    \n- `updated_at`: Timestamp of the last update to the presence record.\n    \n- `deleted_at`: Timestamp indicating if the record has been deleted.\n    \n- `ibk`: An object containing details about the user:\n    \n    - `id`: The unique identifier for the user.\n        \n    - `nama`: The name of the user.\n        \n    - `nik`: The identification number of the user.\n        \n    - `jenis_kelamin`: The gender of the user.\n        \n    - `alamat`: The address of the user.\n        \n- `jadwal_posyandu`: An object containing details about the schedule:\n    \n    - `id`: The unique identifier for the schedule.\n        \n    - `nama_kegiatan`: The name of the activity.\n        \n    - `tanggal`: The date of the scheduled activity.\n        \n    - `waktu_mulai`: The start time of the activity.\n        \n    - `waktu_selesai`: The end time of the activity.\n        \n    - `lokasi`: The location of the activity.\n        \n\nThis endpoint is useful for retrieving detailed information regarding a specific presence record, including user and schedule details."
+									},
+									"response": []
+								},
+								{
+									"name": "Get List Ibk not Registered Presensi Jadwal Posyandu",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/presensi-ibk/ibk-not-registered/f0bcb0d8-1ded-4ca7-951b-891042c9eb25/posyandu/356682f4-6cfd-4148-84bd-4fc631db753a",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"presensi-ibk",
+												"ibk-not-registered",
+												"f0bcb0d8-1ded-4ca7-951b-891042c9eb25",
+												"posyandu",
+												"356682f4-6cfd-4148-84bd-4fc631db753a"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": "5",
+													"disabled": true
+												}
+											]
+										},
+										"description": "{{LOCAL_HOST}}/kader/presensi-ibk/ibk-not-registered/f0bcb0d8-1ded-4ca7-951b-891042c9eb25/posyandu/356682f4-6cfd-4148-84bd-4fc631db753a\n\nibk-not-registered/id jadwal\n\nposyandu/id posyandu"
+									},
+									"response": []
+								},
+								{
+									"name": "Add IBK to presensi",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "{{HEADER-CSRF}}",
+												"value": "{{CSRF_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user_ibk_id\":\"41244fab-983c-4348-9cdb-d7275ff33592\",\r\n    \"jadwal_id\":\"f0bcb0d8-1ded-4ca7-951b-891042c9eb25\"\r\n\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/presensi-ibk",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"presensi-ibk"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Presensi IBK Copy",
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "{{HEADER-CSRF}}",
+												"value": "{{CSRF_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"status_presensi\":\"HADIR\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/presensi-ibk/update/eaa719ea-13ef-4fe6-8c0b-262ed70a9871",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"presensi-ibk",
+												"update",
+												"eaa719ea-13ef-4fe6-8c0b-262ed70a9871"
+											]
+										},
+										"description": "### PATCH /kader/presensi-ibk/update/{id}\n\nThis endpoint is used to update the attendance status of a specific user identified by their unique ID. The request modifies the attendance status for the user in the system.\n\n#### Request Parameters\n\n- **Path Parameter**\n    \n    - `id` (string): The unique identifier of the attendance record that you want to update. In this example, the ID presensi is `eaa719ea-13ef-4fe6-8c0b-262ed70a9871`.\n        \n- **Request Body**\n    \n    - `status_presensi` (string): The new attendance status for the user. This parameter accepts values such as `\"BELUM_HADIR,HADIR,SAKIT,IZIN\"` to indicate that the user has not attended.\n        \n\n#### Example Request Body\n\n``` json\n{\n  \"status_presensi\": \"BELUM_HADIR\"\n}\n\n ```\n\n#### Response Structure\n\nUpon a successful update, the server responds with a status code of `200` and a JSON object containing the following fields:\n\n- `id` (string): The unique identifier of the attendance record.\n    \n- `user_ibk_id` (string): The ID of the user whose attendance status has been updated.\n    \n- `jadwal_id` (string): The ID of the schedule associated with the attendance record.\n    \n- `status_presensi` (string): The updated attendance status.\n    \n- `created_at` (string): The timestamp when the attendance record was created.\n    \n- `updated_at` (string): The timestamp when the attendance record was last updated.\n    \n- `deleted_at` (null): Indicates if the record has been deleted (null if not deleted).\n    \n\n#### Example Response\n\n``` json\n{\n  \"id\": \"\",\n  \"user_ibk_id\": \"\",\n  \"jadwal_id\": \"\",\n  \"status_presensi\": \"\",\n  \"created_at\": \"\",\n  \"updated_at\": \"\",\n  \"deleted_at\": null\n}\n\n ```\n\nThis endpoint allows for efficient management of attendance records, ensuring that the status can be updated as needed."
+									},
+									"response": []
+								},
+								{
+									"name": "Bulk Update Presensi IBK",
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "{{HEADER-CSRF}}",
+												"value": "{{CSRF_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n  {\r\n    \"user_ibk_id\": \"def4d34e-d0a2-464b-870f-c043929e850a\",\r\n    \"status_presensi\": \"HADIR\"\r\n  },\r\n  {\r\n    \"user_ibk_id\": \"edce064d-3189-4403-b9b4-4a8b1dbaacfa\",\r\n    \"status_presensi\": \"HADIR\"\r\n  },\r\n  {\r\n    \"user_ibk_id\": \"064706ca-da30-4753-ae49-6aac566aa6b4\",\r\n    \"status_presensi\": \"HADIR\"\r\n  },\r\n  {\r\n    \"user_ibk_id\": \"7b7d7099-6a8d-4900-8d7d-9e7a52a7b15d\",\r\n    \"status_presensi\": \"HADIR\"\r\n  },\r\n  {\r\n    \"user_ibk_id\": \"81dbf707-f546-4c90-ae45-4ec1efb474fc\",\r\n    \"status_presensi\": \"HADIR\"\r\n  },\r\n  {\r\n    \"user_ibk_id\": \"76fafd10-5ba4-4e83-9f11-e828b750d505\",\r\n    \"status_presensi\": \"HADIR\"\r\n  },\r\n  {\r\n    \"user_ibk_id\": \"e37f8491-41f9-46c5-aec8-dcfbd363d3a3\",\r\n    \"status_presensi\": \"HADIR\"\r\n  },\r\n  {\r\n    \"user_ibk_id\": \"7038ce0a-7a62-4c62-bb07-a26b243932a3\",\r\n    \"status_presensi\": \"HADIR\"\r\n  }\r\n]\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/presensi-ibk/bulk-update/cb94789c-43c2-4792-af5a-912be2d68b61",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"presensi-ibk",
+												"bulk-update",
+												"cb94789c-43c2-4792-af5a-912be2d68b61"
+											]
+										},
+										"description": "### PATCH /kader/presensi-ibk/update/{id}\n\nThis endpoint is used to update the attendance status of a specific user identified by their unique ID. The request modifies the attendance status for the user in the system.\n\n#### Request Parameters\n\n- **Path Parameter**\n    \n    - `id` (string): The unique identifier of the attendance record that you want to update. In this example, the ID presensi is `eaa719ea-13ef-4fe6-8c0b-262ed70a9871`.\n        \n- **Request Body**\n    \n    - `status_presensi` (string): The new attendance status for the user. This parameter accepts values such as `\"BELUM_HADIR,HADIR,SAKIT,IZIN\"` to indicate that the user has not attended.\n        \n\n#### Example Request Body\n\n``` json\n{\n  \"status_presensi\": \"BELUM_HADIR\"\n}\n\n ```\n\n#### Response Structure\n\nUpon a successful update, the server responds with a status code of `200` and a JSON object containing the following fields:\n\n- `id` (string): The unique identifier of the attendance record.\n    \n- `user_ibk_id` (string): The ID of the user whose attendance status has been updated.\n    \n- `jadwal_id` (string): The ID of the schedule associated with the attendance record.\n    \n- `status_presensi` (string): The updated attendance status.\n    \n- `created_at` (string): The timestamp when the attendance record was created.\n    \n- `updated_at` (string): The timestamp when the attendance record was last updated.\n    \n- `deleted_at` (null): Indicates if the record has been deleted (null if not deleted).\n    \n\n#### Example Response\n\n``` json\n{\n  \"id\": \"\",\n  \"user_ibk_id\": \"\",\n  \"jadwal_id\": \"\",\n  \"status_presensi\": \"\",\n  \"created_at\": \"\",\n  \"updated_at\": \"\",\n  \"deleted_at\": null\n}\n\n ```\n\nThis endpoint allows for efficient management of attendance records, ensuring that the status can be updated as needed."
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Presensi Kader",
+							"item": [
+								{
+									"name": "Get List Presensi Kader",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/presensi-kader/5e98ab83-ab69-4a9f-a62d-4a29c1778e22?limit=5",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"presensi-kader",
+												"5e98ab83-ab69-4a9f-a62d-4a29c1778e22"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": "5"
+												}
+											]
+										},
+										"description": "Use ID Jadwal Posyandu in param"
+									},
+									"response": []
+								},
+								{
+									"name": "Get Specific Presensi Kader",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/presensi-kader/detail/8450746a-152c-4baa-bf58-b39e7944863c",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"presensi-kader",
+												"detail",
+												"8450746a-152c-4baa-bf58-b39e7944863c"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": "5",
+													"disabled": true
+												}
+											]
+										},
+										"description": "### Endpoint Overview\n\nThis endpoint retrieves the detailed presence information for a specific user based on the provided unique identifier.\n\n### Request\n\n- **Method:** GET\n    \n- **URL:** `{{LOCAL_HOST}}/kader/presensi-ibk/detail/{id}`\n    \n- **Path Parameter:**\n    \n    - `id` (string): The unique identifier for the presence record you wish to retrieve.\n        \n\n### Response\n\n- **Status Code:** 200 OK\n    \n- **Content-Type:** application/json\n    \n- {\"id\": \"\",\"user_ibk_id\": \"\",\"jadwal_id\": \"\",\"status_presensi\": \"\",\"created_at\": \"\",\"updated_at\": null,\"deleted_at\": null,\"ibk\": { \"id\": \"\", \"nama\": \"\", \"nik\": 0, \"jenis_kelamin\": \"\", \"alamat\": \"\"},\"jadwal_posyandu\": { \"id\": \"\", \"nama_kegiatan\": \"\", \"tanggal\": \"\", \"waktu_mulai\": \"\", \"waktu_selesai\": \"\", \"lokasi\": \"\"}}\n    \n\n### Response Fields\n\n- `id`: The unique identifier for the presence record.\n    \n- `user_ibk_id`: The identifier for the user associated with the presence.\n    \n- `jadwal_id`: The identifier for the schedule linked to the presence.\n    \n- `status_presensi`: The status of the presence (e.g., present, absent).\n    \n- `created_at`: Timestamp of when the presence record was created.\n    \n- `updated_at`: Timestamp of the last update to the presence record.\n    \n- `deleted_at`: Timestamp indicating if the record has been deleted.\n    \n- `ibk`: An object containing details about the user:\n    \n    - `id`: The unique identifier for the user.\n        \n    - `nama`: The name of the user.\n        \n    - `nik`: The identification number of the user.\n        \n    - `jenis_kelamin`: The gender of the user.\n        \n    - `alamat`: The address of the user.\n        \n- `jadwal_posyandu`: An object containing details about the schedule:\n    \n    - `id`: The unique identifier for the schedule.\n        \n    - `nama_kegiatan`: The name of the activity.\n        \n    - `tanggal`: The date of the scheduled activity.\n        \n    - `waktu_mulai`: The start time of the activity.\n        \n    - `waktu_selesai`: The end time of the activity.\n        \n    - `lokasi`: The location of the activity.\n        \n\nThis endpoint is useful for retrieving detailed information regarding a specific presence record, including user and schedule details."
+									},
+									"response": []
+								},
+								{
+									"name": "Get List Kadernot Registered Presensi Jadwal Posyandu",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/presensi-kader/kader-not-registered/f0bcb0d8-1ded-4ca7-951b-891042c9eb25/posyandu/356682f4-6cfd-4148-84bd-4fc631db753a",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"presensi-kader",
+												"kader-not-registered",
+												"f0bcb0d8-1ded-4ca7-951b-891042c9eb25",
+												"posyandu",
+												"356682f4-6cfd-4148-84bd-4fc631db753a"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": "5",
+													"disabled": true
+												}
+											]
+										},
+										"description": "{{LOCAL_HOST}}/kader/presensi-ibk/ibk-not-registered/f0bcb0d8-1ded-4ca7-951b-891042c9eb25/posyandu/356682f4-6cfd-4148-84bd-4fc631db753a\n\nibk-not-registered/id jadwal\n\nposyandu/id posyandu"
+									},
+									"response": []
+								},
+								{
+									"name": "Add IBK to presensi",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "{{HEADER-CSRF}}",
+												"value": "{{CSRF_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user_ibk_id\":\"41244fab-983c-4348-9cdb-d7275ff33592\",\r\n    \"jadwal_id\":\"f0bcb0d8-1ded-4ca7-951b-891042c9eb25\"\r\n\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/presensi-ibk",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"presensi-ibk"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Presensi IBK Copy",
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "{{HEADER-CSRF}}",
+												"value": "{{CSRF_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"status_presensi\":\"HADIR\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/presensi-kader/update/8450746a-152c-4baa-bf58-b39e7944863c",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"presensi-kader",
+												"update",
+												"8450746a-152c-4baa-bf58-b39e7944863c"
+											]
+										},
+										"description": "### PATCH /kader/presensi-ibk/update/{id}\n\nThis endpoint is used to update the attendance status of a specific user identified by their unique ID. The request modifies the attendance status for the user in the system.\n\n#### Request Parameters\n\n- **Path Parameter**\n    \n    - `id` (string): The unique identifier of the attendance record that you want to update. In this example, the ID presensi is `eaa719ea-13ef-4fe6-8c0b-262ed70a9871`.\n        \n- **Request Body**\n    \n    - `status_presensi` (string): The new attendance status for the user. This parameter accepts values such as `\"BELUM_HADIR,HADIR,SAKIT,IZIN\"` to indicate that the user has not attended.\n        \n\n#### Example Request Body\n\n``` json\n{\n  \"status_presensi\": \"BELUM_HADIR\"\n}\n\n ```\n\n#### Response Structure\n\nUpon a successful update, the server responds with a status code of `200` and a JSON object containing the following fields:\n\n- `id` (string): The unique identifier of the attendance record.\n    \n- `user_ibk_id` (string): The ID of the user whose attendance status has been updated.\n    \n- `jadwal_id` (string): The ID of the schedule associated with the attendance record.\n    \n- `status_presensi` (string): The updated attendance status.\n    \n- `created_at` (string): The timestamp when the attendance record was created.\n    \n- `updated_at` (string): The timestamp when the attendance record was last updated.\n    \n- `deleted_at` (null): Indicates if the record has been deleted (null if not deleted).\n    \n\n#### Example Response\n\n``` json\n{\n  \"id\": \"\",\n  \"user_ibk_id\": \"\",\n  \"jadwal_id\": \"\",\n  \"status_presensi\": \"\",\n  \"created_at\": \"\",\n  \"updated_at\": \"\",\n  \"deleted_at\": null\n}\n\n ```\n\nThis endpoint allows for efficient management of attendance records, ensuring that the status can be updated as needed."
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Monitoring IBK",
+							"item": [
+								{
+									"name": "Create Monitoring IBK",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "{{HEADER-CSRF}}",
+												"value": "{{CSRF_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"ibk_id\": \"41244fab-983c-4348-9cdb-d7275ff33592\",\r\n  \"jadwal_posyandu_id\": \"f0bcb0d8-1ded-4ca7-951b-891042c9eb25\",\r\n  \"keluhan\": \"Anak mengalami demam selama 2 hari\",\r\n  \"perilaku_baru\": \"Mulai berjalan tanpa bantuan\",\r\n  \"tindak_lanjut\": \"Diberikan vitamin dan diarahkan untuk periksa ke puskesmas\",\r\n  \"fungsional_checklist\": \"checklist-001\",\r\n  \"tanggal_kunjungan\": \"2025-08-05T08:00:00.000Z\",\r\n  \"kecamatan\": \"Kecamatan Sukamaju\",\r\n  \"keterangan\": \"Kondisi anak membaik setelah kunjungan\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/monitoring-ibk",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"monitoring-ibk"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Monitoring IBK",
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "{{HEADER-CSRF}}",
+												"value": "{{CSRF_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"jadwal_posyandu_id\": \"f0bcb0d8-1ded-4ca7-951b-891042c9eb25\",\r\n  \"keluhan\": \"Tidak ada keluhan baru\",\r\n  \"perilaku_baru\": \"Mulai berjalan tanpa bantuan\",\r\n  \"tindak_lanjut\": \"Diberikan vitamin dan diarahkan untuk periksa ke puskesmas\",\r\n  \"fungsional_checklist\": \"checklist-001\",\r\n  \"tanggal_kunjungan\": \"2025-08-05T08:00:00.000Z\",\r\n  \"kecamatan\": \"Kecamatan Sukamaju\",\r\n  \"keterangan\": \"Kondisi anak membaik setelah kunjungan\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/monitoring-ibk/update/18576fd4-48d5-4bf8-a290-2bc050185e46",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"monitoring-ibk",
+												"update",
+												"18576fd4-48d5-4bf8-a290-2bc050185e46"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get List Monitoring IBK",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/monitoring-ibk/f0bcb0d8-1ded-4ca7-951b-891042c9eb25?limit=2",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"monitoring-ibk",
+												"f0bcb0d8-1ded-4ca7-951b-891042c9eb25"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": "2"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Specific Monitoring IBK",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/monitoring-ibk/detail/18576fd4-48d5-4bf8-a290-2bc050185e46",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"monitoring-ibk",
+												"detail",
+												"18576fd4-48d5-4bf8-a290-2bc050185e46"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Data Specific IBK Monitoring IBK",
+									"request": {
+										"method": "GET",
+										"header": []
+									},
+									"response": []
+								},
+								{
+									"name": "Delete Monitoring IBK",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "{{HEADER-CSRF}}",
+												"value": "{{CSRF_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/monitoring-ibk/delete/ca7d3a5a-4f59-4cfc-a1c2-66c37a6a1fe9",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"monitoring-ibk",
+												"delete",
+												"ca7d3a5a-4f59-4cfc-a1c2-66c37a6a1fe9"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get List Presensi IBK Monitoring",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/monitoring-ibk/list-hadir/5a7dfe37-3957-4fe3-8bcf-b5f56116372c?limit=2&page=2",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"monitoring-ibk",
+												"list-hadir",
+												"5a7dfe37-3957-4fe3-8bcf-b5f56116372c"
+											],
+											"query": [
+												{
+													"key": "nama",
+													"value": "at",
+													"disabled": true
+												},
+												{
+													"key": "limit",
+													"value": "2"
+												},
+												{
+													"key": "page",
+													"value": "2"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Get List Posyandu",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{LOCAL_HOST}}/kader/posyandu?limit=10&page=1",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"kader",
+										"posyandu"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "nama_posyandu",
+											"value": "K",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Get List Posyandu",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "{{HEADER-CSRF}}",
+												"value": "{{CSRF_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{HISYAM_HOST}}/kader/posyandu?limit=10&page=1",
+											"host": [
+												"{{HISYAM_HOST}}"
+											],
+											"path": [
+												"kader",
+												"posyandu"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": "10"
+												},
+												{
+													"key": "nama_posyandu",
+													"value": "K",
+													"disabled": true
+												},
+												{
+													"key": "page",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 23 Jul 2025 16:31:18 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Etag",
+											"value": "W/\"cc8-dHLzh+cvkTsPBhJw1nPZ9qV3mMs\""
+										},
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "X-Ratelimit-Limit",
+											"value": "10"
+										},
+										{
+											"key": "X-Ratelimit-Remaining",
+											"value": "9"
+										},
+										{
+											"key": "X-Ratelimit-Reset",
+											"value": "5"
+										},
+										{
+											"key": "Cf-Cache-Status",
+											"value": "DYNAMIC"
+										},
+										{
+											"key": "Nel",
+											"value": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}"
+										},
+										{
+											"key": "Report-To",
+											"value": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=9wBjzsNf4dNF57W%2FAuHh%2FFL05X6TuE%2BWtxjCuEa3oyRMs26dFOETZYzexDEuchhtXqNXT900jn0vKzS1dqWGUiZYkfJVwBFve3pWst7FhlC5zHf3uA%3D%3D\"}]}"
+										},
+										{
+											"key": "Content-Encoding",
+											"value": "br"
+										},
+										{
+											"key": "Server",
+											"value": "cloudflare"
+										},
+										{
+											"key": "CF-RAY",
+											"value": "963c91385f6efe04-SIN"
+										},
+										{
+											"key": "alt-svc",
+											"value": "h3=\":443\"; ma=86400"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"id\": \"0008896c-b3d8-d384-fa48-930c044ffa19\",\n            \"nama_posyandu\": \"Nakagawa Residence Corporation\",\n            \"alamat\": \"626 Jianxiang Rd, Pudongs\",\n            \"no_telp\": \"asdasdss\",\n            \"users_id\": \"7caba5d3-6446-412c-a261-1903ddca4c9c\",\n            \"created_at\": \"2025-07-17T15:50:55.000Z\",\n            \"updated_at\": null,\n            \"deleted_at\": \"2009-05-24T23:27:36.000Z\",\n            \"is_registered\": true\n        },\n        {\n            \"id\": \"000a2691-78ba-e91e-9ae0-698fe2570c40\",\n            \"nama_posyandu\": \"Lu Network Systems Company Limited\",\n            \"alamat\": \"285 Shanhu Rd\",\n            \"no_telp\": \"179-8175-4844\",\n            \"users_id\": \"6fbe6d94-c397-4f02-9a48-7564d00f9f87\",\n            \"created_at\": \"2025-07-17T14:38:23.000Z\",\n            \"updated_at\": null,\n            \"deleted_at\": \"2016-09-29T09:46:09.000Z\",\n            \"is_registered\": true\n        },\n        {\n            \"id\": \"000f5756-9ab0-0f43-534c-416f7aef7101\",\n            \"nama_posyandu\": \"Wai Lam Limited\",\n            \"alamat\": \"719 Bank Street\",\n            \"no_telp\": \"212-253-6408\",\n            \"users_id\": \"fe31c14a-2480-4a97-9555-223169f5f2a4\",\n            \"created_at\": \"2025-07-17T17:39:56.000Z\",\n            \"updated_at\": null,\n            \"deleted_at\": \"2016-10-10T00:35:33.000Z\",\n            \"is_registered\": true\n        },\n        {\n            \"id\": \"001083fe-4a4b-9d7b-6d4a-c1ab23238895\",\n            \"nama_posyandu\": \"Chi Ming Limited\",\n            \"alamat\": \"1-5-1, Higashi-Shimbashi, Minato-ku\",\n            \"no_telp\": \"3-6532-1404\",\n            \"users_id\": \"90f4a37a-ead9-47ce-9586-2e4856f971a5\",\n            \"created_at\": \"2025-07-17T02:02:10.000Z\",\n            \"updated_at\": null,\n            \"deleted_at\": \"2017-10-25T17:08:10.000Z\",\n            \"is_registered\": false\n        },\n        {\n            \"id\": \"00197ff8-8830-fce1-4ddb-cfdca7328255\",\n            \"nama_posyandu\": \"Miura Communications Corporation\",\n            \"alamat\": \"1-1-18 Deshiro, Nishinari Ward\",\n            \"no_telp\": \"66-282-1325\",\n            \"users_id\": \"00830777-9caf-4c36-bd25-1590b715ccc8\",\n            \"created_at\": \"2025-07-17T20:21:20.000Z\",\n            \"updated_at\": null,\n            \"deleted_at\": \"2012-08-10T19:13:02.000Z\",\n            \"is_registered\": false\n        },\n        {\n            \"id\": \"0034d9e7-38e6-57c7-33fa-b677170ede95\",\n            \"nama_posyandu\": \"Seiko Corporation\",\n            \"alamat\": \"137 East Wangfujing Street, Dongcheng District \",\n            \"no_telp\": \"10-5909-6661\",\n            \"users_id\": \"7bbf2587-904b-490b-8037-154363700f00\",\n            \"created_at\": \"2025-07-17T17:14:41.000Z\",\n            \"updated_at\": null,\n            \"deleted_at\": \"2011-03-22T09:11:20.000Z\",\n            \"is_registered\": false\n        },\n        {\n            \"id\": \"003b805d-4ea7-232f-5e2e-64f3150b6a48\",\n            \"nama_posyandu\": \"Rodriguez's Consultants Inc.\",\n            \"alamat\": \"421 S Broadway\",\n            \"no_telp\": \"213-626-6708\",\n            \"users_id\": \"00830777-9caf-4c36-bd25-1590b715ccc8\",\n            \"created_at\": \"2025-07-17T00:34:46.000Z\",\n            \"updated_at\": null,\n            \"deleted_at\": \"2023-04-07T17:49:38.000Z\",\n            \"is_registered\": false\n        },\n        {\n            \"id\": \"003c714a-8182-9ea1-6477-ad3c99c97710\",\n            \"nama_posyandu\": \"Kathleen Technology LLC\",\n            \"alamat\": \"56 Hinckley Rd\",\n            \"no_telp\": \"(116) 862 7474\",\n            \"users_id\": \"fe31c14a-2480-4a97-9555-223169f5f2a4\",\n            \"created_at\": \"2025-07-17T20:25:52.000Z\",\n            \"updated_at\": null,\n            \"deleted_at\": \"2018-12-06T04:37:14.000Z\",\n            \"is_registered\": false\n        },\n        {\n            \"id\": \"0046c1af-ec6d-fb45-c6bd-7c472f70934b\",\n            \"nama_posyandu\": \"Chris LLC\",\n            \"alamat\": \"180 Nostrand Ave\",\n            \"no_telp\": \"718-118-1497\",\n            \"users_id\": \"2360ef93-fb18-4554-ba2f-c21d7b484c6b\",\n            \"created_at\": \"2025-07-17T08:07:00.000Z\",\n            \"updated_at\": null,\n            \"deleted_at\": \"2012-09-05T18:32:59.000Z\",\n            \"is_registered\": false\n        },\n        {\n            \"id\": \"004b7112-e145-2c99-4dde-e5037613e546\",\n            \"nama_posyandu\": \"Steve Toy Inc.\",\n            \"alamat\": \"226 Tangyuan Street 5th Alley, Airport Road, Baiyun\",\n            \"no_telp\": \"173-5653-3091\",\n            \"users_id\": \"349f3d38-61a9-45f4-851c-a636cdc43ef5\",\n            \"created_at\": \"2025-07-17T18:26:26.000Z\",\n            \"updated_at\": null,\n            \"deleted_at\": \"2003-09-07T05:42:07.000Z\",\n            \"is_registered\": false\n        }\n    ],\n    \"meta\": {\n        \"totalData\": 9248,\n        \"totalPage\": 925,\n        \"currentPage\": 1,\n        \"limit\": 10\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Specific posyandu",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":\"356682f4-6cfd-4148-84bd-4fc631db753a\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL_HOST}}/kader/posyandu/detail",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"kader",
+										"posyandu",
+										"detail"
+									],
+									"query": [
+										{
+											"key": "deskripsi",
+											"value": "tes",
+											"disabled": true
+										},
+										{
+											"key": "judul",
+											"value": "pand",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register Posyandu",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"posyandu_id\":\"356682f4-6cfd-4148-84bd-4fc631db753a\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL_HOST}}/kader/register-kader-posyandu",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"kader",
+										"register-kader-posyandu"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Informasi dan Edukasi",
+					"item": [
+						{
+							"name": "Get All Informasi dan Edukasi",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL_HOST}}/kader/informasi-edukasi-kader?limit=10&page=1",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"kader",
+										"informasi-edukasi-kader"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								},
+								"description": "[http://localhost:3005/uploads/informasi-edukasi/2025899-acceb645010bee0803443da82cb554a75508178dfd813d619ecf8dde2f26d999.png](http://localhost:3005/uploads/informasi-edukasi/2025899-acceb645010bee0803443da82cb554a75508178dfd813d619ecf8dde2f26d999.png)"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Specific Informasi Edukasi Copy 2",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{LOCAL_HOST}}/kader/informasi-edukasi-kader/detail/02446590-b64e-4e7e-a9a5-9be3dccad6d4",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"kader",
+										"informasi-edukasi-kader",
+										"detail",
+										"02446590-b64e-4e7e-a9a5-9be3dccad6d4"
+									],
+									"query": [
+										{
+											"key": "deskripsi",
+											"value": "tes",
+											"disabled": true
+										},
+										{
+											"key": "judul",
+											"value": "pand",
+											"disabled": true
+										}
+									]
+								},
+								"description": "[http://localhost:3005/uploads/informasi-edukasi/2025899-acceb645010bee0803443da82cb554a75508178dfd813d619ecf8dde2f26d999.png](http://localhost:3005/uploads/informasi-edukasi/2025899-acceb645010bee0803443da82cb554a75508178dfd813d619ecf8dde2f26d999.png)"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Lowongan",
+					"item": [
+						{
+							"name": "Get All Lowongan Copy",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nama_posyandu\":\"MHK\",\r\n    \"alamat\":\"Apartment Lab\",\r\n    \"no_telp\":\"82848832\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL_HOST}}/admin/lowongan?limit=4&page=2",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"admin",
+										"lowongan"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "4"
+										},
+										{
+											"key": "page",
+											"value": "2"
+										},
+										{
+											"key": "nama_lowongan",
+											"value": "dev",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Specific Lowongan Copy",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL_HOST}}/admin/lowongan/detail/574b2dd4-982d-49c3-8777-f40743d629ac",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"admin",
+										"lowongan",
+										"detail",
+										"574b2dd4-982d-49c3-8777-f40743d629ac"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "4",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "2",
+											"disabled": true
+										},
+										{
+											"key": "nama_lowongan",
+											"value": "dev",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "IBK",
+					"item": [
+						{
+							"name": "Disabilias IBK",
+							"item": [
+								{
+									"name": "Create disabilitas-ibk",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "{{HEADER-CSRF}}",
+												"value": "{{CSRF_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"ibk_id\": \"b7c59bf3-8a8e-44d2-b685-a1c146a1f602\",\r\n  \"jenis_difabilitas_id\": \"b8afb93f-0232-45b7-9c9f-c2063215a8f2\",\r\n  \"tingkat_keparahan\": \"Ringan\",\r\n  \"sejak_kapan\": \"2025-08-10T13:30:00+07:00\",\r\n  \"keterangan\": \"Keterbatasan gerak pada kaki kiri\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/pendataan-ibk/disabilitas-ibk",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"pendataan-ibk",
+												"disabilitas-ibk"
+											]
+										},
+										"description": "<img src=\"https://content.pstmn.io/c707fa48-2676-4eb0-86eb-91d892eb56cb/aW1hZ2UucG5n\" width=\"1074\" height=\"218\">\n\nb8afb93f-0232-45b7-9c9f-c2063215a8f2 Fisik  \n889c26c0-1624-4280-aa05-f28ae71816db Intelektual  \n6f469ea4-974a-4240-b062-693acbd47d17 Mental (Termasuk ODGJ)  \n9e8c9f6d-3e05-4b62-a9df-768effa0316d Sensorik Penglihatan  \n712e4398-c116-4040-a762-bd3bc44ab835 Sensorik Rungu"
+									},
+									"response": []
+								},
+								{
+									"name": "Bulk Create DIsabilitas IBK",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "{{HEADER-CSRF}}",
+												"value": "{{CSRF_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n    {\r\n      \"ibk_id\": \"b7c59bf3-8a8e-44d2-b685-a1c146a1f602\",\r\n      \"jenis_difabilitas_id\": \"b8afb93f-0232-45b7-9c9f-c2063215a8f2\",\r\n      \"tingkat_keparahan\": \"Ringan\",\r\n      \"sejak_kapan\": \"2023-01-15\",\r\n      \"keterangan\": \"Keterbatasan gerak pada kaki kiri\"\r\n    },\r\n    {\r\n      \"ibk_id\": \"b7c59bf3-8a8e-44d2-b685-a1c146a1f602\",\r\n      \"jenis_difabilitas_id\": \"889c26c0-1624-4280-aa05-f28ae71816db\",\r\n      \"tingkat_keparahan\": \"Sedang\",\r\n      \"sejak_kapan\": \"2022-05-10\",\r\n      \"keterangan\": \"Gangguan belajar sejak kecil\"\r\n    }\r\n  ]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/pendataan-ibk/disabilitas-ibk/bulk",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"pendataan-ibk",
+												"disabilitas-ibk",
+												"bulk"
+											]
+										},
+										"description": "<img src=\"https://content.pstmn.io/c707fa48-2676-4eb0-86eb-91d892eb56cb/aW1hZ2UucG5n\" width=\"1074\" height=\"218\">\n\nb8afb93f-0232-45b7-9c9f-c2063215a8f2 Fisik  \n889c26c0-1624-4280-aa05-f28ae71816db Intelektual  \n6f469ea4-974a-4240-b062-693acbd47d17 Mental (Termasuk ODGJ)  \n9e8c9f6d-3e05-4b62-a9df-768effa0316d Sensorik Penglihatan  \n712e4398-c116-4040-a762-bd3bc44ab835 Sensorik Rungu"
+									},
+									"response": []
+								},
+								{
+									"name": "Update disabilitas-ibk",
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "{{HEADER-CSRF}}",
+												"value": "{{CSRF_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"tingkat_keparahan\": \"Sangat Parah\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/pendataan-ibk/disabilitas-ibk/update/49df9618-238f-429f-9375-403452d6976f",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"pendataan-ibk",
+												"disabilitas-ibk",
+												"update",
+												"49df9618-238f-429f-9375-403452d6976f"
+											]
+										},
+										"description": "<img src=\"https://content.pstmn.io/c707fa48-2676-4eb0-86eb-91d892eb56cb/aW1hZ2UucG5n\" width=\"1074\" height=\"218\">\n\nb8afb93f-0232-45b7-9c9f-c2063215a8f2 Fisik  \n889c26c0-1624-4280-aa05-f28ae71816db Intelektual  \n6f469ea4-974a-4240-b062-693acbd47d17 Mental (Termasuk ODGJ)  \n9e8c9f6d-3e05-4b62-a9df-768effa0316d Sensorik Penglihatan  \n712e4398-c116-4040-a762-bd3bc44ab835 Sensorik Rungu"
+									},
+									"response": []
+								},
+								{
+									"name": "Delete disabilitas-ibk",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "{{HEADER-CSRF}}",
+												"value": "{{CSRF_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{LOCAL_HOST}}/kader/pendataan-ibk/disabilitas-ibk/delete/71a89b2d-ade9-443e-b6c4-55e1a25ff139",
+											"host": [
+												"{{LOCAL_HOST}}"
+											],
+											"path": [
+												"kader",
+												"pendataan-ibk",
+												"disabilitas-ibk",
+												"delete",
+												"71a89b2d-ade9-443e-b6c4-55e1a25ff139"
+											]
+										},
+										"description": "Delete by id disabilitas IBK"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Create Ibk",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "nama",
+											"value": "HIsyam",
+											"type": "text"
+										},
+										{
+											"key": "nik",
+											"value": "1234567890123456",
+											"type": "text"
+										},
+										{
+											"key": "tempat_lahir",
+											"value": "Malang",
+											"type": "text"
+										},
+										{
+											"key": "tanggal_lahir",
+											"value": "2010-05-15T00:00:00.000Z",
+											"type": "text"
+										},
+										{
+											"key": "file_foto",
+											"value": "1752590666771-22624.png",
+											"type": "text"
+										},
+										{
+											"key": "jenis_kelamin",
+											"value": "Laki-laki",
+											"type": "text"
+										},
+										{
+											"key": "agama",
+											"value": "Islam",
+											"type": "text"
+										},
+										{
+											"key": "umur",
+											"value": "15",
+											"type": "text"
+										},
+										{
+											"key": "alamat",
+											"value": "Jl. Soekarno Hatta No. 12, Malang",
+											"type": "text"
+										},
+										{
+											"key": "no_telp",
+											"value": "081234567890",
+											"type": "text"
+										},
+										{
+											"key": "nama_wali",
+											"value": "Siti Aminah",
+											"type": "text"
+										},
+										{
+											"key": "no_telp_wali",
+											"value": "081298765432",
+											"type": "text"
+										},
+										{
+											"key": "posyanduId",
+											"value": "356682f4-6cfd-4148-84bd-4fc631db753a",
+											"type": "text"
+										},
+										{
+											"key": "odgj",
+											"value": "t",
+											"type": "text"
+										},
+										{
+											"key": "hasil_diagnosa",
+											"value": "Sehat",
+											"type": "text"
+										},
+										{
+											"key": "jenis_bantuan",
+											"value": "Tidak ada",
+											"type": "text"
+										},
+										{
+											"key": "riwayat_terapi",
+											"value": "Tidak ada",
+											"type": "text"
+										},
+										{
+											"key": "pekerjaan",
+											"value": "Programmer Handal",
+											"type": "text"
+										},
+										{
+											"key": "pendidikan",
+											"value": "S1",
+											"type": "text"
+										},
+										{
+											"key": "status_perkawinan",
+											"value": "Belum menikah",
+											"type": "text"
+										},
+										{
+											"key": "titik_koordinat",
+											"value": "123111aasd'",
+											"type": "text"
+										},
+										{
+											"key": "keterangan_tambahan",
+											"value": "tes",
+											"type": "text"
+										},
+										{
+											"key": "total_iq",
+											"value": "110",
+											"type": "text"
+										},
+										{
+											"key": "kategori_iq",
+											"value": "Rata-rata",
+											"type": "text"
+										},
+										{
+											"key": "tipe_kepribadian",
+											"value": "Introvert",
+											"type": "text"
+										},
+										{
+											"key": "deskripsi_kepribadian",
+											"value": "Cenderung pendiam, fokus, dan menyukai kegiatan individu.",
+											"type": "text"
+										},
+										{
+											"key": "potensi",
+											"value": "Matematika dan logika",
+											"type": "text"
+										},
+										{
+											"key": "minat",
+											"value": "Teknologi",
+											"type": "text"
+										},
+										{
+											"key": "bakat",
+											"value": "Menggambar teknis",
+											"type": "text"
+										},
+										{
+											"key": "keterampilan",
+											"value": "Pemrograman dasar, komunikasi tertulis",
+											"type": "text"
+										},
+										{
+											"key": "catatan_psikolog",
+											"value": "Anak menunjukkan kemampuan adaptasi yang cukup baik.",
+											"type": "text"
+										},
+										{
+											"key": "rekomendasi_intervensi",
+											"value": "Berikan pelatihan lanjutan di bidang teknologi.",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{DEV_HOST}}/kader/pendataan-ibk",
+									"host": [
+										"{{DEV_HOST}}"
+									],
+									"path": [
+										"kader",
+										"pendataan-ibk"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update IBK",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "nama",
+											"value": "MHK",
+											"type": "text"
+										},
+										{
+											"key": "nik",
+											"value": "1234567890123456",
+											"type": "text"
+										},
+										{
+											"key": "tempat_lahir",
+											"value": "Malang",
+											"type": "text"
+										},
+										{
+											"key": "tanggal_lahir",
+											"value": "2010-05-15T00:00:00.000Z",
+											"type": "text"
+										},
+										{
+											"key": "file_foto",
+											"value": "1752590666771-22624.png",
+											"type": "text"
+										},
+										{
+											"key": "jenis_kelamin",
+											"value": "Laki-laki",
+											"type": "text"
+										},
+										{
+											"key": "agama",
+											"value": "Islam",
+											"type": "text"
+										},
+										{
+											"key": "umur",
+											"value": "15",
+											"type": "text"
+										},
+										{
+											"key": "alamat",
+											"value": "Jl. Soekarno Hatta No. 12, Malang",
+											"type": "text"
+										},
+										{
+											"key": "no_telp",
+											"value": "081234567890",
+											"type": "text"
+										},
+										{
+											"key": "nama_wali",
+											"value": "Siti Aminah",
+											"type": "text"
+										},
+										{
+											"key": "no_telp_wali",
+											"value": "081298765432",
+											"type": "text"
+										},
+										{
+											"key": "posyanduId",
+											"value": "356682f4-6cfd-4148-84bd-4fc631db753a",
+											"type": "text"
+										},
+										{
+											"key": "odgj",
+											"value": "t",
+											"type": "text"
+										},
+										{
+											"key": "hasil_diagnosa",
+											"value": "Sehat",
+											"type": "text"
+										},
+										{
+											"key": "jenis_bantuan",
+											"value": "Tidak ada",
+											"type": "text"
+										},
+										{
+											"key": "riwayat_terapi",
+											"value": "Tidak ada",
+											"type": "text"
+										},
+										{
+											"key": "pekerjaan",
+											"value": "Programmer Handal",
+											"type": "text"
+										},
+										{
+											"key": "pendidikan",
+											"value": "S1",
+											"type": "text"
+										},
+										{
+											"key": "status_perkawinan",
+											"value": "Belum menikah",
+											"type": "text"
+										},
+										{
+											"key": "titik_koordinat",
+											"value": "123111aasd'",
+											"type": "text"
+										},
+										{
+											"key": "keterangan_tambahan",
+											"value": "tes",
+											"type": "text"
+										},
+										{
+											"key": "total_iq",
+											"value": "110",
+											"type": "text"
+										},
+										{
+											"key": "kategori_iq",
+											"value": "Rata-rata",
+											"type": "text"
+										},
+										{
+											"key": "tipe_kepribadian",
+											"value": "Introvert",
+											"type": "text"
+										},
+										{
+											"key": "deskripsi_kepribadian",
+											"value": "Cenderung pendiam, fokus, dan menyukai kegiatan individu.",
+											"type": "text"
+										},
+										{
+											"key": "potensi",
+											"value": "Matematika dan logika",
+											"type": "text"
+										},
+										{
+											"key": "minat",
+											"value": "Teknologi",
+											"type": "text"
+										},
+										{
+											"key": "bakat",
+											"value": "Menggambar teknis",
+											"type": "text"
+										},
+										{
+											"key": "keterampilan",
+											"value": "Pemrograman dasar, komunikasi tertulis",
+											"type": "text"
+										},
+										{
+											"key": "catatan_psikolog",
+											"value": "Anak menunjukkan kemampuan adaptasi yang cukup baik.",
+											"type": "text"
+										},
+										{
+											"key": "rekomendasi_intervensi",
+											"value": "Berikan pelatihan lanjutan di bidang teknologi.",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{LOCAL_HOST}}/kader/pendataan-ibk/update/066ca9e9-a9d0-4ef7-8663-2d7b66568887",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"kader",
+										"pendataan-ibk",
+										"update",
+										"066ca9e9-a9d0-4ef7-8663-2d7b66568887"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete IBK",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{LOCAL_HOST}}/kader/pendataan-ibk/delete/617cd58a-0891-4280-b28f-4058d376ed2e",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"kader",
+										"pendataan-ibk",
+										"delete",
+										"617cd58a-0891-4280-b28f-4058d376ed2e"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get List IBK",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL_HOST}}/kader/pendataan-ibk/356682f4-6cfd-4148-84bd-4fc631db753a?page=1&limit=5&orderBy=created_at&nama=kr",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"kader",
+										"pendataan-ibk",
+										"356682f4-6cfd-4148-84bd-4fc631db753a"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "5"
+										},
+										{
+											"key": "orderBy",
+											"value": "created_at"
+										},
+										{
+											"key": "nik",
+											"value": "1234567890123456",
+											"disabled": true
+										},
+										{
+											"key": "nama",
+											"value": "kr"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Specific IBK",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL_HOST}}/kader/pendataan-ibk/detail/b7c59bf3-8a8e-44d2-b685-a1c146a1f602",
+									"host": [
+										"{{LOCAL_HOST}}"
+									],
+									"path": [
+										"kader",
+										"pendataan-ibk",
+										"detail",
+										"b7c59bf3-8a8e-44d2-b685-a1c146a1f602"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Profile",
+					"item": [
+						{
+							"name": "View Detail Kader",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{HOST_ONIDEL}}/kader/profile/detail",
+									"host": [
+										"{{HOST_ONIDEL}}"
+									],
+									"path": [
+										"kader",
+										"profile",
+										"detail"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Profile Kader",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "{{HEADER-CSRF}}",
+										"value": "{{CSRF_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Hisyam coy\",\r\n  \"email\": \"shalordx@gmail.com\",\r\n  \"password\": \"Hisyam1234\",\r\n  \"no_telp\": \"08123456789\",\r\n  \"jabatan\":\"MHKs\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST_ONIDEL}}/kader/profile/update",
+									"host": [
+										"{{HOST_ONIDEL}}"
+									],
+									"path": [
+										"kader",
+										"profile",
+										"update"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "CSRF_TOKEN",
+			"value": ""
+		},
+		{
+			"key": "CSRF_TOKEN_TS",
+			"value": ""
+		}
+	]
+}

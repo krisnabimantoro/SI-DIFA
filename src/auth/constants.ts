@@ -1,6 +1,5 @@
 import * as crypto from 'crypto';
 
-// Function to create hashed cookie names
 const createHashedCookieName = (name: string): string => {
   return crypto
     .createHash('sha256')
