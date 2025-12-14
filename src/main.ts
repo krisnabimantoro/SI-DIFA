@@ -14,7 +14,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: 'https://sidifa.my.id',
+    origin: ['https://sidifa.my.id', 'http://localhost:5173'],
     credentials: true,
   });
 
