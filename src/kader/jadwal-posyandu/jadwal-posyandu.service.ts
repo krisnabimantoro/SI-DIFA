@@ -9,6 +9,55 @@ import { Prisma, jadwal_posyandu, posyandu } from '@prisma/client';
 export class JadwalPosyanduService {
   constructor(private readonly prismaService: PrismaService) {}
 
+  /**
+   * Helper function to spread waktu_datang evenly between waktu_mulai and waktu_selesai
+   * Last person arrives 30 minutes before waktu_selesai
+   * @param waktuMulai - Start time (e.g., "08:00")
+   * @param waktuSelesai - End time (e.g., "12:00")
+   * @param count - Number of time slots to generate
+   * @returns Array of time strings spread evenly
+   */
+  private spreadWaktuDatang(
+    waktuMulai: string,
+    waktuSelesai: string,
+    count: number,
+  ): string[] {
+    if (count === 0) return [];
+    if (count === 1) return [waktuMulai];
+
+    // Parse time strings to minutes
+    const parseTime = (time: string): number => {
+      const [hours, minutes] = time.split(':').map(Number);
+      return hours * 60 + minutes;
+    };
+
+    // Convert minutes back to time string
+    const formatTime = (minutes: number): string => {
+      const hours = Math.floor(minutes / 60);
+      const mins = minutes % 60;
+      return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+    };
+
+    const startMinutes = parseTime(waktuMulai);
+    const endMinutes = parseTime(waktuSelesai);
+
+    // Last person should arrive 30 minutes before waktu_selesai
+    const adjustedEndMinutes = endMinutes - 30;
+    const totalDuration = adjustedEndMinutes - startMinutes;
+
+    // Calculate interval between each time slot
+    const interval = totalDuration / (count - 1);
+
+    // Generate spread times
+    const times: string[] = [];
+    for (let i = 0; i < count; i++) {
+      const currentMinutes = Math.round(startMinutes + interval * i);
+      times.push(formatTime(currentMinutes));
+    }
+
+    return times;
+  }
+
   async create(
     posyanduId: string,
     createJadwalPosyanduDto: CreateJadwalPosyanduDto,
@@ -48,10 +97,19 @@ export class JadwalPosyanduService {
 
     // Create bulk presensi_ibk records for all IBK users
     if (ibkUsers.length > 0) {
-      const presensiIbkData = ibkUsers.map((ibk) => ({
+      // Generate spread waktu_datang times between waktu_mulai and waktu_selesai
+      const spreadTimes = this.spreadWaktuDatang(
+        createdJadwal.waktu_mulai || '08:00',
+        createdJadwal.waktu_selesai || '12:00',
+        ibkUsers.length,
+      );
+
+      const presensiIbkData = ibkUsers.map((ibk, index) => ({
         user_ibk_id: ibk.id,
         jadwal_id: createdJadwal.id,
         status_presensi: 'BELUM_HADIR',
+        antrian_ke: index + 1, // Sequential queue number
+        waktu_datang: spreadTimes[index], // Spread time evenly
         created_at: new Date(),
       }));
 
