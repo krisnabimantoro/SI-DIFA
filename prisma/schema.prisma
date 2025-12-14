@@ -47,7 +47,7 @@ model posyandu {
 
   kader_posyandu  kader_posyandu[]
   jadwal_posyandu jadwal_posyandu[]
- 
+
   users users? @relation(fields: [users_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   ibk   ibk[]
 }
@@ -90,6 +90,8 @@ model presensi_ibk {
   user_ibk_id     String          @db.Uuid
   jadwal_id       String          @db.Uuid
   status_presensi String          @db.VarChar
+  antrian_ke      Int?            @db.Integer
+  waktu_datang    String?         @db.VarChar
   created_at      DateTime?       @db.Timestamp(6)
   updated_at      DateTime?       @db.Timestamp(6)
   deleted_at      DateTime?       @db.Timestamp(6)
