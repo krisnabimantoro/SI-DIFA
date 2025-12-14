@@ -10,7 +10,7 @@ export class JadwalPosyanduService {
   constructor(private readonly prismaService: PrismaService) {}
 
   /**
-   * Helper function to spread waktu_datang evenly between waktu_mulai and waktu_selesai
+   * Helper function to spread waktu_datang evenly for all IBK
    * Last person arrives 30 minutes before waktu_selesai
    * @param waktuMulai - Start time (e.g., "08:00")
    * @param waktuSelesai - End time (e.g., "12:00")
@@ -41,14 +41,14 @@ export class JadwalPosyanduService {
     const startMinutes = parseTime(waktuMulai);
     const endMinutes = parseTime(waktuSelesai);
 
-    // Last person should arrive 30 minutes before waktu_selesai
-    const adjustedEndMinutes = endMinutes - 30;
-    const totalDuration = adjustedEndMinutes - startMinutes;
+    // Maximum time for last person: 30 minutes before waktu_selesai
+    const maxEndMinutes = endMinutes - 30;
+    const totalDuration = maxEndMinutes - startMinutes;
 
-    // Calculate interval between each time slot
+    // Calculate interval to distribute all IBK evenly
     const interval = totalDuration / (count - 1);
 
-    // Generate spread times
+    // Generate spread times for all IBK
     const times: string[] = [];
     for (let i = 0; i < count; i++) {
       const currentMinutes = Math.round(startMinutes + interval * i);
