@@ -14,6 +14,7 @@ import { AdminController } from './admin.controller';
 import { MailService } from 'src/mail/mail.service';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @Module({
   providers: [
@@ -25,7 +26,7 @@ import { ConfigService } from '@nestjs/config';
     ConfigService,
   ],
   controllers: [AdminController],
-  imports: [LowonganModule, InformasiEdukasiModule, PosyanduModule],
+  imports: [LowonganModule, InformasiEdukasiModule, PosyanduModule, DashboardModule],
   exports: [
     PrismaService,
     PosyanduModule,
