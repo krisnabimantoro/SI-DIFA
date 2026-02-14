@@ -72,10 +72,13 @@ jobs:
             echo "Stopping and removing existing sidifa-be container if it exists..."
             sudo docker stop sidifa-be || true
             sudo docker rm sidifa-be || true
+            echo "Creating uploads volume if not exists..."
+            sudo docker volume create sidifa-be-uploads || true
             echo "Starting new sidifa-be container with env file..."
             sudo docker run -d --name sidifa-be \
               --network web-service_default \
               --env-file /home/sidifa/sidifa-be/.env \
+              -v sidifa-be-uploads:/usr/src/app/uploads \
               -p 3006:3006 \
               krisnabmntr/si-difa:latest
             echo "Deployment complete."
