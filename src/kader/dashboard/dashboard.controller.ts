@@ -24,4 +24,15 @@ export class DashboardController {
       limitNumber,
     );
   }
+
+  @Get('statistik-laporan')
+  getStatistikLaporan(
+    @Query('posyandu_id') posyanduId: string,
+    @Query('periode') periode?: string,
+  ) {
+    return this.dashboardService.getStatistikLaporan(
+      posyanduId,
+      periode || 'semua',
+    );
+  }
 }
